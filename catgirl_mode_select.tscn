@@ -1,0 +1,178 @@
+[gd_scene load_steps=9 format=3 uid="uid://bgiob4utycwfl"]
+
+[ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_gi7xw"]
+[ext_resource type="Texture2D" uid="uid://cimksmtnvmx50" path="res://Characters/Kathryn/Kathryn_Ears_Still.png" id="1_ufx7q"]
+[ext_resource type="Texture2D" uid="uid://ww7fswy3y4qg" path="res://Characters/Kathryn/Kathryn_NoEars_Still.png" id="2_gm1xm"]
+[ext_resource type="PackedScene" uid="uid://batba6ymaw1ng" path="res://title_screen.tscn" id="3_dl6y3"]
+[ext_resource type="Texture2D" uid="uid://dgreu4xep0yyt" path="res://UI/Catgirl Mode Selector Arrow.png" id="3_f8q6f"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_r3hik"]
+font = ExtResource("1_gi7xw")
+font_size = 32
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_dimbb"]
+script/source = "extends Button
+
+@export var is_catgirl_button : bool = true;
+@export var next_scene : PackedScene = null;
+
+func _pressed():
+	Global.catgirl_mode = is_catgirl_button;
+	Global.fade_to_scene(next_scene);
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_2mbua"]
+font = ExtResource("1_gi7xw")
+font_size = 30
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Catgirl Mode Select" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.807843, 1, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+size_flags_stretch_ratio = 0.4
+text = "This game supports both catgirl mode and the inferior normal mode.
+Which mode would you prefer?
+(This can not be changed later)"
+label_settings = SubResource("LabelSettings_r3hik")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="Catgirl Mode" type="VBoxContainer" parent="ColorRect/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/separation = 15
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode"]
+custom_minimum_size = Vector2(208, 344)
+layout_mode = 2
+size_flags_vertical = 10
+texture = ExtResource("1_ufx7q")
+stretch_mode = 5
+
+[node name="Button" type="Button" parent="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(208, 80)
+layout_mode = 2
+size_flags_vertical = 2
+script = SubResource("GDScript_dimbb")
+next_scene = ExtResource("3_dl6y3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture = ExtResource("3_f8q6f")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Catgirl Mode"
+label_settings = SubResource("LabelSettings_2mbua")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Normal Mode" type="VBoxContainer" parent="ColorRect/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/separation = 15
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/VBoxContainer/HBoxContainer/Normal Mode"]
+custom_minimum_size = Vector2(208, 344)
+layout_mode = 2
+size_flags_vertical = 10
+texture = ExtResource("2_gm1xm")
+stretch_mode = 5
+
+[node name="Button" type="Button" parent="ColorRect/VBoxContainer/HBoxContainer/Normal Mode"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(208, 80)
+layout_mode = 2
+size_flags_vertical = 2
+script = SubResource("GDScript_dimbb")
+is_catgirl_button = false
+next_scene = ExtResource("3_dl6y3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer/HBoxContainer/Normal Mode/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/VBoxContainer/HBoxContainer/Normal Mode/Button/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture = ExtResource("3_f8q6f")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/HBoxContainer/Normal Mode/Button/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Normal Mode"
+label_settings = SubResource("LabelSettings_2mbua")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.2
+text = "Change Selection - WASD / Arrow Keys / Left Stick / D-Pad
+Confirm - Space / Enter / 'A' Button"
+label_settings = SubResource("LabelSettings_r3hik")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[connection signal="focus_entered" from="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button" to="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button/HBoxContainer/TextureRect" method="show"]
+[connection signal="focus_exited" from="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button" to="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button/HBoxContainer/TextureRect" method="hide"]
+[connection signal="ready" from="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button" to="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button" method="grab_focus"]
+[connection signal="focus_entered" from="ColorRect/VBoxContainer/HBoxContainer/Normal Mode/Button" to="ColorRect/VBoxContainer/HBoxContainer/Normal Mode/Button/HBoxContainer/TextureRect" method="show"]
+[connection signal="focus_exited" from="ColorRect/VBoxContainer/HBoxContainer/Normal Mode/Button" to="ColorRect/VBoxContainer/HBoxContainer/Normal Mode/Button/HBoxContainer/TextureRect" method="hide"]

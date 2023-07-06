@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://blqanbiqey8vc"]
+
+[ext_resource type="PackedScene" uid="uid://bgiob4utycwfl" path="res://catgirl_mode_select.tscn" id="1_4ux57"]
+[ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_qgkyh"]
+
+[sub_resource type="GDScript" id="GDScript_gqc71"]
+script/source = "extends Control
+
+@export var next_scene : PackedScene = null;
+
+func _process(_delta):
+	if Input.is_action_just_pressed(\"ui_accept\"):
+		Global.fade_to_scene(next_scene);
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_k8s74"]
+font = ExtResource("1_qgkyh")
+font_size = 28
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Disclaimer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_gqc71")
+next_scene = ExtResource("1_4ux57")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.807843, 1, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+text = "This is not a work of fiction.
+
+Names, characters, places and incidents either are entirely true or are exaggerated to tell a more interesting story.
+
+Any resemblance to actual events or locales or persons, living or (hopefully not) dead, is entirely intended.
+(As long as that person is me)
+
+Also, don't worry about anything upsetting. This is just a silly, lighthearted game.
+
+[Press Space or Enter To Continue]
+[You can also press the 'A' button if you're using a controller]"
+label_settings = SubResource("LabelSettings_k8s74")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
