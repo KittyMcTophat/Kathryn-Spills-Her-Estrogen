@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgiob4utycwfl"]
+[gd_scene load_steps=10 format=3 uid="uid://bgiob4utycwfl"]
 
 [ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_gi7xw"]
-[ext_resource type="Texture2D" uid="uid://cimksmtnvmx50" path="res://Characters/Kathryn/Kathryn_Ears_Still.png" id="1_ufx7q"]
-[ext_resource type="Texture2D" uid="uid://ww7fswy3y4qg" path="res://Characters/Kathryn/Kathryn_NoEars_Still.png" id="2_gm1xm"]
+[ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="2_1nvxb"]
 [ext_resource type="PackedScene" uid="uid://batba6ymaw1ng" path="res://title_screen.tscn" id="3_dl6y3"]
 [ext_resource type="Texture2D" uid="uid://dgreu4xep0yyt" path="res://UI/Catgirl Mode Selector Arrow.png" id="3_f8q6f"]
 
@@ -11,6 +10,10 @@ font = ExtResource("1_gi7xw")
 font_size = 32
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jc8t"]
+atlas = ExtResource("2_1nvxb")
+region = Rect2(52, 0, 52, 86)
 
 [sub_resource type="GDScript" id="GDScript_dimbb"]
 script/source = "extends Button
@@ -28,6 +31,10 @@ font = ExtResource("1_gi7xw")
 font_size = 30
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwsn5"]
+atlas = ExtResource("2_1nvxb")
+region = Rect2(0, 0, 52, 86)
 
 [node name="Catgirl Mode Select" type="Control"]
 layout_mode = 3
@@ -80,7 +87,7 @@ theme_override_constants/separation = 15
 custom_minimum_size = Vector2(208, 344)
 layout_mode = 2
 size_flags_vertical = 10
-texture = ExtResource("1_ufx7q")
+texture = SubResource("AtlasTexture_4jc8t")
 stretch_mode = 5
 
 [node name="Button" type="Button" parent="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode"]
@@ -124,7 +131,7 @@ theme_override_constants/separation = 15
 custom_minimum_size = Vector2(208, 344)
 layout_mode = 2
 size_flags_vertical = 10
-texture = ExtResource("2_gm1xm")
+texture = SubResource("AtlasTexture_bwsn5")
 stretch_mode = 5
 
 [node name="Button" type="Button" parent="ColorRect/VBoxContainer/HBoxContainer/Normal Mode"]

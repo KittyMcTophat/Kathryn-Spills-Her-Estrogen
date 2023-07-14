@@ -16,6 +16,9 @@ func _ready() -> void:
 	canv_layer.add_child(fade_color_rect);
 	fade_color_rect.set_anchors_preset(Control.PRESET_FULL_RECT, true);
 
+func fade_to_scene_path(scene : String, fade_color : Color = Color("#ffceff"), time : float = 0.75) -> void:
+	fade_to_scene(load(scene), fade_color, time);
+
 func fade_to_scene(scene : PackedScene, fade_color : Color = Color("#ffceff"), time : float = 0.75) -> void:
 	pause_stuff();
 	

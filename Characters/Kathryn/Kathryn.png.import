@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ww7fswy3y4qg"
-path="res://.godot/imported/Kathryn_NoEars_Still.png-b8563bfb946a8fd0451af955b4a700c7.ctex"
+uid="uid://dnewahpmbbp6r"
+path="res://.godot/imported/Kathryn.png-25f352fafadc9f5f667db6a0a826b19c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Characters/Kathryn/Kathryn_NoEars_Still.png"
-dest_files=["res://.godot/imported/Kathryn_NoEars_Still.png-b8563bfb946a8fd0451af955b4a700c7.ctex"]
+source_file="res://Characters/Kathryn/Kathryn.png"
+dest_files=["res://.godot/imported/Kathryn.png-25f352fafadc9f5f667db6a0a826b19c.ctex"]
 
 [params]
 
