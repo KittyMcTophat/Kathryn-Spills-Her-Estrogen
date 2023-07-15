@@ -1,0 +1,281 @@
+[gd_scene load_steps=24 format=3 uid="uid://cc868qqaqlf4w"]
+
+[ext_resource type="Script" path="res://Characters/Kathryn/Kathryn.gd" id="1_hnchh"]
+[ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="1_pnhlu"]
+[ext_resource type="Script" path="res://Characters/Kathryn/MovementParams.gd" id="2_oyy2i"]
+[ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="3_x1fad"]
+[ext_resource type="Script" path="res://Characters/Kathryn/CameraPivot.gd" id="5_sfeb4"]
+
+[sub_resource type="Resource" id="Resource_e8i7d"]
+script = ExtResource("2_oyy2i")
+max_speed = 3.5
+acceleration = 10.0
+deceleration = 8.0
+gravity_scale = 1.0
+jump_force = 4.5
+decel_when_no_jump_key = 6.0
+
+[sub_resource type="Resource" id="Resource_ecgls"]
+script = ExtResource("2_oyy2i")
+max_speed = 3.5
+acceleration = 5.0
+deceleration = 0.0
+gravity_scale = 1.0
+jump_force = 4.5
+decel_when_no_jump_key = 6.0
+
+[sub_resource type="Resource" id="Resource_8cqb3"]
+script = ExtResource("2_oyy2i")
+max_speed = 3.5
+acceleration = 5.0
+deceleration = 0.0
+gravity_scale = 1.5
+jump_force = 4.5
+decel_when_no_jump_key = 6.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ax624"]
+radius = 0.22
+height = 0.8
+
+[sub_resource type="QuadMesh" id="QuadMesh_k8fll"]
+size = Vector2(0.52, 0.86)
+center_offset = Vector3(0, 0.43, 0)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tuce2"]
+viewport_path = NodePath("MeshPivot/MeshInstance3D/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_108kv"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = SubResource("ViewportTexture_tuce2")
+texture_filter = 0
+
+[sub_resource type="GDScript" id="GDScript_mt2pf"]
+script/source = "extends Sprite2D
+
+func _ready():
+	if Global.catgirl_mode:
+		frame_coords.x = 1;
+	else:
+		frame_coords.x = 0;
+"
+
+[sub_resource type="Animation" id="Animation_uqikx"]
+resource_name = "Fall"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_p143k"]
+resource_name = "Fall_B"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_ltu6p"]
+resource_name = "Idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_pjumm"]
+resource_name = "Idle_B"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_46ja6"]
+resource_name = "Jump"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_41bve"]
+resource_name = "Jump_B"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_2hljq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_fpvsc"]
+resource_name = "Walk"
+length = 0.25
+loop_mode = 1
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_shhxf"]
+resource_name = "Walk_B"
+length = 0.25
+loop_mode = 1
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshPivot/MeshInstance3D/SubViewport/Sprite2D:frame_coords:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [2, 3, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cbygg"]
+_data = {
+"Fall": SubResource("Animation_uqikx"),
+"Fall_B": SubResource("Animation_p143k"),
+"Idle": SubResource("Animation_ltu6p"),
+"Idle_B": SubResource("Animation_pjumm"),
+"Jump": SubResource("Animation_46ja6"),
+"Jump_B": SubResource("Animation_41bve"),
+"RESET": SubResource("Animation_2hljq"),
+"Walk": SubResource("Animation_fpvsc"),
+"Walk_B": SubResource("Animation_shhxf")
+}
+
+[node name="Kathryn" type="CharacterBody3D"]
+script = ExtResource("1_hnchh")
+grounded = SubResource("Resource_e8i7d")
+midair_rising = SubResource("Resource_ecgls")
+midair_falling = SubResource("Resource_8cqb3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_ax624")
+
+[node name="MeshPivot" type="Node3D" parent="."]
+script = ExtResource("3_x1fad")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshPivot"]
+mesh = SubResource("QuadMesh_k8fll")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_108kv")
+
+[node name="SubViewport" type="SubViewport" parent="MeshPivot/MeshInstance3D"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(52, 86)
+render_target_update_mode = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="MeshPivot/MeshInstance3D/SubViewport"]
+texture = ExtResource("1_pnhlu")
+centered = false
+hframes = 2
+vframes = 4
+frame = 1
+script = SubResource("GDScript_mt2pf")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+process_mode = 3
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.35, 0)
+script = ExtResource("5_sfeb4")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+spring_length = 2.0
+margin = 0.1
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+libraries = {
+"": SubResource("AnimationLibrary_cbygg")
+}
+
+[node name="CoyoteTime" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.1
+
+[node name="JumpBuffer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.1

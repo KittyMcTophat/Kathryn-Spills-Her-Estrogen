@@ -39,6 +39,7 @@ grow_vertical = 2
 color = Color(1, 0.807843, 1, 1)
 
 [node name="Label" type="Label" parent="."]
+editor_description = "Since no one's gonna read this, I'd just like to say that the true story it's based on is that one time I dropped a single estrogen pill on the floor."
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1

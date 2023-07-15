@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://batba6ymaw1ng"]
+[gd_scene load_steps=9 format=3 uid="uid://batba6ymaw1ng"]
 
 [ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_c6hlj"]
 [ext_resource type="Texture2D" uid="uid://dgreu4xep0yyt" path="res://UI/Catgirl Mode Selector Arrow.png" id="2_gy2qt"]
@@ -10,6 +10,15 @@ font = ExtResource("1_c6hlj")
 font_size = 48
 outline_size = 4
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_xendh"]
+script/source = "extends Button
+
+@export_file(\"*.tscn\") var next_scene : String = \"\";
+
+func _pressed():
+	Global.fade_to_scene_path(next_scene);
+"
 
 [sub_resource type="LabelSettings" id="LabelSettings_vnfck"]
 font = ExtResource("1_c6hlj")
@@ -80,6 +89,8 @@ self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_vertical = 6
+script = SubResource("GDScript_xendh")
+next_scene = "res://test scene.tscn"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/Button"]
 layout_mode = 1

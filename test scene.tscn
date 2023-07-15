@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbl631ri3d5bb"]
+
+[ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/Kathryn.tscn" id="1_krk0v"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_83jgh"]
+sky_horizon_color = Color(0.64625, 0.655657, 0.670833, 1)
+ground_bottom_color = Color(0.2, 0.168627, 0.133333, 1)
+ground_horizon_color = Color(0.64625, 0.655657, 0.670833, 1)
+
+[sub_resource type="Sky" id="Sky_nyokh"]
+sky_material = SubResource("ProceduralSkyMaterial_83jgh")
+
+[sub_resource type="Environment" id="Environment_h5khh"]
+background_mode = 2
+sky = SubResource("Sky_nyokh")
+tonemap_mode = 2
+
+[node name="test scene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h5khh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, -1.51421e-07, 8.74228e-08, 0, 0.5, 0.866025, -1.74846e-07, -0.866025, 0.5, 0, 0, 0)
+
+[node name="Kathryn" parent="." instance=ExtResource("1_krk0v")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
+use_collision = true
+size = Vector3(12, 0.25, 12)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.5, 0)
+use_collision = true
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9, 1, 0)
+use_collision = true
