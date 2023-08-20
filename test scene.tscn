@@ -1,6 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbl631ri3d5bb"]
+[gd_scene load_steps=10 format=3 uid="uid://dbl631ri3d5bb"]
 
 [ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/Kathryn.tscn" id="1_krk0v"]
+[ext_resource type="PackedScene" uid="uid://4cnl51ssv2ru" path="res://Objects/Estrogen/Estrogen.tscn" id="2_r17j6"]
+
+[sub_resource type="GDScript" id="GDScript_srx46"]
+script/source = "extends Node3D
+
+func _ready():
+	Global.ui_control.show();
+"
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_83jgh"]
 sky_horizon_color = Color(0.64625, 0.655657, 0.670833, 1)
@@ -11,17 +19,66 @@ ground_horizon_color = Color(0.64625, 0.655657, 0.670833, 1)
 sky_material = SubResource("ProceduralSkyMaterial_83jgh")
 
 [sub_resource type="Environment" id="Environment_h5khh"]
-background_mode = 2
+background_mode = 1
+background_color = Color(0.160784, 0, 0.160784, 1)
 sky = SubResource("Sky_nyokh")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.25
 tonemap_mode = 2
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ndapj"]
+shading_mode = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_uom1i"]
+material = SubResource("StandardMaterial3D_ndapj")
+radius = 0.25
+height = 0.5
+radial_segments = 4
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vlhs5"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0.784314, 1)
+
 [node name="test scene" type="Node3D"]
+script = SubResource("GDScript_srx46")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h5khh")
 
+[node name="Stars" type="CPUParticles3D" parent="."]
+amount = 1024
+lifetime = 30.0
+preprocess = 30.0
+randomness = 0.5
+mesh = SubResource("SphereMesh_uom1i")
+emission_shape = 2
+emission_sphere_radius = 100.0
+gravity = Vector3(0, 0, 0)
+scale_amount_min = 0.5
+
+[node name="Moon" type="CSGSphere3D" parent="."]
+transform = Transform3D(0.965926, -0.0990458, 0.239118, 0, 0.92388, 0.382683, -0.258819, -0.369644, 0.892399, 10, 30, 60)
+use_collision = true
+collision_mask = 0
+radius = 4.0
+radial_segments = 16
+rings = 8
+material = SubResource("StandardMaterial3D_vlhs5")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Moon"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -3, 0, 0)
+operation = 2
+radius = 4.0
+height = 8.0
+sides = 16
+material = SubResource("StandardMaterial3D_vlhs5")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, -1.51421e-07, 8.74228e-08, 0, 0.5, 0.866025, -1.74846e-07, -0.866025, 0.5, 0, 0, 0)
+transform = Transform3D(1, -1.51421e-07, 8.7423e-08, 0, 0.5, 0.866025, -1.74846e-07, -0.866025, 0.5, 0, 0, 0)
+light_energy = 0.5
+sky_mode = 1
 
 [node name="Kathryn" parent="." instance=ExtResource("1_krk0v")]
 
@@ -37,3 +94,15 @@ use_collision = true
 [node name="CSGBox3D3" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9, 1, 0)
 use_collision = true
+
+[node name="Estrogen" parent="." instance=ExtResource("2_r17j6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.5, 0.2)
+
+[node name="Estrogen2" parent="." instance=ExtResource("2_r17j6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.5, 0.2)
+
+[node name="Estrogen3" parent="." instance=ExtResource("2_r17j6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 2, 0.2)
+
+[node name="Estrogen4" parent="." instance=ExtResource("2_r17j6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 2.9, 0.2)

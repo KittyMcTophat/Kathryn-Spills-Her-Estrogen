@@ -1,0 +1,248 @@
+[gd_scene load_steps=17 format=3 uid="uid://4cnl51ssv2ru"]
+
+[ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="1_c21lb"]
+[ext_resource type="Script" path="res://Objects/Estrogen/Estrogen.gd" id="1_qgpu6"]
+[ext_resource type="AudioStream" uid="uid://c1vfpjlvlg43d" path="res://Objects/Estrogen/Pickup.wav" id="3_la6tg"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6ro4h"]
+size = Vector2(0.27, 0.16)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fvero"]
+resource_local_to_scene = true
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("1_c21lb")
+texture_filter = 0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2yt5x"]
+radius = 0.15
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wqkun"]
+size = Vector2(0.28, 0.28)
+
+[sub_resource type="Gradient" id="Gradient_k14at"]
+offsets = PackedFloat32Array(0.996047, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_plrqr"]
+gradient = SubResource("Gradient_k14at")
+width = 28
+height = 28
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clyia"]
+resource_local_to_scene = true
+render_priority = -1
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.741176)
+albedo_texture = SubResource("GradientTexture2D_plrqr")
+texture_filter = 0
+
+[sub_resource type="Animation" id="Animation_kcwv2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpinPivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpinPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ax3ge"]
+resource_name = "Spin"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpinPivot:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1.5, 2.5, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.025, 0), Vector3(0, -0.025, 0), Vector3(0, 0.025, 0), Vector3(0, -0.025, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpinPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pvt4j"]
+_data = {
+"RESET": SubResource("Animation_kcwv2"),
+"Spin": SubResource("Animation_ax3ge")
+}
+
+[sub_resource type="Animation" id="Animation_grerd"]
+resource_name = "Collect"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpinPivot/CollectMovePivot:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.2, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpinPivot/CollectMovePivot/MeshInstance3D:surface_material_override/0:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollectAnimationPlayer/CollectSound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_la6tg")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Shadow:surface_material_override/0:albedo_color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.741176), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7b001"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpinPivot/CollectMovePivot:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpinPivot/CollectMovePivot/MeshInstance3D:surface_material_override/0:albedo_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Shadow:surface_material_override/0:albedo_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.741176)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c8dqw"]
+_data = {
+"Collect": SubResource("Animation_grerd"),
+"RESET": SubResource("Animation_7b001")
+}
+
+[node name="Estrogen" type="Node3D"]
+script = ExtResource("1_qgpu6")
+
+[node name="SpinPivot" type="Node3D" parent="."]
+
+[node name="CollectMovePivot" type="Node3D" parent="SpinPivot"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpinPivot/CollectMovePivot"]
+mesh = SubResource("PlaneMesh_6ro4h")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_fvero")
+
+[node name="CollectionArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CollectionArea"]
+shape = SubResource("SphereShape3D_2yt5x")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, -5, 0)
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_wqkun")
+surface_material_override/0 = SubResource("StandardMaterial3D_clyia")
+
+[node name="SpinAnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Spin"
+libraries = {
+"": SubResource("AnimationLibrary_pvt4j")
+}
+
+[node name="CollectAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_c8dqw")
+}
+
+[node name="CollectSound" type="AudioStreamPlayer3D" parent="CollectAnimationPlayer"]
+volume_db = -6.0
+
+[connection signal="body_entered" from="CollectionArea" to="." method="_on_collection_area_body_entered"]

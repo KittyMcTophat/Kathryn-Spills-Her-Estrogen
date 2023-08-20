@@ -1,15 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://batba6ymaw1ng"]
+[gd_scene load_steps=6 format=3 uid="uid://batba6ymaw1ng"]
 
-[ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_c6hlj"]
-[ext_resource type="Texture2D" uid="uid://dgreu4xep0yyt" path="res://UI/Catgirl Mode Selector Arrow.png" id="2_gy2qt"]
-[ext_resource type="Texture2D" uid="uid://c3qehkdujeyy8" path="res://Objects/Misc/Title Screen Pill Bottle.png" id="3_6m3k8"]
-[ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="4_f76pd"]
+[ext_resource type="Texture2D" uid="uid://c3qehkdujeyy8" path="res://Objects/Misc/Title Screen Pill Bottle.png" id="3_m408l"]
+[ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="4_nf6i0"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_2odyh"]
-font = ExtResource("1_c6hlj")
-font_size = 48
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
+[sub_resource type="GDScript" id="GDScript_63s74"]
+script/source = "extends Node
+
+func _ready():
+	Global.ui_control.hide();
+"
 
 [sub_resource type="GDScript" id="GDScript_xendh"]
 script/source = "extends Button
@@ -20,17 +19,12 @@ func _pressed():
 	Global.fade_to_scene_path(next_scene);
 "
 
-[sub_resource type="LabelSettings" id="LabelSettings_vnfck"]
-font = ExtResource("1_c6hlj")
-font_size = 30
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
-
 [sub_resource type="Curve" id="Curve_b3rtj"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [node name="Title Screen" type="Node"]
+script = SubResource("GDScript_63s74")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -64,10 +58,11 @@ offset_right = 460.0
 offset_bottom = -162.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 48
 text = "
 Kathryn Spills Her Estrogen All Over The Place
 And Now She Has To Pick It Up"
-label_settings = SubResource("LabelSettings_2odyh")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -85,71 +80,18 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer"]
-self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_vertical = 6
+text = "Start"
 script = SubResource("GDScript_xendh")
 next_scene = "res://test scene.tscn"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/Button"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/VBoxContainer/Button/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-texture = ExtResource("2_gy2qt")
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/Button/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Start"
-label_settings = SubResource("LabelSettings_vnfck")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Button2" type="Button" parent="CanvasLayer/Control/VBoxContainer"]
-self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(150, 48)
 layout_mode = 2
 size_flags_vertical = 6
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/Button2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/VBoxContainer/Button2/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-texture = ExtResource("2_gy2qt")
-stretch_mode = 5
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/Button2/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
 text = "Credits"
-label_settings = SubResource("LabelSettings_vnfck")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="Node" type="Node" parent="."]
 
@@ -161,7 +103,7 @@ editor_description = "Fun Fact: I actually based this on the pill bottle my spir
 position = Vector2(161, 431)
 rotation = 2.35619
 scale = Vector2(4, 4)
-texture = ExtResource("3_6m3k8")
+texture = ExtResource("3_m408l")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Node/Pill Bottle"]
 show_behind_parent = true
@@ -170,7 +112,7 @@ amount = 24
 lifetime = 3.0
 preprocess = 4.0
 randomness = 0.1
-texture = ExtResource("4_f76pd")
+texture = ExtResource("4_nf6i0")
 emission_shape = 3
 emission_rect_extents = Vector2(16, 1)
 direction = Vector2(0, -1)
@@ -189,7 +131,7 @@ editor_description = "Fun Fact: I actually based this on the pill bottle my spir
 position = Vector2(863, 431)
 rotation = -2.35619
 scale = Vector2(4, 4)
-texture = ExtResource("3_6m3k8")
+texture = ExtResource("3_m408l")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Node/Pill Bottle2"]
 show_behind_parent = true
@@ -198,7 +140,7 @@ amount = 24
 lifetime = 3.0
 preprocess = 4.0
 randomness = 0.1
-texture = ExtResource("4_f76pd")
+texture = ExtResource("4_nf6i0")
 emission_shape = 3
 emission_rect_extents = Vector2(16, 1)
 direction = Vector2(0, -1)
@@ -212,8 +154,4 @@ angle_min = -180.0
 angle_max = 180.0
 scale_amount_curve = SubResource("Curve_b3rtj")
 
-[connection signal="focus_entered" from="CanvasLayer/Control/VBoxContainer/Button" to="CanvasLayer/Control/VBoxContainer/Button/HBoxContainer/TextureRect" method="show"]
-[connection signal="focus_exited" from="CanvasLayer/Control/VBoxContainer/Button" to="CanvasLayer/Control/VBoxContainer/Button/HBoxContainer/TextureRect" method="hide"]
 [connection signal="ready" from="CanvasLayer/Control/VBoxContainer/Button" to="CanvasLayer/Control/VBoxContainer/Button" method="grab_focus"]
-[connection signal="focus_entered" from="CanvasLayer/Control/VBoxContainer/Button2" to="CanvasLayer/Control/VBoxContainer/Button2/HBoxContainer/TextureRect" method="show"]
-[connection signal="focus_exited" from="CanvasLayer/Control/VBoxContainer/Button2" to="CanvasLayer/Control/VBoxContainer/Button2/HBoxContainer/TextureRect" method="hide"]

@@ -1,37 +1,45 @@
-[gd_scene load_steps=24 format=3 uid="uid://cc868qqaqlf4w"]
+[gd_scene load_steps=28 format=3 uid="uid://cc868qqaqlf4w"]
 
 [ext_resource type="Script" path="res://Characters/Kathryn/Kathryn.gd" id="1_hnchh"]
 [ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="1_pnhlu"]
 [ext_resource type="Script" path="res://Characters/Kathryn/MovementParams.gd" id="2_oyy2i"]
 [ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="3_x1fad"]
 [ext_resource type="Script" path="res://Characters/Kathryn/CameraPivot.gd" id="5_sfeb4"]
+[ext_resource type="AudioStream" uid="uid://dw5rjwtb7bfsq" path="res://Characters/Kathryn/Jump.wav" id="6_bogqc"]
+[ext_resource type="AudioStream" uid="uid://c5alfmd7pxke8" path="res://Characters/Kathryn/Land.wav" id="7_xb86d"]
 
 [sub_resource type="Resource" id="Resource_e8i7d"]
 script = ExtResource("2_oyy2i")
-max_speed = 3.5
+max_speed = 2.5
 acceleration = 10.0
 deceleration = 8.0
 gravity_scale = 1.0
 jump_force = 4.5
 decel_when_no_jump_key = 6.0
+jump_buffer_secs = 0.15
+coyote_time_secs = 0.2
 
 [sub_resource type="Resource" id="Resource_ecgls"]
 script = ExtResource("2_oyy2i")
-max_speed = 3.5
+max_speed = 2.5
 acceleration = 5.0
 deceleration = 0.0
 gravity_scale = 1.0
 jump_force = 4.5
 decel_when_no_jump_key = 6.0
+jump_buffer_secs = 0.15
+coyote_time_secs = 0.2
 
 [sub_resource type="Resource" id="Resource_8cqb3"]
 script = ExtResource("2_oyy2i")
-max_speed = 3.5
+max_speed = 2.5
 acceleration = 5.0
 deceleration = 0.0
 gravity_scale = 1.5
 jump_force = 4.5
 decel_when_no_jump_key = 6.0
+jump_buffer_secs = 0.15
+coyote_time_secs = 0.2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ax624"]
 radius = 0.22
@@ -46,9 +54,7 @@ viewport_path = NodePath("MeshPivot/MeshInstance3D/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_108kv"]
 resource_local_to_scene = true
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
+transparency = 1
 cull_mode = 2
 albedo_texture = SubResource("ViewportTexture_tuce2")
 texture_filter = 0
@@ -223,7 +229,15 @@ _data = {
 "Walk_B": SubResource("Animation_shhxf")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa0ya"]
+shading_mode = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_c3a1x"]
+material = SubResource("StandardMaterial3D_wa0ya")
+size = Vector3(0.01, 0.01, 0.01)
+
 [node name="Kathryn" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_hnchh")
 grounded = SubResource("Resource_e8i7d")
 midair_rising = SubResource("Resource_ecgls")
@@ -262,7 +276,7 @@ script = ExtResource("5_sfeb4")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
 spring_length = 2.0
-margin = 0.1
+margin = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 
@@ -272,10 +286,43 @@ libraries = {
 "": SubResource("AnimationLibrary_cbygg")
 }
 
-[node name="CoyoteTime" type="Timer" parent="."]
-process_callback = 0
-wait_time = 0.1
+[node name="JumpParticles" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 24
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+mesh = SubResource("BoxMesh_c3a1x")
+spread = 180.0
+flatness = 0.95
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.2
+initial_velocity_max = 1.2
+linear_accel_min = -2.0
+linear_accel_max = -2.0
 
-[node name="JumpBuffer" type="Timer" parent="."]
-process_callback = 0
-wait_time = 0.1
+[node name="LandParticles" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 24
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+mesh = SubResource("BoxMesh_c3a1x")
+spread = 180.0
+flatness = 0.95
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.2
+initial_velocity_max = 1.2
+linear_accel_min = -2.0
+linear_accel_max = -2.0
+
+[node name="JumpSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("6_bogqc")
+
+[node name="LandSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("7_xb86d")
+
+[connection signal="jumped" from="." to="JumpSound" method="play"]
+[connection signal="jumped" from="." to="JumpParticles" method="set_emitting" binds= [true]]
+[connection signal="landed" from="." to="LandSound" method="play"]
+[connection signal="landed" from="." to="LandParticles" method="set_emitting" binds= [true]]

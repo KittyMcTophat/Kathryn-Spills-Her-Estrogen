@@ -16,6 +16,7 @@ var facing_back : bool = false;
 @export var jump_stretch_time : float = 0.3;
 @export var land_squash : Vector3 = Vector3(1.1, 0.9, 1.1);
 @export var land_squash_time : float = 0.3;
+@export var kill_y : float = -4.0;
 
 var squash_tween : Tween = null;
 func squash(amount : Vector3, time : float) -> void:
@@ -49,6 +50,9 @@ func _physics_process(delta : float) -> void:
 	process_collisions();
 	
 	update_animation();
+	
+	if global_position.y < kill_y:
+		die();
 
 func get_movement_params() -> MovementParams:
 	# Figure out what set of movement parameters to use
@@ -63,6 +67,9 @@ func get_movement_params() -> MovementParams:
 var turn_tween : Tween = null;
 func process_h_movement() -> void:
 	var input_vector : Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down");
+	input_vector += Input.get_vector("move_left_analog", "move_right_analog", "move_up_analog", "move_down_analog");
+	input_vector = input_vector.limit_length(1.0);
+	
 	var accel_amount : float = 0.0;
 	if input_vector != Vector2.ZERO:
 		accel_amount = get_movement_params().acceleration;
@@ -92,28 +99,33 @@ func process_h_movement() -> void:
 	if (input_vector.y < -0.1 && !facing_back) || (input_vector.y > 0.1 && facing_back):
 		facing_back = !facing_back;
 
-@onready var coyote_time_timer : Timer = $CoyoteTime;
-@onready var jump_buffer_timer : Timer = $JumpBuffer;
+var coyote_time : float = 0.0;
+var jump_buffer : float = 0.0;
 func process_jump() -> void:
+	if coyote_time > 0.0:
+		coyote_time -= get_physics_process_delta_time();
+	if jump_buffer > 0.0:
+		jump_buffer -= get_physics_process_delta_time();
+	
 	if Input.is_action_just_pressed("jump"):
-		jump_buffer_timer.start();
+		jump_buffer = get_movement_params().jump_buffer_secs;
 	
 	if is_on_floor():
-		coyote_time_timer.start();
+		coyote_time = get_movement_params().coyote_time_secs;
 	elif !Input.is_action_pressed("jump"):
 		velocity.y = move_toward(velocity.y, 0.0,\
 		get_movement_params().decel_when_no_jump_key * get_physics_process_delta_time());
 	
-	if coyote_time_timer.time_left > 0.0 && jump_buffer_timer.time_left > 0.0:
+	if coyote_time > 0.0 && jump_buffer > 0.0:
 		velocity.y = get_movement_params().jump_force;
 		squash(jump_stretch, jump_stretch_time);
-		jump_buffer_timer.stop();
-		coyote_time_timer.stop();
+		jump_buffer = 0.0;
+		coyote_time = 0.0;
 		jumped.emit();
 
 func process_collisions() -> void:
 	if get_slide_collision_count() > 0:
-		if last_velocity.y - velocity.y < -1.0:
+		if last_velocity.y - velocity.y < -2.0:
 			squash(land_squash, land_squash_time);
 			landed.emit();
 
@@ -133,3 +145,6 @@ func update_animation() -> void:
 		else:
 			anim_player.speed_scale = 1.0;
 			anim_player.play("Fall_B" if facing_back else "Fall");
+
+func die():
+	Global.reload_scene();
