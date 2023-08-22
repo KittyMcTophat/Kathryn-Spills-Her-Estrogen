@@ -270,7 +270,6 @@ frame = 1
 script = SubResource("GDScript_mt2pf")
 
 [node name="CameraPivot" type="Node3D" parent="."]
-process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.35, 0)
 script = ExtResource("5_sfeb4")
 

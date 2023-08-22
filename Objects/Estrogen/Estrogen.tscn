@@ -205,6 +205,7 @@ _data = {
 }
 
 [node name="Estrogen" type="Node3D"]
+process_mode = 3
 script = ExtResource("1_qgpu6")
 
 [node name="SpinPivot" type="Node3D" parent="."]

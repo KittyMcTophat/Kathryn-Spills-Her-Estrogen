@@ -147,4 +147,4 @@ func update_animation() -> void:
 			anim_player.play("Fall_B" if facing_back else "Fall");
 
 func die():
-	Global.reload_scene();
+	Global.fade_and_reload_scene();

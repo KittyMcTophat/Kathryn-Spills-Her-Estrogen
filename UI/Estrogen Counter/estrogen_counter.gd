@@ -1,10 +1,13 @@
 extends MarginContainer
 class_name EstrogenCounter
 
+signal current_estrogen_changed(value : int);
+
 var current_estrogen : int = 0:
 	set(value):
 		current_estrogen = value;
 		update_text();
+		current_estrogen_changed.emit(current_estrogen);
 var max_estrogen : int = 0:
 	set(value):
 		max_estrogen = value;

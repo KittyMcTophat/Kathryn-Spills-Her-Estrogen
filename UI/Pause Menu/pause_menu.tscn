@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dtmc7o1peaccl"]
+[gd_scene load_steps=12 format=3 uid="uid://dtmc7o1peaccl"]
 
 [ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_cpn5b"]
 [ext_resource type="Theme" uid="uid://f1cl6sb35fhk" path="res://UI/menu_theme.tres" id="1_pcviv"]
+[ext_resource type="Script" path="res://UI/Pause Menu/PauseMenu.gd" id="2_2eemv"]
 [ext_resource type="Shader" path="res://UI/Pause Menu/Blur.gdshader" id="2_n4q82"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nbbnv"]
@@ -173,6 +174,20 @@ tracks/3/keys = {
 "update": 0,
 "values": [1.0, 0.666]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ResumeButton")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"grab_focus"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_33ysv"]
 _data = {
@@ -191,6 +206,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_pcviv")
+script = ExtResource("2_2eemv")
 
 [node name="BlurRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_nbbnv")
@@ -223,18 +239,18 @@ theme_override_constants/margin_bottom = 8
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PausedLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "- Paused -"
 label_settings = SubResource("LabelSettings_8j6wr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ResumeButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Resume"
 
-[node name="Button2" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="RestartButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Restart"
 
@@ -242,7 +258,7 @@ text = "Restart"
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="VolumeLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Volume"
 label_settings = SubResource("LabelSettings_31pnb")
@@ -252,14 +268,14 @@ vertical_alignment = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Low" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Low"
 label_settings = SubResource("LabelSettings_31pnb")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="VolumeSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -267,7 +283,7 @@ max_value = 1.0
 step = 0.1
 value = 0.5
 
-[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="High" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "High"
 label_settings = SubResource("LabelSettings_31pnb")
@@ -280,4 +296,6 @@ libraries = {
 "": SubResource("AnimationLibrary_33ysv")
 }
 
-[connection signal="ready" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Button" to="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Button" method="grab_focus"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ResumeButton" to="." method="unpause"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="value_changed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]

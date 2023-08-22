@@ -5,7 +5,7 @@ var allow_pause : bool = true;
 
 var estrogen_counter : EstrogenCounter = null;
 var fade_color_rect : ColorRect = null;
-var pause_menu : Control = null;
+var pause_menu : PauseMenu = null;
 var ui_control : Control = null;
 
 func _ready() -> void:
@@ -30,7 +30,7 @@ func _ready() -> void:
 	canv_layer.add_child(fade_color_rect);
 	fade_color_rect.set_anchors_preset(Control.PRESET_FULL_RECT, true);
 
-func reload_scene(fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
+func fade_and_reload_scene(fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
 	function_call_with_fade(get_tree().reload_current_scene, fade_color, time, pause, reset_estrogen);
 
 func fade_to_scene_path(scene : String, fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
@@ -56,12 +56,12 @@ func function_call_with_fade(function : Callable, fade_color : Color = Color("#f
 		estrogen_counter.max_estrogen = 0;
 	function.call();
 	
+	if pause:
+		unpause_stuff();
+	
 	var fade_out_tween : Tween = create_tween();
 	fade_out_tween.tween_property(fade_color_rect, "color", Color(fade_color, 0.0), time / 2.0);
 	await fade_out_tween.finished;
-	
-	if pause:
-		unpause_stuff();
 
 func pause_stuff() -> void:
 	allow_pause = false;
