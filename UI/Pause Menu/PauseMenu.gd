@@ -3,6 +3,9 @@ class_name PauseMenu
 
 var paused : bool = false;
 
+func _ready():
+	set_volume(%VolumeSlider.value);
+
 func _process(delta : float):
 	if Input.is_action_just_pressed("pause"):
 		if Global.allow_pause == false:
@@ -36,5 +39,6 @@ func _on_restart_button_pressed():
 	
 	Global.fade_and_reload_scene();
 
-func _on_volume_slider_value_changed(value : float):
-	pass # Replace with function body.
+func set_volume(value : float):
+	var master_volume : int = AudioServer.get_bus_index("Master");
+	AudioServer.set_bus_volume_db(master_volume, linear_to_db(value));
