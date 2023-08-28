@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7841yf1yqi4y"]
+
+[ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_2v0dy"]
+
+[sub_resource type="GDScript" id="GDScript_4l7v0"]
+script/source = "extends Control
+
+func _ready():
+	Global.queue_free();
+"
+
+[sub_resource type="GDScript" id="GDScript_t3orx"]
+script/source = "extends RichTextLabel
+
+func _on_meta_clicked(meta):
+	OS.shell_open(str(meta));
+"
+
+[node name="win_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_4l7v0")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.807843, 1, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+
+[node name="Label" type="RichTextLabel" parent="CenterContainer"]
+editor_description = "Since no one's gonna read this, I'd just like to say that the true story it's based on is that one time I dropped a single estrogen pill on the floor."
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.6, 0.215686, 0.6, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/normal_font = ExtResource("1_2v0dy")
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "[center]You Win!
+
+- CREDITS -
+[url=https://kitty-mctophat.itch.io/][u][color=lightblue]Kathryn \"Kitty\" McTophat[/color][/u][/url] ([img]res://UI/Common/Trans Flag.png[/img]) - Level Design, Art, Programming, Writing
+[url=https://procymbopteryx.itch.io/][u][color=lightblue]Procymbopteryx[/color][/u][/url] - Music
+
+Using the Godot Game Engine ([url=https://godotengine.org/license/][u][color=lightblue]License[/color][/u][/url])
+Using the Font \"IndieFlower\" by Kimberly Geswein ([url=https://scripts.sil.org/OFL][u][color=lightblue]License[/color][/u][/url])"
+fit_content = true
+autowrap_mode = 0
+script = SubResource("GDScript_t3orx")
+
+[connection signal="meta_clicked" from="CenterContainer/Label" to="CenterContainer/Label" method="_on_meta_clicked"]

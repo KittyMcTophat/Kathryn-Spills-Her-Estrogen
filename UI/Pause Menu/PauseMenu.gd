@@ -6,7 +6,7 @@ var paused : bool = false;
 func _ready():
 	set_volume(%VolumeSlider.value);
 
-func _process(delta : float):
+func _process(_delta : float):
 	if Input.is_action_just_pressed("pause"):
 		if Global.allow_pause == false:
 			return;

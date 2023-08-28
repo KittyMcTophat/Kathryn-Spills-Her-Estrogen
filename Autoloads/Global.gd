@@ -6,17 +6,21 @@ var allow_pause : bool = true;
 var estrogen_counter : EstrogenCounter = null;
 var fade_color_rect : ColorRect = null;
 var pause_menu : PauseMenu = null;
+var textbox : Textbox = null;
+var ui_canvas_layer : CanvasLayer = null;
 var ui_control : Control = null;
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS;
 	
-	var canv_layer : CanvasLayer = CanvasLayer.new();
-	add_child(canv_layer);
-	canv_layer.layer = 99;
+	ui_canvas_layer = CanvasLayer.new();
+	ui_canvas_layer.name = "UICanvasLayer";
+	add_child(ui_canvas_layer);
+	ui_canvas_layer.layer = 99;
 	
 	ui_control = Control.new();
-	canv_layer.add_child(ui_control);
+	ui_control.name = "UIControl";
+	ui_canvas_layer.add_child(ui_control);
 	ui_control.set_anchors_preset(Control.PRESET_FULL_RECT, true);
 	
 	estrogen_counter = preload("res://UI/Estrogen Counter/estrogen_counter.tscn").instantiate();
@@ -25,9 +29,13 @@ func _ready() -> void:
 	pause_menu = preload("res://UI/Pause Menu/pause_menu.tscn").instantiate();
 	ui_control.add_child(pause_menu);
 	
+	textbox = preload("res://UI/Textbox/textbox.tscn").instantiate();
+	ui_control.add_child(textbox);
+	
 	fade_color_rect = ColorRect.new();
+	fade_color_rect.name = "FadeColorRect";
 	fade_color_rect.color = Color.TRANSPARENT;
-	canv_layer.add_child(fade_color_rect);
+	ui_canvas_layer.add_child(fade_color_rect);
 	fade_color_rect.set_anchors_preset(Control.PRESET_FULL_RECT, true);
 
 func fade_and_reload_scene(fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:

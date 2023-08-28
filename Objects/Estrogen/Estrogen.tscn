@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="1_c21lb"]
 [ext_resource type="Script" path="res://Objects/Estrogen/Estrogen.gd" id="1_qgpu6"]
+[ext_resource type="PackedScene" uid="uid://bomx8u46524iw" path="res://Objects/Misc/shadow.tscn" id="3_jt6x8"]
 [ext_resource type="AudioStream" uid="uid://c1vfpjlvlg43d" path="res://Objects/Estrogen/Pickup.wav" id="3_la6tg"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_6ro4h"]
@@ -18,15 +19,12 @@ texture_filter = 0
 [sub_resource type="SphereShape3D" id="SphereShape3D_2yt5x"]
 radius = 0.15
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_wqkun"]
-size = Vector2(0.28, 0.28)
-
-[sub_resource type="Gradient" id="Gradient_k14at"]
+[sub_resource type="Gradient" id="Gradient_borif"]
 offsets = PackedFloat32Array(0.996047, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_plrqr"]
-gradient = SubResource("Gradient_k14at")
+gradient = SubResource("Gradient_borif")
 width = 28
 height = 28
 fill = 1
@@ -34,7 +32,7 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clyia"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glch0"]
 resource_local_to_scene = true
 render_priority = -1
 transparency = 1
@@ -149,7 +147,7 @@ tracks/2/use_blend = true
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Shadow:surface_material_override/0:albedo_color")
+tracks/3/path = NodePath("Shadow/Shadow:surface_material_override/0:albedo_color")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -188,7 +186,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Shadow:surface_material_override/0:albedo_color")
+tracks/2/path = NodePath("Shadow/Shadow:surface_material_override/0:albedo_color")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -224,13 +222,10 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CollectionArea"]
 shape = SubResource("SphereShape3D_2yt5x")
 
-[node name="RayCast3D" type="RayCast3D" parent="."]
-enabled = false
-target_position = Vector3(0, -5, 0)
+[node name="Shadow" parent="." instance=ExtResource("3_jt6x8")]
 
-[node name="Shadow" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_wqkun")
-surface_material_override/0 = SubResource("StandardMaterial3D_clyia")
+[node name="Shadow" parent="Shadow" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_glch0")
 
 [node name="SpinAnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spin"
@@ -243,7 +238,9 @@ libraries = {
 "": SubResource("AnimationLibrary_c8dqw")
 }
 
-[node name="CollectSound" type="AudioStreamPlayer3D" parent="CollectAnimationPlayer"]
+[node name="CollectSound" type="AudioStreamPlayer" parent="CollectAnimationPlayer"]
 volume_db = -6.0
 
 [connection signal="body_entered" from="CollectionArea" to="." method="_on_collection_area_body_entered"]
+
+[editable path="Shadow"]

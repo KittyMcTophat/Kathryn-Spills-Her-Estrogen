@@ -35,7 +35,6 @@ grow_vertical = 2
 color = Color(1, 0.807843, 1, 1)
 
 [node name="Label" type="Label" parent="."]
-editor_description = "Since no one's gonna read this, I'd just like to say that the true story it's based on is that one time I dropped a single estrogen pill on the floor."
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
@@ -45,17 +44,14 @@ anchor_bottom = 0.9
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 28
-text = "This is not a work of fiction.
+text = "This is an autobiographical game based on a true story.
+(The true story is that one time I dropped an estrogen pill and I had to pick it up)
 
-Names, characters, places and incidents either are entirely true or are exaggerated to tell a more interesting story.
+I was originally going to make this game for last year's Trans Representation Jam, but I lost track of time and didn't finish it. So, I decided to finish it for this year's jam. My hair doesn't even look like that anymore, but I didn't want to redo the sprite.
 
-Any resemblance to actual events or locales or persons, living or (hopefully not) dead, is entirely intended.
-(As long as that person is me)
+The game contains a few instances of profanity, so if you don't like swearing, maybe skip it.
 
-Also, don't worry about anything upsetting. This is just a silly, lighthearted game.
-
-[Press Space or Enter To Continue]
-[You can also press the 'A' button if you're using a controller]"
+[Press Space/Enter/'A' Button to continue]"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://db05i4m5wsqs3"]
 
-[ext_resource type="Script" path="res://UI/Estrogen Counter/estrogen_counter.gd" id="1_tt1ar"]
+[ext_resource type="Script" path="res://UI/Estrogen Counter/EstrogenCounter.gd" id="1_y71k7"]
 [ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="2_7luba"]
 
 [node name="estrogen_counter" type="MarginContainer"]
@@ -13,7 +13,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
-script = ExtResource("1_tt1ar")
+script = ExtResource("1_y71k7")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

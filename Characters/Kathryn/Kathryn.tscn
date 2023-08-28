@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cc868qqaqlf4w"]
+[gd_scene load_steps=32 format=3 uid="uid://cc868qqaqlf4w"]
 
 [ext_resource type="Script" path="res://Characters/Kathryn/Kathryn.gd" id="1_hnchh"]
 [ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="1_pnhlu"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="3_x1fad"]
 [ext_resource type="Script" path="res://Characters/Kathryn/CameraPivot.gd" id="5_sfeb4"]
 [ext_resource type="AudioStream" uid="uid://dw5rjwtb7bfsq" path="res://Characters/Kathryn/Jump.wav" id="6_bogqc"]
+[ext_resource type="PackedScene" uid="uid://bomx8u46524iw" path="res://Objects/Misc/shadow.tscn" id="6_wxqnw"]
 [ext_resource type="AudioStream" uid="uid://c5alfmd7pxke8" path="res://Characters/Kathryn/Land.wav" id="7_xb86d"]
 
 [sub_resource type="Resource" id="Resource_e8i7d"]
@@ -68,6 +69,27 @@ func _ready():
 	else:
 		frame_coords.x = 0;
 "
+
+[sub_resource type="Gradient" id="Gradient_borif"]
+offsets = PackedFloat32Array(0.996047, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_60gx4"]
+gradient = SubResource("Gradient_borif")
+width = 48
+height = 48
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fjg40"]
+resource_local_to_scene = true
+render_priority = -1
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.741176)
+albedo_texture = SubResource("GradientTexture2D_60gx4")
+texture_filter = 0
 
 [sub_resource type="Animation" id="Animation_uqikx"]
 resource_name = "Fall"
@@ -279,6 +301,12 @@ margin = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 
+[node name="Shadow" parent="." instance=ExtResource("6_wxqnw")]
+process_mode = 3
+
+[node name="Shadow" parent="Shadow" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_fjg40")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
 libraries = {
@@ -321,7 +349,11 @@ stream = ExtResource("6_bogqc")
 [node name="LandSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("7_xb86d")
 
+[node name="AudioListener3D" type="AudioListener3D" parent="."]
+
 [connection signal="jumped" from="." to="JumpSound" method="play"]
 [connection signal="jumped" from="." to="JumpParticles" method="set_emitting" binds= [true]]
 [connection signal="landed" from="." to="LandSound" method="play"]
 [connection signal="landed" from="." to="LandParticles" method="set_emitting" binds= [true]]
+
+[editable path="Shadow"]
