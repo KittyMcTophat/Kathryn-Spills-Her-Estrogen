@@ -16,16 +16,8 @@ var facing_back : bool = false;
 @export var jump_stretch_time : float = 0.3;
 @export var land_squash : Vector3 = Vector3(1.1, 0.9, 1.1);
 @export var land_squash_time : float = 0.3;
-@export var kill_y : float = -4.0;
 
-var squash_tween : Tween = null;
-func squash(amount : Vector3, time : float) -> void:
-	$MeshPivot.scale = amount;
-	if squash_tween != null:
-		squash_tween.kill();
-	squash_tween = $MeshPivot.create_tween();
-	
-	squash_tween.tween_property($MeshPivot, "scale", Vector3.ONE, time);
+@export var death_reset_time : float = 1.0;
 
 var last_local_velocity : Vector3 = Vector3.ZERO;
 func _physics_process(delta : float) -> void:
@@ -140,5 +132,57 @@ func update_animation() -> void:
 			anim_player.speed_scale = 1.0;
 			anim_player.play("Fall_B" if facing_back else "Fall");
 
+var squash_tween : Tween = null;
+func squash(amount : Vector3, time : float) -> void:
+	$MeshPivot.scale = amount;
+	if squash_tween != null:
+		squash_tween.kill();
+	squash_tween = $MeshPivot.create_tween();
+	
+	squash_tween.tween_property($MeshPivot, "scale", Vector3.ONE, time);
+
 func die():
+	Global.allow_pause = false;
+	enable_movement = false;
+	visible = false;
+	
+	var num_corpses : int = 1;
+	while (randi() % 10 != 0):
+		num_corpses += 1;
+	
+	if num_corpses == 1:
+		get_parent().add_child(make_corpse());
+	else:
+		for i in range(num_corpses):
+			get_parent().add_child(make_corpse(true));
+	
+	var timer : Timer = Timer.new();
+	add_child(timer);
+	timer.wait_time = death_reset_time;
+	timer.start()
+	
+	await timer.timeout;
+	
 	Global.fade_and_reload_scene();
+
+func make_corpse(spread : bool = false, spread_angle : float = PI / 4.0) -> RigidBody3D:
+	var corpse : RigidBody3D = RigidBody3D.new();
+	corpse.collision_layer = self.collision_layer;
+	corpse.collision_mask = self.collision_mask;
+	
+	corpse.position = self.position;
+	corpse.basis = self.basis;
+	corpse.linear_velocity = self.velocity;
+	corpse.angular_velocity = Vector3(randf_range(-5.0, 5.0), randf_range(-5.0, 5.0), randf_range(-5.0, 5.0));
+	corpse.process_mode = Node.PROCESS_MODE_ALWAYS;
+	
+	if spread:
+		var direction : Vector2 = (Vector2.UP * randf()).rotated(randf_range(-PI, PI));
+		corpse.linear_velocity = corpse.linear_velocity.rotated(Vector3(1.0, 0.0, 0.0), direction.x * spread_angle);
+		corpse.linear_velocity = corpse.linear_velocity.rotated(Vector3(0.0, 0.0, 1.0), direction.y * spread_angle);
+	
+	for child in get_children():
+		if (child is Node3D) && !(child is PlayerCamera):
+			corpse.add_child(child.duplicate());
+	
+	return corpse;

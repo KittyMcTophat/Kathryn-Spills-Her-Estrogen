@@ -85,7 +85,7 @@ layout_mode = 2
 size_flags_vertical = 6
 text = "Start"
 script = SubResource("GDScript_xendh")
-next_scene = "res://Levels/Level0.tscn"
+next_scene = "res://Levels/level0.tscn"
 
 [node name="Button2" type="Button" parent="CanvasLayer/Control/VBoxContainer"]
 visible = false

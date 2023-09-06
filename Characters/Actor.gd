@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name Actor
 
+@export var enable_movement : bool = true;
+
 @export var orient_with_gravity : bool = true;
 @export var reorientation_lerp_multiplier : float = 10.0;
 @export var friction : float = 0.5;
@@ -19,6 +21,9 @@ var local_velocity : Vector3 = Vector3.ZERO:
 		return local_velocity;
 
 func _physics_process(delta : float):
+	if !enable_movement:
+		return;
+	
 	var state : PhysicsDirectBodyState3D = PhysicsServer3D.body_get_direct_state(get_rid());
 	if (!state.get_total_gravity().is_zero_approx() || !keep_last_gravity):
 		gravity = state.get_total_gravity();

@@ -1,8 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://4cnl51ssv2ru"]
+[gd_scene load_steps=15 format=3 uid="uid://4cnl51ssv2ru"]
 
 [ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="1_c21lb"]
 [ext_resource type="Script" path="res://Objects/Estrogen/Estrogen.gd" id="1_qgpu6"]
-[ext_resource type="PackedScene" uid="uid://bomx8u46524iw" path="res://Objects/Misc/shadow.tscn" id="3_jt6x8"]
 [ext_resource type="AudioStream" uid="uid://c1vfpjlvlg43d" path="res://Objects/Estrogen/Pickup.wav" id="3_la6tg"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_6ro4h"]
@@ -19,26 +18,16 @@ texture_filter = 0
 [sub_resource type="SphereShape3D" id="SphereShape3D_2yt5x"]
 radius = 0.15
 
-[sub_resource type="Gradient" id="Gradient_borif"]
-offsets = PackedFloat32Array(0.996047, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+[sub_resource type="Gradient" id="Gradient_ual53"]
+interpolation_mode = 1
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_plrqr"]
-gradient = SubResource("Gradient_borif")
-width = 28
-height = 28
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2utwh"]
+gradient = SubResource("Gradient_ual53")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glch0"]
-resource_local_to_scene = true
-render_priority = -1
-transparency = 1
-albedo_color = Color(0, 0, 0, 0.741176)
-albedo_texture = SubResource("GradientTexture2D_plrqr")
-texture_filter = 0
 
 [sub_resource type="Animation" id="Animation_kcwv2"]
 length = 0.001
@@ -147,14 +136,14 @@ tracks/2/use_blend = true
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Shadow/Shadow:surface_material_override/0:albedo_color")
+tracks/3/path = NodePath("Drop Shadow:albedo_mix")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0.741176), Color(0, 0, 0, 0)]
+"values": [0.66, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_7b001"]
@@ -186,14 +175,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Shadow/Shadow:surface_material_override/0:albedo_color")
+tracks/2/path = NodePath("Drop Shadow:albedo_mix")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 0.741176)]
+"values": [0.66]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c8dqw"]
@@ -211,6 +200,7 @@ script = ExtResource("1_qgpu6")
 [node name="CollectMovePivot" type="Node3D" parent="SpinPivot"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SpinPivot/CollectMovePivot"]
+layers = 2
 mesh = SubResource("PlaneMesh_6ro4h")
 skeleton = NodePath("../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_fvero")
@@ -222,10 +212,14 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CollectionArea"]
 shape = SubResource("SphereShape3D_2yt5x")
 
-[node name="Shadow" parent="." instance=ExtResource("3_jt6x8")]
-
-[node name="Shadow" parent="Shadow" index="1"]
-surface_material_override/0 = SubResource("StandardMaterial3D_glch0")
+[node name="Drop Shadow" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0)
+size = Vector3(0.32, 1.5, 0.32)
+texture_albedo = SubResource("GradientTexture2D_2utwh")
+albedo_mix = 0.66
+normal_fade = 0.1
+upper_fade = 1e-05
+cull_mask = 1
 
 [node name="SpinAnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spin"
@@ -242,5 +236,3 @@ libraries = {
 volume_db = -6.0
 
 [connection signal="body_entered" from="CollectionArea" to="." method="_on_collection_area_body_entered"]
-
-[editable path="Shadow"]

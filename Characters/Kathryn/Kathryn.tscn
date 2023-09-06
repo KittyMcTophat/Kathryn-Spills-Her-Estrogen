@@ -1,12 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://cc868qqaqlf4w"]
+[gd_scene load_steps=30 format=3 uid="uid://cc868qqaqlf4w"]
 
 [ext_resource type="Script" path="res://Characters/Kathryn/Kathryn.gd" id="1_hnchh"]
 [ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="1_pnhlu"]
 [ext_resource type="Script" path="res://Characters/Kathryn/MovementParams.gd" id="2_oyy2i"]
 [ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="3_x1fad"]
-[ext_resource type="Script" path="res://Characters/Kathryn/CameraPivot.gd" id="5_sfeb4"]
+[ext_resource type="Script" path="res://Characters/Kathryn/PlayerCamera.gd" id="5_qgynk"]
 [ext_resource type="AudioStream" uid="uid://dw5rjwtb7bfsq" path="res://Characters/Kathryn/Jump.wav" id="6_bogqc"]
-[ext_resource type="PackedScene" uid="uid://bomx8u46524iw" path="res://Objects/Misc/shadow.tscn" id="6_wxqnw"]
 [ext_resource type="AudioStream" uid="uid://c5alfmd7pxke8" path="res://Characters/Kathryn/Land.wav" id="7_xb86d"]
 
 [sub_resource type="Resource" id="Resource_e8i7d"]
@@ -70,26 +69,18 @@ func _ready():
 		frame_coords.x = 0;
 "
 
-[sub_resource type="Gradient" id="Gradient_borif"]
-offsets = PackedFloat32Array(0.996047, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+[sub_resource type="Gradient" id="Gradient_ugfvd"]
+interpolation_mode = 1
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_60gx4"]
-gradient = SubResource("Gradient_borif")
-width = 48
-height = 48
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8vosu"]
+gradient = SubResource("Gradient_ugfvd")
+width = 36
+height = 36
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 metadata/_snap_enabled = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fjg40"]
-resource_local_to_scene = true
-render_priority = -1
-transparency = 1
-albedo_color = Color(0, 0, 0, 0.741176)
-albedo_texture = SubResource("GradientTexture2D_60gx4")
-texture_filter = 0
 
 [sub_resource type="Animation" id="Animation_uqikx"]
 resource_name = "Fall"
@@ -273,6 +264,7 @@ shape = SubResource("CapsuleShape3D_ax624")
 script = ExtResource("3_x1fad")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshPivot"]
+layers = 2
 mesh = SubResource("QuadMesh_k8fll")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_108kv")
@@ -293,7 +285,7 @@ script = SubResource("GDScript_mt2pf")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.35, 0)
-script = ExtResource("5_sfeb4")
+script = ExtResource("5_qgynk")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
 process_mode = 3
@@ -302,11 +294,14 @@ margin = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 
-[node name="Shadow" parent="." instance=ExtResource("6_wxqnw")]
-process_mode = 3
-
-[node name="Shadow" parent="Shadow" index="1"]
-surface_material_override/0 = SubResource("StandardMaterial3D_fjg40")
+[node name="Drop Shadow" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.53, 0)
+size = Vector3(0.36, 1.5, 0.36)
+texture_albedo = SubResource("GradientTexture2D_8vosu")
+albedo_mix = 0.75
+normal_fade = 0.1
+upper_fade = 1e-05
+cull_mask = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
@@ -356,5 +351,3 @@ stream = ExtResource("7_xb86d")
 [connection signal="jumped" from="." to="JumpParticles" method="set_emitting" binds= [true]]
 [connection signal="landed" from="." to="LandSound" method="play"]
 [connection signal="landed" from="." to="LandParticles" method="set_emitting" binds= [true]]
-
-[editable path="Shadow"]

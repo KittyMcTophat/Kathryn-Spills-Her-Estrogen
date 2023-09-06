@@ -37,6 +37,8 @@ func _ready() -> void:
 	fade_color_rect.color = Color.TRANSPARENT;
 	ui_canvas_layer.add_child(fade_color_rect);
 	fade_color_rect.set_anchors_preset(Control.PRESET_FULL_RECT, true);
+	
+	randomize();
 
 func fade_and_reload_scene(fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
 	function_call_with_fade(get_tree().reload_current_scene, fade_color, time, pause, reset_estrogen);

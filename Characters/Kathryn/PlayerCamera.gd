@@ -1,4 +1,5 @@
 extends Node3D
+class_name PlayerCamera
 
 @export var max_x_rotation : float = PI / 4.0;
 @export var min_x_rotation : float = -PI / 4.0;
