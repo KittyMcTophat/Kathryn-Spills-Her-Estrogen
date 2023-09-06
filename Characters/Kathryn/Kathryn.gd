@@ -1,4 +1,4 @@
-extends CharacterBody3D
+extends Actor
 class_name Kathryn
 
 signal jumped();
@@ -27,32 +27,26 @@ func squash(amount : Vector3, time : float) -> void:
 	
 	squash_tween.tween_property($MeshPivot, "scale", Vector3.ONE, time);
 
-var last_velocity : Vector3 = Vector3.ZERO;
+var last_local_velocity : Vector3 = Vector3.ZERO;
 func _physics_process(delta : float) -> void:
 	# Return if no movement parameters are available
 	if get_movement_params() == null:
 		return
 	
-	# Apply the gravity.
-	if not is_on_floor():
-		velocity += PhysicsServer3D.body_get_direct_state(get_rid()).total_gravity\
-		* delta * get_movement_params().gravity_scale;
+	# Set the gravity scale so that it properly applies when the Actor script does gravity calculations
+	gravity_scale = get_movement_params().gravity_scale;
 	
-	# Apply horzontal movement
+	super._physics_process(delta);
+	
+	# Process physics
 	process_h_movement();
-	
 	process_jump();
 	
-	last_velocity = velocity;
-	
-	move_and_slide();
-	
+	last_local_velocity = local_velocity;
 	process_collisions();
 	
+	# Process visuals
 	update_animation();
-	
-	if global_position.y < kill_y:
-		die();
 
 func get_movement_params() -> MovementParams:
 	# Figure out what set of movement parameters to use
@@ -77,11 +71,11 @@ func process_h_movement() -> void:
 		accel_amount = get_movement_params().deceleration;
 	
 	# Convert to a 3d vector
-	var target_velocity : Vector3 = Vector3(input_vector.x, 0.0, input_vector.y) * get_movement_params().max_speed;
+	var target_local_velocity : Vector3 = Vector3(input_vector.x, 0.0, input_vector.y) * get_movement_params().max_speed;
 	# Apply the camera's rotation to the target velocity
-	target_velocity = target_velocity.rotated(Vector3.UP, get_viewport().get_camera_3d().global_rotation.y);
-	velocity.x = move_toward(velocity.x, target_velocity.x, accel_amount * get_physics_process_delta_time());
-	velocity.z = move_toward(velocity.z, target_velocity.z, accel_amount * get_physics_process_delta_time());
+	target_local_velocity = target_local_velocity.rotated(Vector3.UP, $CameraPivot.rotation.y);
+	local_velocity.x = move_toward(local_velocity.x, target_local_velocity.x, accel_amount * get_physics_process_delta_time());
+	local_velocity.z = move_toward(local_velocity.z, target_local_velocity.z, accel_amount * get_physics_process_delta_time());
 	
 	# Flip her around if needed
 	if (input_vector.x > 0.1 && facing_left) || (input_vector.x < -0.1 && !facing_left):
@@ -113,11 +107,11 @@ func process_jump() -> void:
 	if is_on_floor():
 		coyote_time = get_movement_params().coyote_time_secs;
 	elif !Input.is_action_pressed("jump"):
-		velocity.y = move_toward(velocity.y, 0.0,\
+		local_velocity.y = move_toward(local_velocity.y, 0.0,\
 		get_movement_params().decel_when_no_jump_key * get_physics_process_delta_time());
 	
 	if coyote_time > 0.0 && jump_buffer > 0.0:
-		velocity.y = get_movement_params().jump_force;
+		local_velocity.y = get_movement_params().jump_force;
 		squash(jump_stretch, jump_stretch_time);
 		jump_buffer = 0.0;
 		coyote_time = 0.0;
@@ -125,18 +119,18 @@ func process_jump() -> void:
 
 func process_collisions() -> void:
 	if get_slide_collision_count() > 0:
-		if last_velocity.y - velocity.y < -2.0:
+		if last_local_velocity.y - local_velocity.y < -2.0:
 			squash(land_squash, land_squash_time);
 			landed.emit();
 
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 func update_animation() -> void:
 	if is_on_floor():
-		if velocity.length() < 0.01:
+		if local_velocity.length() < 0.01:
 			anim_player.speed_scale = 1.0;
 			anim_player.play("Idle_B" if facing_back else "Idle");
 		else:
-			anim_player.speed_scale = velocity.length() / get_movement_params().max_speed;
+			anim_player.speed_scale = local_velocity.length() / get_movement_params().max_speed;
 			anim_player.play("Walk_B" if facing_back else "Walk");
 	else:
 		if velocity.y > 0.0:

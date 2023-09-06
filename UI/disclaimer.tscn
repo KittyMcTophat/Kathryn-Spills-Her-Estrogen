@@ -37,19 +37,21 @@ color = Color(1, 0.807843, 1, 1)
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.9
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.95
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 28
 text = "This is an autobiographical game based on a true story.
 (The true story is that one time I dropped an estrogen pill and I had to pick it up)
 
-I was originally going to make this game for last year's Trans Representation Jam, but I lost track of time and didn't finish it. So, I decided to finish it for this year's jam. My hair doesn't even look like that anymore, but I didn't want to redo the sprite.
+I was originally going to make this game for last year's Trans Representation Jam, but I lost track of time and didn't finish it. So, I decided to work on it for a year, then finish it for this year's jam. My hair doesn't even look like that anymore, but I didn't want to redo the sprite.
 
-The game contains a few instances of profanity, so if you don't like swearing, maybe skip it.
+The game contains moderate profanity, so if you don't like swearing, maybe skip it.
+
+Also the camera might make you a bit motion sick if you're sensitive to that kind of thing, so be warned.
 
 [Press Space/Enter/'A' Button to continue]"
 horizontal_alignment = 1
