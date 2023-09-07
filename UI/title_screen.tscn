@@ -1,14 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://batba6ymaw1ng"]
 
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_u8ryc"]
 [ext_resource type="Texture2D" uid="uid://c3qehkdujeyy8" path="res://Objects/Misc/Title Screen Pill Bottle.png" id="3_m408l"]
 [ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="4_nf6i0"]
-
-[sub_resource type="GDScript" id="GDScript_63s74"]
-script/source = "extends Node
-
-func _ready():
-	Global.ui_control.hide();
-"
 
 [sub_resource type="GDScript" id="GDScript_xendh"]
 script/source = "extends Button
@@ -24,7 +18,9 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2
 point_count = 3
 
 [node name="Title Screen" type="Node"]
-script = SubResource("GDScript_63s74")
+script = ExtResource("1_u8ryc")
+show_ui = false
+set_gravity = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1

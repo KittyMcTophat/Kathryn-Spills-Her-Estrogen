@@ -1,14 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://bgiob4utycwfl"]
 
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_v4yab"]
 [ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="2_d46i0"]
 [ext_resource type="PackedScene" uid="uid://batba6ymaw1ng" path="res://UI/title_screen.tscn" id="3_hj573"]
-
-[sub_resource type="GDScript" id="GDScript_wf134"]
-script/source = "extends Control
-
-func _ready():
-	Global.ui_control.hide();
-"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4jc8t"]
 atlas = ExtResource("2_d46i0")
@@ -36,7 +30,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("GDScript_wf134")
+script = ExtResource("1_v4yab")
+show_ui = false
+set_gravity = false
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

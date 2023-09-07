@@ -12,12 +12,17 @@ class_name Actor
 
 var gravity_scale : float = 1.0;
 var gravity : Vector3 = Vector3.ZERO;
+
+var _cached_velocity : Vector3 = Vector3.ZERO;
 var local_velocity : Vector3 = Vector3.ZERO:
 	set(value):
 		velocity = global_transform.basis * value;
+		_cached_velocity = velocity;
 		local_velocity = value;
 	get:
-		local_velocity = global_transform.basis.transposed() * velocity;
+		if _cached_velocity != velocity:
+			_cached_velocity = velocity;
+			local_velocity = global_transform.basis.transposed() * velocity;
 		return local_velocity;
 
 func _physics_process(delta : float):
