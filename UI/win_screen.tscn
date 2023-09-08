@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7841yf1yqi4y"]
+[gd_scene load_steps=3 format=3 uid="uid://c7841yf1yqi4y"]
 
-[ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_2v0dy"]
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_bipxk"]
 
 [sub_resource type="GDScript" id="GDScript_t3orx"]
@@ -42,10 +41,6 @@ anchor_bottom = 0.9
 [node name="Label" type="RichTextLabel" parent="CenterContainer"]
 editor_description = "Since no one's gonna read this, I'd just like to say that the true story it's based on is that one time I dropped a single estrogen pill on the floor."
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0.6, 0.215686, 0.6, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/normal_font = ExtResource("1_2v0dy")
-theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
 text = "[center]You Win!
 
@@ -54,7 +49,7 @@ text = "[center]You Win!
 [url=https://procymbopteryx.itch.io/][u][color=lightblue]Procymbopteryx[/color][/u][/url] - Music
 
 Using the Godot Game Engine ([url=https://godotengine.org/license/][u][color=lightblue]License[/color][/u][/url])
-Using the Font \"IndieFlower\" by Kimberly Geswein ([url=https://scripts.sil.org/OFL][u][color=lightblue]License[/color][/u][/url])"
+Using the Font \"Hey Comic\" by Khurasan"
 fit_content = true
 autowrap_mode = 0
 script = SubResource("GDScript_t3orx")

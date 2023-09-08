@@ -91,8 +91,9 @@ grow_vertical = 2
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 48
 text = "
-Kathryn Spills Her Estrogen All Over The Place
-And Now She Has To Pick It Up"
+Kathryn Spills Her Estrogen
+All Over The Place And Now
+She Has To Pick It Up"
 horizontal_alignment = 1
 vertical_alignment = 1
 

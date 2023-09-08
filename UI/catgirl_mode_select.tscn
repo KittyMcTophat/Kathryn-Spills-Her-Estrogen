@@ -59,8 +59,9 @@ layout_mode = 2
 size_flags_vertical = 10
 size_flags_stretch_ratio = 0.4
 theme_override_font_sizes/font_size = 32
-text = "This game supports both catgirl mode and the inferior normal mode.
-Which mode would you prefer?
+text = "This game supports both catgirl mode
+and the inferior normal mode.
+Which would you prefer?
 (This can not be changed later)"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://d1iijmc5ntu0a"
-path="res://.godot/imported/IndieFlower-Regular.ttf-9e3d1ab06efa3572aa947b2160161792.fontdata"
+uid="uid://cy3qd3g1repxw"
+path="res://.godot/imported/Hey Comic.ttf-e70c03f19957b970a3ca125e1c79a7de.fontdata"
 
 [deps]
 
-source_file="res://Fonts/Indie Flower/IndieFlower-Regular.ttf"
-dest_files=["res://.godot/imported/IndieFlower-Regular.ttf-9e3d1ab06efa3572aa947b2160161792.fontdata"]
+source_file="res://Fonts/Hey Comic.ttf"
+dest_files=["res://.godot/imported/Hey Comic.ttf-e70c03f19957b970a3ca125e1c79a7de.fontdata"]
 
 [params]
 

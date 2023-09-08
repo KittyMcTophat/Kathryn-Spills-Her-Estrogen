@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://dbl631ri3d5bb"]
+[gd_scene load_steps=45 format=3 uid="uid://dbl631ri3d5bb"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_707yu"]
 [ext_resource type="Script" path="res://UI/Textbox/Dialogue.gd" id="1_why4g"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Objects/Misc/KillPlane.gd" id="3_gpt1a"]
 [ext_resource type="PackedScene" uid="uid://4cnl51ssv2ru" path="res://Objects/Estrogen/estrogen.tscn" id="4_o1ltq"]
 [ext_resource type="Script" path="res://Objects/Interactable/InteractionArea.gd" id="8_1cbdd"]
+[ext_resource type="FontFile" uid="uid://cy3qd3g1repxw" path="res://Fonts/Hey Comic.ttf" id="8_23xan"]
 [ext_resource type="Script" path="res://Objects/Estrogen/EstrogenTracker.gd" id="8_aornh"]
 [ext_resource type="Texture2D" uid="uid://de5vf4in3bgcj" path="res://Objects/Misc/Sign.png" id="8_hgnu0"]
 [ext_resource type="Texture2D" uid="uid://btsavxgwpf24j" path="res://Objects/Misc/Exclamation Mark.png" id="8_mlxx5"]
@@ -21,10 +22,10 @@ Oh shit!", "Kathryn:
 I spilled my estrogen all over the place!", "Kathryn:
 Now I have to pick it up!", "Kathryn:
 Also I ended up in [wave][rainbow]space[/rainbow][/wave] somehow?!", "Kathryn:
-...There's a lot more garbage in space than I thought.", "Kathryn:
-...
+There's a lot more garbage in space than I thought.", "Kathryn:
+...", "Kathryn:
 I'm gonna have to figure out how to get home later.", "Kathryn:
-For now I'll  just focus on picking up all my estrogen..."])
+For now I'll just focus on picking up all my estrogen..."])
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_a22qd"]
 
@@ -35,6 +36,7 @@ albedo_color = Color(0.239216, 0.239216, 0.239216, 1)
 text = "Use the Right Stick
 or Arrow Keys
 to rotate the camera"
+font = ExtResource("8_23xan")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wxcxf"]
 render_priority = -1
@@ -55,11 +57,13 @@ billboard_mode = 2
 text = "Use the Left Stick
 or WASD Keys
 to move"
+font = ExtResource("8_23xan")
 
 [sub_resource type="TextMesh" id="TextMesh_gy4ur"]
 text = "Use Space or
 the A Button
 To jump"
+font = ExtResource("8_23xan")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_y2dbf"]
 height = 0.2
@@ -154,6 +158,7 @@ albedo_color = Color(1, 1, 0.619608, 1)
 text = "Use E or the X Button
 Near things you want to
 Interact with"
+font = ExtResource("8_23xan")
 
 [sub_resource type="QuadMesh" id="QuadMesh_mbb60"]
 size = Vector2(0.32, 0.32)
@@ -185,7 +190,7 @@ script = ExtResource("1_why4g")
 text_sequence = Array[String](["Sign:
 WARNING!", "Sign:
 Due to inflation, this planet has had to reduce the radius of its gravity to maintain profitablility.", "Sign:
-[color=red]You can walk all over it[/color], but [color=red]you'll probably fall off if you jump[/color].", "Kathryn:
+[color=light_coral]You can walk all over it[/color], but [color=light_coral]you'll probably fall off if you jump[/color].", "Kathryn:
 That's...", "Kathryn:
 That's not how inflation works...", "Kathryn:
 Or gravity...", "Sign:

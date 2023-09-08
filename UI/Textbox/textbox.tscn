@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dr8d1d76xmq5n"]
+[gd_scene load_steps=6 format=3 uid="uid://dr8d1d76xmq5n"]
 
 [ext_resource type="Script" path="res://UI/Textbox/Textbox.gd" id="1_02s53"]
-[ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="2_rrpee"]
 
 [sub_resource type="Animation" id="Animation_lryhe"]
 resource_name = "Hide"
@@ -138,10 +137,6 @@ theme_override_constants/margin_bottom = 8
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/normal_font = ExtResource("2_rrpee")
-theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
 text = "Kathryn:
 This is a test for text wrapping. Pooooooooooooooooooooooooooooooooooooooooooop"

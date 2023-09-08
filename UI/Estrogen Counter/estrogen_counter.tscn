@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://UI/Estrogen Counter/EstrogenCounter.gd" id="1_y71k7"]
 [ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="2_7luba"]
 
-[node name="estrogen_counter" type="MarginContainer"]
+[node name="EstrogenCounter" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
