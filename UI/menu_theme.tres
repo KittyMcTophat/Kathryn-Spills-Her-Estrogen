@@ -1,6 +1,13 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://f1cl6sb35fhk"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://f1cl6sb35fhk"]
 
 [ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_5cg2y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8cilm"]
+bg_color = Color(0.9, 0.594, 0.9, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yrq1t"]
 bg_color = Color(0.996094, 0.65625, 0.996094, 1)
@@ -10,6 +17,13 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 0, 1, 0.12549)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axoy4"]
+bg_color = Color(1, 0.6, 1, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
@@ -76,7 +90,9 @@ Button/colors/font_pressed_color = Color(1, 1, 1, 1)
 Button/constants/outline_size = 4
 Button/font_sizes/font_size = 24
 Button/fonts/font = ExtResource("1_5cg2y")
+Button/styles/disabled = SubResource("StyleBoxFlat_8cilm")
 Button/styles/focus = SubResource("StyleBoxFlat_yrq1t")
+Button/styles/hover = SubResource("StyleBoxFlat_axoy4")
 Button/styles/normal = SubResource("StyleBoxFlat_lvqbt")
 Button/styles/pressed = SubResource("StyleBoxFlat_8jfv4")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_f08j3")

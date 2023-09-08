@@ -1,6 +1,6 @@
 extends Node
 
-var catgirl_mode : bool = true;
+var costume : int = 1;
 var allow_pause : bool = true;
 
 var estrogen_counter : EstrogenCounter = null;
@@ -37,6 +37,7 @@ func _ready() -> void:
 	fade_color_rect.color = Color.TRANSPARENT;
 	ui_canvas_layer.add_child(fade_color_rect);
 	fade_color_rect.set_anchors_preset(Control.PRESET_FULL_RECT, true);
+	fade_color_rect.visible = false;
 	
 	randomize();
 
@@ -56,9 +57,11 @@ func function_call_with_fade(function : Callable, fade_color : Color = Color("#f
 	# Sets the color to a transparent version of the fade color
 	# So that only the alpha property changes in the tween
 	fade_color_rect.color = Color(fade_color, 0.0);
+	fade_color_rect.visible = true;
 	
 	var fade_in_tween : Tween = create_tween();
 	fade_in_tween.tween_property(fade_color_rect, "color", fade_color, time / 2.0);
+	
 	await fade_in_tween.finished;
 	
 	if reset_estrogen:
@@ -71,7 +74,10 @@ func function_call_with_fade(function : Callable, fade_color : Color = Color("#f
 	
 	var fade_out_tween : Tween = create_tween();
 	fade_out_tween.tween_property(fade_color_rect, "color", Color(fade_color, 0.0), time / 2.0);
+	
 	await fade_out_tween.finished;
+	
+	fade_color_rect.visible = false;
 
 func pause_stuff() -> void:
 	allow_pause = false;

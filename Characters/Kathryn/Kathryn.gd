@@ -19,7 +19,6 @@ var facing_back : bool = false;
 
 @export var death_reset_time : float = 1.0;
 
-var last_local_velocity : Vector3 = Vector3.ZERO;
 func _physics_process(delta : float) -> void:
 	# Return if no movement parameters are available
 	if get_movement_params() == null:
@@ -34,7 +33,6 @@ func _physics_process(delta : float) -> void:
 	process_h_movement();
 	process_jump();
 	
-	last_local_velocity = local_velocity;
 	process_collisions();
 	
 	# Process visuals
@@ -109,11 +107,21 @@ func process_jump() -> void:
 		coyote_time = 0.0;
 		jumped.emit();
 
+var was_on_floor_last_check : bool = true;
+#var last_local_velocity : Vector3 = Vector3.ZERO;
 func process_collisions() -> void:
-	if get_slide_collision_count() > 0:
-		if last_local_velocity.y - local_velocity.y < -2.0:
-			squash(land_squash, land_squash_time);
-			landed.emit();
+	#last_local_velocity = local_velocity;
+	
+	#if get_slide_collision_count() > 0:
+	#	if last_local_velocity.y - local_velocity.y < -2.0:
+	#		squash(land_squash, land_squash_time);
+	#		landed.emit();
+
+	if is_on_floor() && !was_on_floor_last_check:
+		squash(land_squash, land_squash_time);
+		landed.emit();
+	
+	was_on_floor_last_check = is_on_floor();
 
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 func update_animation() -> void:
@@ -145,6 +153,7 @@ func die():
 	Global.allow_pause = false;
 	enable_movement = false;
 	visible = false;
+	$DeathSound.play();
 	
 	var num_corpses : int = 1;
 	while (randi() % 10 != 0):

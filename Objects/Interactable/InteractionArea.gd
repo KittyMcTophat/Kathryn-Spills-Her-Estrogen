@@ -22,7 +22,7 @@ func set_indicator_visibility(value : bool) -> void:
 		return;
 	interactable_indicator.visible = value;
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("interact") && is_interactable():
 		interacted.emit();
 

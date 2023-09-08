@@ -1,19 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://blqanbiqey8vc"]
+[gd_scene load_steps=4 format=3 uid="uid://blqanbiqey8vc"]
 
-[ext_resource type="PackedScene" uid="uid://bgiob4utycwfl" path="res://UI/catgirl_mode_select.tscn" id="1_nlo1h"]
-
-[sub_resource type="GDScript" id="GDScript_gqc71"]
-script/source = "extends Control
-
-@export var next_scene : PackedScene = null;
-
-func _ready():
-	Global.ui_control.hide();
-
-func _process(_delta):
-	if Input.is_action_just_pressed(\"ui_accept\"):
-		Global.fade_to_scene(next_scene);
-"
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_pu2qf"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="2_ahmg3"]
+[ext_resource type="Script" path="res://Objects/Misc/InputSignaler.gd" id="2_r3agk"]
 
 [node name="Disclaimer" type="Control"]
 layout_mode = 3
@@ -22,8 +11,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("GDScript_gqc71")
-next_scene = ExtResource("1_nlo1h")
+script = ExtResource("1_pu2qf")
+show_ui = false
+allow_pause = false
+set_gravity = false
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -47,7 +38,7 @@ theme_override_font_sizes/font_size = 28
 text = "This is an autobiographical game based on a true story.
 (The true story is that one time I dropped an estrogen pill and I had to pick it up)
 
-I was originally going to make this game for last year's Trans Representation Jam, but I lost track of time and didn't finish it. So, I decided to work on it for a year, then finish it for this year's jam.
+I was originally going to make this game for the 2023 Trans Representation Jam, but I lost track of time and didn't finish it. So, I decided to work on it for a year, then finish it for the 2024 jam.
 
 The game contains a fair amount of profanity, so if you don't like swearing, maybe skip it.
 
@@ -57,3 +48,13 @@ Also the camera might make you a bit motion sick if you're sensitive to that kin
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
+
+[node name="SceneLoader" type="Node" parent="."]
+script = ExtResource("2_ahmg3")
+next_scene = "res://UI/catgirl_mode_select.tscn"
+
+[node name="InputSignaler" type="Node" parent="."]
+script = ExtResource("2_r3agk")
+input = "ui_accept"
+
+[connection signal="input_pressed" from="InputSignaler" to="SceneLoader" method="change_scene"]

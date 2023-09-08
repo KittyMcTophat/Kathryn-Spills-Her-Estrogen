@@ -6,10 +6,17 @@ class_name PointAtCamera
 func _physics_process(_delta):
 	if (get_viewport().get_camera_3d() == null):
 		return;
+	if ((get_viewport().get_camera_3d().global_position - global_position).normalized()\
+		== get_parent_node_3d().global_transform.basis.y.normalized()):
+		return
 	look_at(get_viewport().get_camera_3d().global_position, get_parent_node_3d().global_transform.basis.y);
+	
+	var _scale : Vector3 = scale;
 	
 	transform.basis.y = Vector3.UP;
 	transform.basis.x = -transform.basis.z.cross(transform.basis.y);
 	transform.basis = transform.basis.orthonormalized();
 	
 	rotation += extra_rotation + Vector3(0.0, PI, 0.0);
+	
+	scale = _scale;

@@ -27,8 +27,7 @@ func unpause(instant : bool = false):
 	
 	# Unfocus any button that may be selected
 	# Avoids letting the user press buttons during the hide animation
-	grab_focus();
-	release_focus();
+	get_viewport().gui_get_focus_owner().release_focus();
 	
 	$AnimationPlayer.play("Hide");
 	if instant:

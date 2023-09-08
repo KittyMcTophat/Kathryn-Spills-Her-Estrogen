@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_v4yab"]
 [ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="2_d46i0"]
-[ext_resource type="PackedScene" uid="uid://batba6ymaw1ng" path="res://UI/title_screen.tscn" id="3_hj573"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="4_p545t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4jc8t"]
 atlas = ExtResource("2_d46i0")
@@ -11,12 +11,13 @@ region = Rect2(52, 0, 52, 86)
 [sub_resource type="GDScript" id="GDScript_dimbb"]
 script/source = "extends Button
 
-@export var is_catgirl_button : bool = true;
-@export var next_scene : PackedScene = null;
+signal costume_set();
+
+@export var costume : int = 0;
 
 func _pressed():
-	Global.catgirl_mode = is_catgirl_button;
-	Global.fade_to_scene(next_scene);
+	Global.costume = costume;
+	costume_set.emit();
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bwsn5"]
@@ -32,6 +33,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v4yab")
 show_ui = false
+allow_pause = false
 set_gravity = false
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -86,7 +88,7 @@ layout_mode = 2
 size_flags_vertical = 2
 text = "Catgirl Mode"
 script = SubResource("GDScript_dimbb")
-next_scene = ExtResource("3_hj573")
+costume = 1
 
 [node name="Normal Mode" type="VBoxContainer" parent="ColorRect/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -106,8 +108,6 @@ layout_mode = 2
 size_flags_vertical = 2
 text = "Normal Mode"
 script = SubResource("GDScript_dimbb")
-is_catgirl_button = false
-next_scene = ExtResource("3_hj573")
 
 [node name="Label2" type="Label" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
@@ -120,4 +120,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
+[node name="SceneLoader" type="Node" parent="."]
+script = ExtResource("4_p545t")
+next_scene = "res://UI/title_screen.tscn"
+
+[connection signal="costume_set" from="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button" to="SceneLoader" method="change_scene"]
 [connection signal="ready" from="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button" to="ColorRect/VBoxContainer/HBoxContainer/Catgirl Mode/Button" method="grab_focus"]
+[connection signal="costume_set" from="ColorRect/VBoxContainer/HBoxContainer/Normal Mode/Button" to="SceneLoader" method="change_scene"]

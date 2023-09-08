@@ -1,17 +1,48 @@
-[gd_scene load_steps=6 format=3 uid="uid://batba6ymaw1ng"]
+[gd_scene load_steps=10 format=3 uid="uid://batba6ymaw1ng"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_u8ryc"]
+[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_024da"]
 [ext_resource type="Texture2D" uid="uid://c3qehkdujeyy8" path="res://Objects/Misc/Title Screen Pill Bottle.png" id="3_m408l"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="3_v5grg"]
 [ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="4_nf6i0"]
 
-[sub_resource type="GDScript" id="GDScript_xendh"]
-script/source = "extends Button
+[sub_resource type="Animation" id="Animation_pbqob"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
-@export_file(\"*.tscn\") var next_scene : String = \"\";
+[sub_resource type="Animation" id="Animation_7fljg"]
+resource_name = "Spin"
+length = 60.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 60),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
 
-func _pressed():
-	Global.fade_to_scene_path(next_scene);
-"
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4yct7"]
+_data = {
+"RESET": SubResource("Animation_pbqob"),
+"Spin": SubResource("Animation_7fljg")
+}
 
 [sub_resource type="Curve" id="Curve_b3rtj"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -20,18 +51,21 @@ point_count = 3
 [node name="Title Screen" type="Node"]
 script = ExtResource("1_u8ryc")
 show_ui = false
+allow_pause = false
 set_gravity = false
+
+[node name="Environment" parent="." instance=ExtResource("2_024da")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D"]
+autoplay = "Spin"
+libraries = {
+"": SubResource("AnimationLibrary_4yct7")
+}
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 0.807843, 1, 1)
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -80,7 +114,9 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_vertical = 6
 text = "Start"
-script = SubResource("GDScript_xendh")
+
+[node name="SceneLoader" type="Node" parent="CanvasLayer/Control/VBoxContainer/Button"]
+script = ExtResource("3_v5grg")
 next_scene = "res://Levels/level0.tscn"
 
 [node name="Button2" type="Button" parent="CanvasLayer/Control/VBoxContainer"]
@@ -151,4 +187,5 @@ angle_min = -180.0
 angle_max = 180.0
 scale_amount_curve = SubResource("Curve_b3rtj")
 
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/Button" to="CanvasLayer/Control/VBoxContainer/Button/SceneLoader" method="change_scene"]
 [connection signal="ready" from="CanvasLayer/Control/VBoxContainer/Button" to="CanvasLayer/Control/VBoxContainer/Button" method="grab_focus"]

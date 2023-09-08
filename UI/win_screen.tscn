@@ -1,13 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7841yf1yqi4y"]
 
 [ext_resource type="FontFile" uid="uid://d1iijmc5ntu0a" path="res://Fonts/Indie Flower/IndieFlower-Regular.ttf" id="1_2v0dy"]
-
-[sub_resource type="GDScript" id="GDScript_4l7v0"]
-script/source = "extends Control
-
-func _ready():
-	Global.queue_free();
-"
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_bipxk"]
 
 [sub_resource type="GDScript" id="GDScript_t3orx"]
 script/source = "extends RichTextLabel
@@ -23,7 +17,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("GDScript_4l7v0")
+script = ExtResource("1_bipxk")
+show_ui = false
+allow_pause = false
+set_gravity = false
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

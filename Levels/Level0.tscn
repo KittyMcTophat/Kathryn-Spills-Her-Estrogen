@@ -1,52 +1,18 @@
-[gd_scene load_steps=51 format=3 uid="uid://dbl631ri3d5bb"]
+[gd_scene load_steps=44 format=3 uid="uid://dbl631ri3d5bb"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_707yu"]
 [ext_resource type="Script" path="res://UI/Textbox/Dialogue.gd" id="1_why4g"]
+[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_3mh56"]
 [ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/kathryn.tscn" id="2_p423e"]
 [ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="2_y7eg0"]
 [ext_resource type="Script" path="res://Objects/Misc/KillPlane.gd" id="3_gpt1a"]
 [ext_resource type="PackedScene" uid="uid://4cnl51ssv2ru" path="res://Objects/Estrogen/estrogen.tscn" id="4_o1ltq"]
-[ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="5_ilxiv"]
 [ext_resource type="Script" path="res://Objects/Interactable/InteractionArea.gd" id="8_1cbdd"]
 [ext_resource type="Script" path="res://Objects/Estrogen/EstrogenTracker.gd" id="8_aornh"]
 [ext_resource type="Texture2D" uid="uid://de5vf4in3bgcj" path="res://Objects/Misc/Sign.png" id="8_hgnu0"]
 [ext_resource type="Texture2D" uid="uid://btsavxgwpf24j" path="res://Objects/Misc/Exclamation Mark.png" id="8_mlxx5"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="9_ituuc"]
 [ext_resource type="AudioStream" uid="uid://dbvk450jdn6g6" path="res://Objects/Misc/Sign Explode.wav" id="11_a21pi"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_83jgh"]
-sky_horizon_color = Color(0.64625, 0.655657, 0.670833, 1)
-ground_bottom_color = Color(0.2, 0.168627, 0.133333, 1)
-ground_horizon_color = Color(0.64625, 0.655657, 0.670833, 1)
-
-[sub_resource type="Sky" id="Sky_nyokh"]
-sky_material = SubResource("ProceduralSkyMaterial_83jgh")
-
-[sub_resource type="Environment" id="Environment_h5khh"]
-background_mode = 1
-background_color = Color(0.160784, 0, 0.160784, 1)
-sky = SubResource("Sky_nyokh")
-ambient_light_source = 2
-ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.25
-tonemap_mode = 2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ndapj"]
-shading_mode = 0
-
-[sub_resource type="SphereMesh" id="SphereMesh_uom1i"]
-material = SubResource("StandardMaterial3D_ndapj")
-radius = 0.25
-height = 0.5
-radial_segments = 4
-rings = 1
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vlhs5"]
-shading_mode = 0
-albedo_color = Color(1, 1, 0.784314, 1)
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_ctdqj"]
-radius = 6.0
 
 [sub_resource type="Resource" id="Resource_fw658"]
 script = ExtResource("1_why4g")
@@ -75,6 +41,7 @@ render_priority = -1
 cull_mode = 1
 shading_mode = 0
 albedo_color = Color(0, 0, 0, 1)
+billboard_mode = 2
 grow = true
 grow_amount = 0.01
 
@@ -82,6 +49,7 @@ grow_amount = 0.01
 next_pass = SubResource("StandardMaterial3D_wxcxf")
 cull_mode = 1
 shading_mode = 0
+billboard_mode = 2
 
 [sub_resource type="TextMesh" id="TextMesh_ksok2"]
 text = "Use the Left Stick
@@ -217,7 +185,7 @@ script = ExtResource("1_why4g")
 text_sequence = Array[String](["Sign:
 WARNING!", "Sign:
 Due to inflation, this planet has had to reduce the radius of its gravity to maintain profitablility.", "Sign:
-You'll probably just fall right off if you jump.", "Kathryn:
+[color=red]You can walk all over it[/color], but [color=red]you'll probably fall off if you jump[/color].", "Kathryn:
 That's...", "Kathryn:
 That's not how inflation works...", "Kathryn:
 Or gravity...", "Sign:
@@ -253,70 +221,9 @@ I guess I'll go look in another nearby part of space...", "THIS IS THE ONLY LEVE
 [node name="Level0" type="Node3D"]
 script = ExtResource("1_707yu")
 
-[node name="Environment" type="Node" parent="."]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
-environment = SubResource("Environment_h5khh")
-
-[node name="Stars" type="CPUParticles3D" parent="Environment"]
-amount = 1024
-lifetime = 30.0
-preprocess = 30.0
-randomness = 0.5
-mesh = SubResource("SphereMesh_uom1i")
-emission_shape = 2
-emission_sphere_radius = 100.0
-gravity = Vector3(0, 0, 0)
-scale_amount_min = 0.5
-
-[node name="Moon" type="CSGSphere3D" parent="Environment"]
-transform = Transform3D(0.965926, -0.0990458, 0.239118, 0, 0.92388, 0.382683, -0.258819, -0.369644, 0.892399, 10, 30, 60)
-use_collision = true
-collision_mask = 0
-radius = 4.0
-radial_segments = 16
-rings = 8
-smooth_faces = false
-material = SubResource("StandardMaterial3D_vlhs5")
-
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Environment/Moon"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -3, 0, 0)
-operation = 2
-radius = 4.0
-height = 8.0
-sides = 16
-material = SubResource("StandardMaterial3D_vlhs5")
-
-[node name="GravityArea" type="Area3D" parent="Environment/Moon"]
-collision_layer = 0
-collision_mask = 2
-gravity_space_override = 3
-gravity_point = true
-gravity_point_center = Vector3(0, 0, 0)
-gravity_direction = Vector3(0, 0, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Moon/GravityArea"]
-shape = SubResource("SphereShape3D_ctdqj")
-
-[node name="DirectionalLights" type="Node3D" parent="Environment"]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment/DirectionalLights"]
-transform = Transform3D(0.965926, -0.0990458, 0.239118, 0, 0.923879, 0.382684, -0.258819, -0.369644, 0.892399, 0, 0, 0)
-light_energy = 0.5
-sky_mode = 1
-
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="Environment/DirectionalLights"]
-transform = Transform3D(0.258819, 0.369644, -0.892399, 0, 0.92388, 0.382683, 0.965926, -0.0990458, 0.239118, 0, 0, 0)
-light_energy = 0.1
-sky_mode = 1
-
-[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="Environment/DirectionalLights"]
-transform = Transform3D(-0.965926, 0.0990458, -0.239118, 0, 0.92388, 0.382683, 0.258819, 0.369644, -0.892399, 0, 0, 0)
-light_energy = 0.05
-sky_mode = 1
+[node name="Environment" parent="." instance=ExtResource("2_3mh56")]
 
 [node name="Kathryn" parent="." instance=ExtResource("2_p423e")]
-transform = Transform3D(1, 0, 1.49012e-08, 0, 1, 0, 1.49012e-08, -8.9407e-08, 1, 0, 0, 0)
 
 [node name="StartingDialogue" type="Node" parent="."]
 script = ExtResource("2_y7eg0")
@@ -378,28 +285,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
 mesh = SubResource("TextMesh_eawjt")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
-script = ExtResource("5_ilxiv")
 
 [node name="TutorialText2" type="MeshInstance3D" parent="StartingCircle"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3, 2, -1.04308e-07)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, -1.04308e-07)
 mesh = SubResource("TextMesh_ksok2")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
-script = ExtResource("5_ilxiv")
 
 [node name="TutorialText2 - Copy" type="MeshInstance3D" parent="StartingCircle"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3, 2, -1.04308e-07)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, -1.04308e-07)
 mesh = SubResource("TextMesh_ksok2")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
-script = ExtResource("5_ilxiv")
 
 [node name="TutorialText3" type="MeshInstance3D" parent="StartingCircle"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
 mesh = SubResource("TextMesh_gy4ur")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
-script = ExtResource("5_ilxiv")
 
 [node name="Bridge" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5)
@@ -596,7 +499,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 mesh = SubResource("TextMesh_rb4cq")
 skeleton = NodePath("../../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
-script = ExtResource("5_ilxiv")
 
 [node name="InteractableIndicator" type="MeshInstance3D" parent="EndPlanet/CSGSphere3D/Sign"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
