@@ -45,10 +45,10 @@ bbcode_enabled = true
 text = "[center]You Win!
 
 - CREDITS -
-[url=https://kitty-mctophat.itch.io/][u][color=lightblue]Kathryn \"Kitty\" McTophat[/color][/u][/url] ([img]res://UI/Common/Trans Flag.png[/img]) - Level Design, Art, Programming, Writing
-[url=https://procymbopteryx.itch.io/][u][color=lightblue]Procymbopteryx[/color][/u][/url] - Music
+[url=https://kitty-mctophat.itch.io/][color=lightblue]Kathryn \"Kitty\" McTophat[/color][/url] ([img]res://UI/Common/Trans Flag.png[/img]) - Level Design, Art, Programming, Writing
+[url=https://procymbopteryx.itch.io/][color=lightblue]Procymbopteryx[/color][/url] - Music
 
-Using the Godot Game Engine ([url=https://godotengine.org/license/][u][color=lightblue]License[/color][/u][/url])
+Using the Godot Game Engine ([url=https://godotengine.org/license/][color=lightblue]License[/color][/url])
 Using the Font \"Hey Comic\" by Khurasan"
 fit_content = true
 autowrap_mode = 0

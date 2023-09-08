@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="1_pnhlu"]
 [ext_resource type="Script" path="res://Characters/Kathryn/MovementParams.gd" id="2_oyy2i"]
 [ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="3_x1fad"]
+[ext_resource type="Gradient" uid="uid://du6epc8gtgegy" path="res://Objects/Misc/shadow_gradient.tres" id="5_lewa5"]
 [ext_resource type="Script" path="res://Characters/Kathryn/PlayerCamera.gd" id="5_qgynk"]
 [ext_resource type="AudioStream" uid="uid://dw5rjwtb7bfsq" path="res://Characters/Kathryn/Jump.wav" id="6_bogqc"]
 [ext_resource type="AudioStream" uid="uid://c5alfmd7pxke8" path="res://Characters/Kathryn/Land.wav" id="7_xb86d"]
@@ -67,12 +68,8 @@ func _ready():
 	(get_surface_override_material(0) as StandardMaterial3D).uv1_offset.x = Global.costume * (1.0 / float(num_costumes));
 "
 
-[sub_resource type="Gradient" id="Gradient_ugfvd"]
-interpolation_mode = 1
-colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
-
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_8vosu"]
-gradient = SubResource("Gradient_ugfvd")
+gradient = ExtResource("5_lewa5")
 width = 36
 height = 36
 fill = 1
@@ -90,7 +87,7 @@ tracks/0/path = NodePath("MeshPivot/MeshInstance3D:surface_material_override/0:u
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.1),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
@@ -269,6 +266,15 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_108kv")
 script = SubResource("GDScript_2q6av")
 
+[node name="Drop Shadow" type="Decal" parent="MeshPivot/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.64, 0)
+size = Vector3(0.36, 2, 0.36)
+texture_albedo = SubResource("GradientTexture2D_8vosu")
+albedo_mix = 0.75
+normal_fade = 0.1
+upper_fade = 1e-05
+cull_mask = 1
+
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, -0.04, 0)
 script = ExtResource("5_qgynk")
@@ -283,15 +289,6 @@ spring_length = 2.0
 margin = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
-
-[node name="Drop Shadow" type="Decal" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.05, 0)
-size = Vector3(0.36, 1.5, 0.36)
-texture_albedo = SubResource("GradientTexture2D_8vosu")
-albedo_mix = 0.75
-normal_fade = 0.1
-upper_fade = 1e-05
-cull_mask = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"

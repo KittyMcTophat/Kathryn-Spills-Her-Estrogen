@@ -38,6 +38,13 @@ func _on_restart_button_pressed():
 	
 	Global.fade_and_reload_scene();
 
+func _on_fullscreen_button_pressed():
+	var window_mode = DisplayServer.window_get_mode();
+	if window_mode == DisplayServer.WINDOW_MODE_WINDOWED:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN);
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED);
+
 func set_volume(value : float):
 	var master_volume : int = AudioServer.get_bus_index("Master");
 	AudioServer.set_bus_volume_db(master_volume, linear_to_db(value));
