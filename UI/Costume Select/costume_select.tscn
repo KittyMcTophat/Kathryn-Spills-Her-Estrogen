@@ -1,0 +1,103 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgiob4utycwfl"]
+
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_oi7i4"]
+[ext_resource type="PackedScene" uid="uid://ciqyic0jmmmmy" path="res://UI/Costume Select/costume_choice.tscn" id="2_gspdq"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="8_cwhxg"]
+
+[node name="Catgirl Mode Select" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oi7i4")
+show_ui = false
+allow_pause = false
+set_gravity = false
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.807843, 1, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+size_flags_stretch_ratio = 0.2
+theme_override_font_sizes/font_size = 32
+text = "Select a costume"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+columns = 3
+
+[node name="CostumeChoice" parent="ColorRect/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("2_gspdq")]
+layout_mode = 2
+start_focused = true
+
+[node name="CostumeChoice2" parent="ColorRect/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("2_gspdq")]
+layout_mode = 2
+costume_id = 1
+costume_name = "Evil Kathryn"
+
+[node name="CostumeChoice3" parent="ColorRect/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("2_gspdq")]
+layout_mode = 2
+costume_id = 2
+costume_name = "Eviler Kathryn"
+
+[node name="CostumeChoice4" parent="ColorRect/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("2_gspdq")]
+layout_mode = 2
+costume_id = 3
+costume_name = "Evilest Kathryn"
+
+[node name="CostumeChoice5" parent="ColorRect/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("2_gspdq")]
+layout_mode = 2
+costume_id = 4
+costume_name = "Evilester Kathryn"
+
+[node name="Label2" type="Label" parent="ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.2
+theme_override_font_sizes/font_size = 32
+text = "Change Selection - WASD / Arrow Keys / Left Stick / D-Pad
+Confirm - Space / Enter / 'A' Button"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="SceneLoader" type="Node" parent="."]
+script = ExtResource("8_cwhxg")
+next_scene = "res://UI/title_screen.tscn"
+
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice2" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice3" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice4" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice5" to="SceneLoader" method="change_scene"]

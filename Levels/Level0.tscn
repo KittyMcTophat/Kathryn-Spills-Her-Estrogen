@@ -570,7 +570,7 @@ script = ExtResource("8_aornh")
 
 [node name="SceneLoader" type="Node" parent="EndDialogue"]
 script = ExtResource("9_ituuc")
-next_scene = "res://UI/win_screen.tscn"
+next_scene = "res://UI/credits.tscn"
 
 [connection signal="interacted" from="EndPlanet/CSGSphere3D/Sign/InteractionArea" to="EndPlanet/CSGSphere3D/Sign/DialogueStarter" method="start_dialogue"]
 [connection signal="dialogue_finished" from="EndPlanet/CSGSphere3D/Sign/DialogueStarter" to="EndPlanet/CSGSphere3D/Sign" method="queue_free"]

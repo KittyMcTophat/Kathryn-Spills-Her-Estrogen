@@ -1,9 +1,10 @@
 [gd_scene load_steps=30 format=3 uid="uid://cc868qqaqlf4w"]
 
 [ext_resource type="Script" path="res://Characters/Kathryn/Kathryn.gd" id="1_hnchh"]
-[ext_resource type="Texture2D" uid="uid://dnewahpmbbp6r" path="res://Characters/Kathryn/Kathryn.png" id="1_pnhlu"]
 [ext_resource type="Script" path="res://Characters/Kathryn/MovementParams.gd" id="2_oyy2i"]
 [ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="3_x1fad"]
+[ext_resource type="Texture2D" uid="uid://cpwvq13ci7kqf" path="res://Characters/Kathryn/spritesheet.png" id="4_cjd03"]
+[ext_resource type="Script" path="res://Characters/Kathryn/CostumeLoader.gd" id="5_ldn5f"]
 [ext_resource type="Gradient" uid="uid://du6epc8gtgegy" path="res://Objects/Misc/shadow_gradient.tres" id="5_lewa5"]
 [ext_resource type="Script" path="res://Characters/Kathryn/PlayerCamera.gd" id="5_qgynk"]
 [ext_resource type="AudioStream" uid="uid://dw5rjwtb7bfsq" path="res://Characters/Kathryn/Jump.wav" id="6_bogqc"]
@@ -54,19 +55,9 @@ center_offset = Vector3(0, 0.43, 0)
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
-albedo_texture = ExtResource("1_pnhlu")
-uv1_scale = Vector3(0.5, 0.25, 1)
-uv1_offset = Vector3(0.5, 0, 0)
+albedo_texture = ExtResource("4_cjd03")
+uv1_scale = Vector3(0.2, 0.25, 1)
 texture_filter = 0
-
-[sub_resource type="GDScript" id="GDScript_2q6av"]
-script/source = "extends MeshInstance3D
-
-@export var num_costumes : int = 2;
-
-func _ready():
-	(get_surface_override_material(0) as StandardMaterial3D).uv1_offset.x = Global.costume * (1.0 / float(num_costumes));
-"
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_8vosu"]
 gradient = ExtResource("5_lewa5")
@@ -264,7 +255,7 @@ layers = 2
 mesh = SubResource("QuadMesh_k8fll")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_108kv")
-script = SubResource("GDScript_2q6av")
+script = ExtResource("5_ldn5f")
 
 [node name="Drop Shadow" type="Decal" parent="MeshPivot/MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.64, 0)
@@ -285,7 +276,7 @@ current = true
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
 process_mode = 3
-spring_length = 2.0
+spring_length = 3.0
 margin = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
