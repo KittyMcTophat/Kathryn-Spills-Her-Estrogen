@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtgsifoi3vm56"
-path="res://.godot/imported/costume1.png-42f4c9edb07462a7f2ea811bab2181fc.ctex"
+uid="uid://dc1v6vdtw2m2l"
+path="res://.godot/imported/costume2.png-7d2aff69081ea3393b75fb9fa04aa5dd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Characters/Kathryn/costume1.png"
-dest_files=["res://.godot/imported/costume1.png-42f4c9edb07462a7f2ea811bab2181fc.ctex"]
+source_file="res://Characters/Kathryn/Costumes/costume2.png"
+dest_files=["res://.godot/imported/costume2.png-7d2aff69081ea3393b75fb9fa04aa5dd.ctex"]
 
 [params]
 

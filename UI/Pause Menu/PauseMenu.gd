@@ -40,7 +40,7 @@ func _on_restart_button_pressed():
 
 func _on_fullscreen_button_pressed():
 	var window_mode = DisplayServer.window_get_mode();
-	if window_mode == DisplayServer.WINDOW_MODE_WINDOWED:
+	if window_mode != DisplayServer.WINDOW_MODE_FULLSCREEN:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN);
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED);

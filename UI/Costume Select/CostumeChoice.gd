@@ -26,7 +26,7 @@ func update_texture_rect():
 	if !has_node("%TextureRect"):
 		await ready;
 	var new_tex : AtlasTexture = AtlasTexture.new();
-	new_tex.atlas = load("res://Characters/Kathryn/costume" + str(costume_id) + ".png");
+	new_tex.atlas = load("res://Characters/Kathryn/Costumes/costume" + str(costume_id) + ".png");
 	new_tex.region.size.x = new_tex.atlas.get_size().x;
 	new_tex.region.size.y = new_tex.atlas.get_size().y / 4;
 	

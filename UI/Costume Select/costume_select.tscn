@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgiob4utycwfl"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_oi7i4"]
-[ext_resource type="PackedScene" uid="uid://ciqyic0jmmmmy" path="res://UI/Costume Select/costume_choice.tscn" id="2_gspdq"]
+[ext_resource type="PackedScene" uid="uid://ciqyic0jmmmmy" path="res://UI/Costume Select/costume_button.tscn" id="2_gspdq"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="8_cwhxg"]
 
 [node name="Catgirl Mode Select" type="Control"]
@@ -66,6 +66,16 @@ layout_mode = 2
 costume_id = 1
 costume_name = "Evil Kathryn"
 
+[node name="CostumeChoice7" parent="ColorRect/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("2_gspdq")]
+layout_mode = 2
+costume_id = 6
+costume_name = "Worker #4560897"
+
+[node name="CostumeChoice6" parent="ColorRect/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("2_gspdq")]
+layout_mode = 2
+costume_id = 5
+costume_name = "basketball"
+
 [node name="CostumeChoice3" parent="ColorRect/VBoxContainer/ScrollContainer/GridContainer" instance=ExtResource("2_gspdq")]
 layout_mode = 2
 costume_id = 2
@@ -98,6 +108,8 @@ next_scene = "res://UI/title_screen.tscn"
 
 [connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice" to="SceneLoader" method="change_scene"]
 [connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice2" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice7" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice6" to="SceneLoader" method="change_scene"]
 [connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice3" to="SceneLoader" method="change_scene"]
 [connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice4" to="SceneLoader" method="change_scene"]
 [connection signal="costume_picked" from="ColorRect/VBoxContainer/ScrollContainer/GridContainer/CostumeChoice5" to="SceneLoader" method="change_scene"]

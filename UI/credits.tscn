@@ -31,21 +31,18 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0.807843, 1, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
 anchor_top = 0.1
 anchor_right = 0.9
 anchor_bottom = 0.9
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
 theme_override_constants/separation = 64
 
-[node name="Label" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
-editor_description = "Since no one's gonna read this, I'd just like to say that the true story it's based on is that one time I dropped a single estrogen pill on the floor."
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 10
 bbcode_enabled = true
 text = "[center]- CREDITS -
 [url=https://kitty-mctophat.itch.io/][color=lightblue]Kathryn \"Kitty\" McTophat[/color][/url] ([img]res://UI/Common/Trans Flag.png[/img]) - Level Design, Art, Programming, Writing
@@ -57,16 +54,26 @@ fit_content = true
 autowrap_mode = 0
 script = SubResource("GDScript_t3orx")
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(300, 0)
+[node name="Button" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(300, 48)
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.75
 text = "Back to Title Screen"
 
-[node name="SceneLoader" type="Node" parent="CenterContainer/VBoxContainer/Button"]
+[node name="SceneLoader" type="Node" parent="VBoxContainer/Button"]
 script = ExtResource("2_ip3ji")
 next_scene = "res://UI/title_screen.tscn"
 
-[connection signal="meta_clicked" from="CenterContainer/VBoxContainer/Label" to="CenterContainer/VBoxContainer/Label" method="_on_meta_clicked"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Button" to="CenterContainer/VBoxContainer/Button/SceneLoader" method="change_scene"]
-[connection signal="ready" from="CenterContainer/VBoxContainer/Button" to="CenterContainer/VBoxContainer/Button" method="grab_focus"]
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+
+[connection signal="meta_clicked" from="VBoxContainer/RichTextLabel" to="VBoxContainer/RichTextLabel" method="_on_meta_clicked"]
+[connection signal="pressed" from="VBoxContainer/Button" to="VBoxContainer/Button/SceneLoader" method="change_scene"]
+[connection signal="ready" from="VBoxContainer/Button" to="VBoxContainer/Button" method="grab_focus"]

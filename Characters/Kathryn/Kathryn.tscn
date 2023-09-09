@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Characters/Kathryn/Kathryn.gd" id="1_hnchh"]
 [ext_resource type="Script" path="res://Characters/Kathryn/MovementParams.gd" id="2_oyy2i"]
 [ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="3_x1fad"]
-[ext_resource type="Texture2D" uid="uid://cpwvq13ci7kqf" path="res://Characters/Kathryn/spritesheet.png" id="4_cjd03"]
+[ext_resource type="Texture2D" uid="uid://c0x46ixypn3cx" path="res://Characters/Kathryn/Costumes/costume0.png" id="4_ijx72"]
 [ext_resource type="Script" path="res://Characters/Kathryn/CostumeLoader.gd" id="5_ldn5f"]
 [ext_resource type="Gradient" uid="uid://du6epc8gtgegy" path="res://Objects/Misc/shadow_gradient.tres" id="5_lewa5"]
 [ext_resource type="Script" path="res://Characters/Kathryn/PlayerCamera.gd" id="5_qgynk"]
@@ -55,8 +55,8 @@ center_offset = Vector3(0, 0.43, 0)
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
-albedo_texture = ExtResource("4_cjd03")
-uv1_scale = Vector3(0.2, 0.25, 1)
+albedo_texture = ExtResource("4_ijx72")
+uv1_scale = Vector3(1, 0.25, 1)
 texture_filter = 0
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_8vosu"]
