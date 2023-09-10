@@ -1,20 +1,65 @@
-[gd_scene load_steps=10 format=3 uid="uid://dtmc7o1peaccl"]
+[gd_scene load_steps=15 format=3 uid="uid://dtmc7o1peaccl"]
 
 [ext_resource type="Script" path="res://UI/Pause Menu/PauseMenu.gd" id="2_2eemv"]
 [ext_resource type="Shader" path="res://UI/Pause Menu/Blur.gdshader" id="2_n4q82"]
 [ext_resource type="PackedScene" uid="uid://k2xvlhbhvj0d" path="res://UI/Pause Menu/volume_slider.tscn" id="3_axh5f"]
+[ext_resource type="Script" path="res://UI/Pause Menu/TabContainer.gd" id="3_pit10"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="5_w5307"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nbbnv"]
 shader = ExtResource("2_n4q82")
 shader_parameter/blur = 0.0
 shader_parameter/brightness = 1.0
 
+[sub_resource type="GDScript" id="GDScript_8vvmr"]
+script/source = "extends CheckBox
+
+func _ready():
+	button_pressed = (DisplayServer.window_get_vsync_mode() == DisplayServer.VSYNC_ENABLED);
+
+func _pressed():
+	var mode : int = DisplayServer.window_get_vsync_mode();
+	if mode == DisplayServer.VSYNC_DISABLED:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED);
+	else:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED);
+"
+
+[sub_resource type="GDScript" id="GDScript_atrg2"]
+script/source = "extends CheckBox
+
+func _ready():
+	if !OS.has_feature(\"pc\"):
+		queue_free();
+	Global.window_mode_changed.connect(window_mode_changed);
+
+func window_mode_changed(mode : int):
+	button_pressed = (mode == DisplayServer.WINDOW_MODE_FULLSCREEN);
+
+func _toggled(value : bool):
+	if value:
+		Global.set_window_mode(DisplayServer.WINDOW_MODE_FULLSCREEN);
+	else:
+		Global.set_window_mode(DisplayServer.WINDOW_MODE_WINDOWED);
+"
+
+[sub_resource type="GDScript" id="GDScript_1yx4h"]
+script/source = "extends Button
+
+func _pressed():
+	Global.pause_menu.unpause(true);
+	$SceneLoader.change_scene();
+"
+
 [sub_resource type="GDScript" id="GDScript_j5ihs"]
 script/source = "extends Button
 
 func _ready():
-	if OS.has_feature(\"web\"):
+	if !OS.has_feature(\"pc\"):
 		queue_free();
+
+func _pressed():
+	get_tree().quit();
 "
 
 [sub_resource type="Animation" id="Animation_rvxb1"]
@@ -174,15 +219,18 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/ResumeButton")
+tracks/4/path = NodePath("CenterContainer/HBoxContainer/TabContainer")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [0],
+"method": &"change_tab"
+}, {
 "args": [],
-"method": &"grab_focus"
+"method": &"focus_first_in_current_tab"
 }]
 }
 
@@ -214,6 +262,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
+process_mode = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -233,9 +282,9 @@ text = "Q / L1"
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 clip_tabs = false
+script = ExtResource("3_pit10")
 
 [node name="Pause" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
@@ -247,7 +296,7 @@ custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="PausedLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "- Paused -"
@@ -264,63 +313,91 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Restart"
 
-[node name="Settings" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
+[node name="Audio" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Settings"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Audio"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="PausedLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Audio/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "- Settings -"
+text = "- Audio Settings -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Audio/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MainVolumeLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer"]
+[node name="MainVolumeLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Audio/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Main Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VolumeSlider" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
+[node name="MainVolumeSlider" parent="CenterContainer/HBoxContainer/TabContainer/Audio/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
 layout_mode = 2
 
-[node name="MainVolumeLabel2" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer"]
+[node name="MusicVolumeLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Audio/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Music Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VolumeSlider2" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
+[node name="MusicVolumeSlider" parent="CenterContainer/HBoxContainer/TabContainer/Audio/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
 layout_mode = 2
 audio_bus = "Music"
 
-[node name="MainVolumeLabel3" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer"]
+[node name="SFXVolumeLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Audio/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Sound Effect Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VolumeSlider3" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
+[node name="SFXVolumeSlider" parent="CenterContainer/HBoxContainer/TabContainer/Audio/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
 layout_mode = 2
 audio_bus = "Sound Effects"
 
-[node name="FullscreenButton" type="CheckBox" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer"]
+[node name="Display" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Display"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "- Display Settings -"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="V-Sync" type="CheckBox" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+button_pressed = true
+text = "V-Sync"
+alignment = 1
+script = SubResource("GDScript_8vvmr")
+
+[node name="FullscreenButton" type="CheckBox" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Fullscreen"
 alignment = 1
-script = SubResource("GDScript_j5ihs")
+script = SubResource("GDScript_atrg2")
 
 [node name="Quit" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
 visible = false
@@ -335,19 +412,24 @@ custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="PausedLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "- Quit -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResumeButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
+[node name="QuitToTitleScreen" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Quit to Title Screen"
+script = SubResource("GDScript_1yx4h")
 
-[node name="RestartButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
+[node name="SceneLoader" type="Node" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/QuitToTitleScreen"]
+script = ExtResource("5_w5307")
+next_scene = "res://UI/Title Screen/title_screen.tscn"
+
+[node name="QuitToDesktop" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Quit to Desktop"
@@ -366,6 +448,3 @@ libraries = {
 
 [connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/ResumeButton" to="." method="unpause"]
 [connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/FullscreenButton" to="." method="_on_fullscreen_button_pressed"]
-[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/ResumeButton" to="." method="unpause"]
-[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

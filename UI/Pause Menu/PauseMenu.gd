@@ -24,7 +24,8 @@ func unpause(instant : bool = false):
 	
 	# Unfocus any button that may be selected
 	# Avoids letting the user press buttons during the hide animation
-	get_viewport().gui_get_focus_owner().release_focus();
+	if get_viewport().gui_get_focus_owner() != null:
+		get_viewport().gui_get_focus_owner().release_focus();
 	
 	$AnimationPlayer.play("Hide");
 	if instant:
@@ -34,13 +35,6 @@ func _on_restart_button_pressed():
 	unpause(true);
 	
 	Global.fade_and_reload_scene();
-
-func _on_fullscreen_button_pressed():
-	var window_mode = DisplayServer.window_get_mode();
-	if window_mode != DisplayServer.WINDOW_MODE_FULLSCREEN:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN);
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED);
 
 func set_volume(value : float):
 	var master_volume : int = AudioServer.get_bus_index("Master");

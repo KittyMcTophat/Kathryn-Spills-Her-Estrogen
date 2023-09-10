@@ -1,5 +1,7 @@
 extends Node
 
+signal window_mode_changed(value : int);
+
 var costume : Texture = preload("res://Characters/Kathryn/Costumes/normal kathryn.png");
 var allow_pause : bool = true;
 
@@ -40,6 +42,18 @@ func _ready() -> void:
 	fade_color_rect.visible = false;
 	
 	randomize();
+
+func _input(event):
+	if event.is_action_pressed("toggle_fullscreen"):
+		var mode : int = DisplayServer.window_get_mode();
+		if mode == DisplayServer.WINDOW_MODE_FULLSCREEN:
+			set_window_mode(DisplayServer.WINDOW_MODE_WINDOWED);
+		else:
+			set_window_mode(DisplayServer.WINDOW_MODE_FULLSCREEN);
+
+func set_window_mode(mode : int):
+	DisplayServer.window_set_mode(mode);
+	window_mode_changed.emit(mode);
 
 func fade_and_reload_scene(fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
 	function_call_with_fade(get_tree().reload_current_scene, fade_color, time, pause, reset_estrogen);
