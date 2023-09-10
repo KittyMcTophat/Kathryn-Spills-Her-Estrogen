@@ -3,11 +3,14 @@ extends MarginContainer
 
 signal costume_picked();
 
-@export var costume_id : int = 0:
+@export var costume_icon : Texture = null:
 	set(value):
-		costume_id = value;
+		costume_icon = value;
 		update_texture_rect();
-@export var costume_name : String = "Kathryn":
+@export var costume_texture : Texture = null:
+	set(value):
+		costume_texture = value;
+@export_multiline var costume_name : String = "Kathryn":
 	set(value):
 		costume_name = value;
 		update_label();
@@ -25,13 +28,9 @@ func update_label():
 func update_texture_rect():
 	if !has_node("%TextureRect"):
 		await ready;
-	var new_tex : AtlasTexture = AtlasTexture.new();
-	new_tex.atlas = load("res://Characters/Kathryn/Costumes/costume" + str(costume_id) + ".png");
-	new_tex.region.size.x = new_tex.atlas.get_size().x;
-	new_tex.region.size.y = new_tex.atlas.get_size().y / 4;
 	
-	%TextureRect.texture = new_tex;
+	%TextureRect.texture = costume_icon;
 
 func _on_button_pressed():
-	Global.costume = costume_id;
+	Global.costume = costume_texture;
 	costume_picked.emit();

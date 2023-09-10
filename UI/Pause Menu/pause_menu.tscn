@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dtmc7o1peaccl"]
+[gd_scene load_steps=10 format=3 uid="uid://dtmc7o1peaccl"]
 
 [ext_resource type="Script" path="res://UI/Pause Menu/PauseMenu.gd" id="2_2eemv"]
 [ext_resource type="Shader" path="res://UI/Pause Menu/Blur.gdshader" id="2_n4q82"]
+[ext_resource type="PackedScene" uid="uid://k2xvlhbhvj0d" path="res://UI/Pause Menu/volume_slider.tscn" id="3_axh5f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nbbnv"]
 shader = ExtResource("2_n4q82")
@@ -173,7 +174,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ResumeButton")
+tracks/4/path = NodePath("CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/ResumeButton")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -220,80 +221,142 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+[node name="LeftTabLabel" type="Label" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Q / L1"
+
+[node name="TabContainer" type="TabContainer" parent="CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+clip_tabs = false
+
+[node name="Pause" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Pause"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="PausedLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PausedLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "- Paused -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResumeButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ResumeButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Resume"
 
-[node name="RestartButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="RestartButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Restart"
 
-[node name="FullscreenButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 48)
+[node name="Settings" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
 layout_mode = 2
-text = "Toggle Fullscreen"
-script = SubResource("GDScript_j5ihs")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PausedLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "- Settings -"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="VolumeLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="MainVolumeLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "Volume"
+text = "Main Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="VolumeSlider" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
 layout_mode = 2
-theme_override_constants/separation = 6
 
-[node name="Low" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="MainVolumeLabel2" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Low"
+text = "Music Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VolumeSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
+[node name="VolumeSlider2" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-max_value = 1.0
-step = 0.1
-value = 0.5
+audio_bus = "Music"
 
-[node name="High" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="MainVolumeLabel3" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "High"
+text = "Sound Effect Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="VolumeSlider3" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/VBoxContainer" instance=ExtResource("3_axh5f")]
+layout_mode = 2
+audio_bus = "Sound Effects"
+
+[node name="FullscreenButton" type="CheckBox" parent="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Fullscreen"
+alignment = 1
+script = SubResource("GDScript_j5ihs")
+
+[node name="Quit" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Quit"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PausedLabel" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "- Quit -"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Quit to Title Screen"
+
+[node name="RestartButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Quit to Desktop"
+script = SubResource("GDScript_j5ihs")
+
+[node name="RightTabLabel" type="Label" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "E / R1"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "RESET"
@@ -301,7 +364,8 @@ libraries = {
 "": SubResource("AnimationLibrary_33ysv")
 }
 
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ResumeButton" to="." method="unpause"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/FullscreenButton" to="." method="_on_fullscreen_button_pressed"]
-[connection signal="value_changed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="set_volume"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/ResumeButton" to="." method="unpause"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Settings/VBoxContainer/FullscreenButton" to="." method="_on_fullscreen_button_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/ResumeButton" to="." method="unpause"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

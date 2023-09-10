@@ -24,3 +24,6 @@ func start_dialogue():
 	shown_dialogue[dialogue.resource_path] = null;
 	await Global.textbox.dialogue_finished;
 	dialogue_finished.emit();
+
+func reset_shown_dialogue():
+	shown_dialogue = {};

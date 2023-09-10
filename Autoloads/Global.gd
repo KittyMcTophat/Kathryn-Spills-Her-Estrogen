@@ -1,6 +1,6 @@
 extends Node
 
-var costume : int = 1;
+var costume : Texture = preload("res://Characters/Kathryn/Costumes/normal kathryn.png");
 var allow_pause : bool = true;
 
 var estrogen_counter : EstrogenCounter = null;

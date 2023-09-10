@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Characters/Kathryn/Kathryn.gd" id="1_hnchh"]
 [ext_resource type="Script" path="res://Characters/Kathryn/MovementParams.gd" id="2_oyy2i"]
 [ext_resource type="Script" path="res://Characters/PointAtCamera.gd" id="3_x1fad"]
-[ext_resource type="Texture2D" uid="uid://c0x46ixypn3cx" path="res://Characters/Kathryn/Costumes/costume0.png" id="4_ijx72"]
+[ext_resource type="Texture2D" uid="uid://c0x46ixypn3cx" path="res://Characters/Kathryn/Costumes/normal kathryn.png" id="4_ix4dr"]
 [ext_resource type="Script" path="res://Characters/Kathryn/CostumeLoader.gd" id="5_ldn5f"]
 [ext_resource type="Gradient" uid="uid://du6epc8gtgegy" path="res://Objects/Misc/shadow_gradient.tres" id="5_lewa5"]
 [ext_resource type="Script" path="res://Characters/Kathryn/PlayerCamera.gd" id="5_qgynk"]
@@ -48,14 +48,13 @@ coyote_time_secs = 0.2
 radius = 0.36
 
 [sub_resource type="QuadMesh" id="QuadMesh_k8fll"]
-size = Vector2(0.52, 0.86)
-center_offset = Vector3(0, 0.43, 0)
+center_offset = Vector3(0, 0.5, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_108kv"]
 resource_local_to_scene = true
 transparency = 1
 cull_mode = 2
-albedo_texture = ExtResource("4_ijx72")
+albedo_texture = ExtResource("4_ix4dr")
 uv1_scale = Vector3(1, 0.25, 1)
 texture_filter = 0
 
@@ -319,17 +318,18 @@ initial_velocity_max = 1.2
 linear_accel_min = -2.0
 linear_accel_max = -2.0
 
-[node name="JumpSound" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36, 0)
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_bogqc")
+bus = &"Sound Effects"
 
-[node name="LandSound" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.36, 0)
+[node name="LandSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_xb86d")
+bus = &"Sound Effects"
 
-[node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_mtat3")
 volume_db = -6.0
+bus = &"Sound Effects"
 
 [connection signal="jumped" from="." to="JumpSound" method="play"]
 [connection signal="jumped" from="." to="JumpParticles" method="set_emitting" binds= [true]]

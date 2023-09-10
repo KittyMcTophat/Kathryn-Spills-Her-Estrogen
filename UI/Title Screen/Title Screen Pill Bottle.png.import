@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0x46ixypn3cx"
-path="res://.godot/imported/costume0.png-d3b5bc53cbbc1dc8051273c8a0cfc2d9.ctex"
+uid="uid://c3qehkdujeyy8"
+path="res://.godot/imported/Title Screen Pill Bottle.png-37576ae8d04311cfc793b1706e3135e0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Characters/Kathryn/Costumes/costume0.png"
-dest_files=["res://.godot/imported/costume0.png-d3b5bc53cbbc1dc8051273c8a0cfc2d9.ctex"]
+source_file="res://UI/Title Screen/Title Screen Pill Bottle.png"
+dest_files=["res://.godot/imported/Title Screen Pill Bottle.png-37576ae8d04311cfc793b1706e3135e0.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

@@ -1,9 +1,9 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://f1cl6sb35fhk"]
+[gd_resource type="Theme" load_steps=21 format=3 uid="uid://f1cl6sb35fhk"]
 
 [ext_resource type="FontFile" uid="uid://cy3qd3g1repxw" path="res://Fonts/Hey Comic.ttf" id="1_emuww"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8cilm"]
-bg_color = Color(0.9, 0.594, 0.9, 1)
+bg_color = Color(0.901961, 0.592157, 0.901961, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
@@ -79,6 +79,102 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g14vd"]
+bg_color = Color(1, 0.807843, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.66, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vpn7r"]
+bg_color = Color(1, 0.52, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4u4lc"]
+bg_color = Color(0.996094, 0.804688, 0.996094, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6h6o"]
+bg_color = Color(0.996094, 0.804688, 0.996094, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_color = Color(0.996094, 0.65625, 0.996094, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jk67e"]
+bg_color = Color(0.996094, 0.65625, 0.996094, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qum64"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 0.4, 1, 0.74902)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x8cdu"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 0.5, 1, 0.74902)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_or0md"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.9, 0.36, 0.9, 0.74902)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sitgp"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+bg_color = Color(0.992157, 0.65098, 0.992157, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ocm0"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+bg_color = Color(0.992157, 0.65098, 0.992157, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 6
+
 [resource]
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_focus_color = Color(1, 1, 1, 1)
@@ -110,3 +206,18 @@ RichTextLabel/constants/shadow_offset_x = 2
 RichTextLabel/constants/shadow_offset_y = 2
 RichTextLabel/font_sizes/normal_font_size = 24
 RichTextLabel/fonts/normal_font = ExtResource("1_emuww")
+TabContainer/colors/font_outline_color = Color(1, 0.419608, 1, 1)
+TabContainer/constants/outline_size = 2
+TabContainer/constants/side_margin = 12
+TabContainer/font_sizes/font_size = 20
+TabContainer/fonts/font = ExtResource("1_emuww")
+TabContainer/styles/panel = SubResource("StyleBoxFlat_g14vd")
+TabContainer/styles/tab_disabled = SubResource("StyleBoxFlat_vpn7r")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_4u4lc")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_r6h6o")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_jk67e")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_qum64")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_x8cdu")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_or0md")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_sitgp")
+VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_5ocm0")

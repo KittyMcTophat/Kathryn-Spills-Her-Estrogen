@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cl080vqi1fxcb"
-path="res://.godot/imported/costume6.png-cbaeed2834e1fd1cbdb8b34534eb3a53.ctex"
+uid="uid://dbfki0253bboi"
+path="res://.godot/imported/evilester kathryn.png-2a0082cc8ac133c1444308b5e7910b4a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Characters/Kathryn/Costumes/costume6.png"
-dest_files=["res://.godot/imported/costume6.png-cbaeed2834e1fd1cbdb8b34534eb3a53.ctex"]
+source_file="res://Characters/Kathryn/Costumes/evilester kathryn.png"
+dest_files=["res://.godot/imported/evilester kathryn.png-2a0082cc8ac133c1444308b5e7910b4a.ctex"]
 
 [params]
 

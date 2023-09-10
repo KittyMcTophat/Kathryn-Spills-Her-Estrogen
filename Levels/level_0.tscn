@@ -1,22 +1,22 @@
-[gd_scene load_steps=45 format=3 uid="uid://dbl631ri3d5bb"]
+[gd_scene load_steps=39 format=3 uid="uid://dbl631ri3d5bb"]
 
-[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_707yu"]
-[ext_resource type="Script" path="res://UI/Textbox/Dialogue.gd" id="1_why4g"]
-[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_3mh56"]
-[ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/kathryn.tscn" id="2_p423e"]
-[ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="2_y7eg0"]
-[ext_resource type="Script" path="res://Objects/Misc/KillPlane.gd" id="3_gpt1a"]
-[ext_resource type="PackedScene" uid="uid://4cnl51ssv2ru" path="res://Objects/Estrogen/estrogen.tscn" id="4_o1ltq"]
-[ext_resource type="Script" path="res://Objects/Interactable/InteractionArea.gd" id="8_1cbdd"]
-[ext_resource type="FontFile" uid="uid://cy3qd3g1repxw" path="res://Fonts/Hey Comic.ttf" id="8_23xan"]
-[ext_resource type="Script" path="res://Objects/Estrogen/EstrogenTracker.gd" id="8_aornh"]
-[ext_resource type="Texture2D" uid="uid://de5vf4in3bgcj" path="res://Objects/Misc/Sign.png" id="8_hgnu0"]
-[ext_resource type="Texture2D" uid="uid://btsavxgwpf24j" path="res://Objects/Misc/Exclamation Mark.png" id="8_mlxx5"]
-[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="9_ituuc"]
-[ext_resource type="AudioStream" uid="uid://dbvk450jdn6g6" path="res://Objects/Misc/Sign Explode.wav" id="11_a21pi"]
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_q3p88"]
+[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_xjp8r"]
+[ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/Kathryn.tscn" id="3_iux17"]
+[ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="4_86od0"]
+[ext_resource type="Script" path="res://UI/Textbox/Dialogue.gd" id="5_6nl1x"]
+[ext_resource type="Script" path="res://Objects/Misc/KillPlane.gd" id="6_wa5t0"]
+[ext_resource type="PackedScene" uid="uid://4cnl51ssv2ru" path="res://Objects/Estrogen/Estrogen.tscn" id="7_6n50e"]
+[ext_resource type="PackedScene" uid="uid://cbkt47xuv608d" path="res://Levels/tutorial_text.tscn" id="8_2pxuv"]
+[ext_resource type="Texture2D" uid="uid://btsavxgwpf24j" path="res://Objects/Interactable/Exclamation Mark.png" id="9_o1wx5"]
+[ext_resource type="Texture2D" uid="uid://de5vf4in3bgcj" path="res://Objects/Misc/Sign.png" id="10_mdkch"]
+[ext_resource type="Script" path="res://Objects/Interactable/InteractionArea.gd" id="11_x3hyf"]
+[ext_resource type="AudioStream" uid="uid://dbvk450jdn6g6" path="res://Objects/Misc/Sign Explode.wav" id="12_6pipv"]
+[ext_resource type="Script" path="res://Objects/Estrogen/EstrogenTracker.gd" id="13_5p7rv"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="14_korwv"]
 
 [sub_resource type="Resource" id="Resource_fw658"]
-script = ExtResource("1_why4g")
+script = ExtResource("5_6nl1x")
 text_sequence = Array[String](["[Press Space/Enter/A Button to Advance The Text]", "Kathryn:
 Oh shit!", "Kathryn:
 I spilled my estrogen all over the place!", "Kathryn:
@@ -31,39 +31,6 @@ For now I'll just focus on picking up all my estrogen..."])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d3ttj"]
 albedo_color = Color(0.239216, 0.239216, 0.239216, 1)
-
-[sub_resource type="TextMesh" id="TextMesh_eawjt"]
-text = "Use the Right Stick
-or Arrow Keys
-to rotate the camera"
-font = ExtResource("8_23xan")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wxcxf"]
-render_priority = -1
-cull_mode = 1
-shading_mode = 0
-albedo_color = Color(0, 0, 0, 1)
-billboard_mode = 2
-grow = true
-grow_amount = 0.01
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uvqfq"]
-next_pass = SubResource("StandardMaterial3D_wxcxf")
-cull_mode = 1
-shading_mode = 0
-billboard_mode = 2
-
-[sub_resource type="TextMesh" id="TextMesh_ksok2"]
-text = "Use the Left Stick
-or WASD Keys
-to move"
-font = ExtResource("8_23xan")
-
-[sub_resource type="TextMesh" id="TextMesh_gy4ur"]
-text = "Use Space or
-the A Button
-To jump"
-font = ExtResource("8_23xan")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_y2dbf"]
 height = 0.2
@@ -154,12 +121,6 @@ albedo_color = Color(1, 1, 0.4, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e0pud"]
 albedo_color = Color(1, 1, 0.619608, 1)
 
-[sub_resource type="TextMesh" id="TextMesh_rb4cq"]
-text = "Use E or the X Button
-Near things you want to
-Interact with"
-font = ExtResource("8_23xan")
-
 [sub_resource type="QuadMesh" id="QuadMesh_mbb60"]
 size = Vector2(0.32, 0.32)
 
@@ -167,7 +128,7 @@ size = Vector2(0.32, 0.32)
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
-albedo_texture = ExtResource("8_mlxx5")
+albedo_texture = ExtResource("9_o1wx5")
 texture_filter = 0
 billboard_mode = 2
 
@@ -178,7 +139,7 @@ size = Vector2(0.5, 0.5)
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
-albedo_texture = ExtResource("8_hgnu0")
+albedo_texture = ExtResource("10_mdkch")
 texture_filter = 0
 billboard_mode = 2
 
@@ -186,7 +147,7 @@ billboard_mode = 2
 radius = 0.75
 
 [sub_resource type="Resource" id="Resource_atlit"]
-script = ExtResource("1_why4g")
+script = ExtResource("5_6nl1x")
 text_sequence = Array[String](["Sign:
 WARNING!", "Sign:
 Due to inflation, this planet has had to reduce the radius of its gravity to maintain profitablility.", "Sign:
@@ -217,21 +178,21 @@ point_count = 2
 radius = 3.0
 
 [sub_resource type="Resource" id="Resource_nfd6b"]
-script = ExtResource("1_why4g")
+script = ExtResource("5_6nl1x")
 text_sequence = Array[String](["Kathryn:
 That looks like all the estrogen here...", "Kathryn:
 But I definitely had more than 30 pills with me.", "Kathryn:
 I guess I'll go look in another nearby part of space...", "THIS IS THE ONLY LEVEL SO FAR, HOPE I ADD MORE LATER"])
 
 [node name="Level0" type="Node3D"]
-script = ExtResource("1_707yu")
+script = ExtResource("1_q3p88")
 
-[node name="Environment" parent="." instance=ExtResource("2_3mh56")]
+[node name="Environment" parent="." instance=ExtResource("2_xjp8r")]
 
-[node name="Kathryn" parent="." instance=ExtResource("2_p423e")]
+[node name="Kathryn" parent="." instance=ExtResource("3_iux17")]
 
 [node name="StartingDialogue" type="Node" parent="."]
-script = ExtResource("2_y7eg0")
+script = ExtResource("4_86od0")
 on_ready = true
 dialogue = SubResource("Resource_fw658")
 
@@ -241,7 +202,7 @@ dialogue = SubResource("Resource_fw658")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 collision_layer = 0
 collision_mask = 2
-script = ExtResource("3_gpt1a")
+script = ExtResource("6_wa5t0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/KillPlane"]
 shape = SubResource("WorldBoundaryShape3D_a22qd")
@@ -261,58 +222,58 @@ material = SubResource("StandardMaterial3D_d3ttj")
 [node name="EstrogenCircle" type="Node3D" parent="StartingCircle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="Estrogen" parent="StartingCircle/EstrogenCircle" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="StartingCircle/EstrogenCircle" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 
-[node name="Estrogen2" parent="StartingCircle/EstrogenCircle" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen2" parent="StartingCircle/EstrogenCircle" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, 1.4)
 
-[node name="Estrogen3" parent="StartingCircle/EstrogenCircle" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen3" parent="StartingCircle/EstrogenCircle" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="Estrogen4" parent="StartingCircle/EstrogenCircle" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen4" parent="StartingCircle/EstrogenCircle" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2, 0, 0)
 
-[node name="Estrogen5" parent="StartingCircle/EstrogenCircle" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen5" parent="StartingCircle/EstrogenCircle" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.4, 0, -1.4)
 
-[node name="Estrogen6" parent="StartingCircle/EstrogenCircle" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen6" parent="StartingCircle/EstrogenCircle" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -2)
 
-[node name="Estrogen7" parent="StartingCircle/EstrogenCircle" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen7" parent="StartingCircle/EstrogenCircle" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.4, 0, -1.4)
 
-[node name="Estrogen8" parent="StartingCircle/EstrogenCircle" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen8" parent="StartingCircle/EstrogenCircle" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.4, 0, 1.4)
 
-[node name="TutorialText1" type="MeshInstance3D" parent="StartingCircle"]
+[node name="TutorialText" parent="StartingCircle" instance=ExtResource("8_2pxuv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
-mesh = SubResource("TextMesh_eawjt")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
+text = "Use the Right Stick
+or Arrow Keys
+to rotate the camera"
 
-[node name="TutorialText2" type="MeshInstance3D" parent="StartingCircle"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, -1.04308e-07)
-mesh = SubResource("TextMesh_ksok2")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
+[node name="TutorialText2" parent="StartingCircle" instance=ExtResource("8_2pxuv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 0)
+text = "Use the Left Stick
+or WASD Keys
+to move"
 
-[node name="TutorialText2 - Copy" type="MeshInstance3D" parent="StartingCircle"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, -1.04308e-07)
-mesh = SubResource("TextMesh_ksok2")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
+[node name="TutorialText2 - Copy" parent="StartingCircle" instance=ExtResource("8_2pxuv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 0)
+text = "Use the Left Stick
+or WASD Keys
+to move"
 
-[node name="TutorialText3" type="MeshInstance3D" parent="StartingCircle"]
+[node name="TutorialText3" parent="StartingCircle" instance=ExtResource("8_2pxuv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
-mesh = SubResource("TextMesh_gy4ur")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
+text = "Use Space or
+the 'A' Button
+To jump"
 
 [node name="Bridge" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5)
 
-[node name="Estrogen" parent="Bridge" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="Bridge" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Bridge"]
@@ -339,28 +300,28 @@ shape = SubResource("CylinderShape3D_y2dbf")
 [node name="EstrogenCircle2" type="Node3D" parent="SpinningPlatform1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="Estrogen" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 
-[node name="Estrogen2" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen2" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, 1.4)
 
-[node name="Estrogen3" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen3" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
-[node name="Estrogen4" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen4" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2, 0, 0)
 
-[node name="Estrogen5" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen5" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.4, 0, -1.4)
 
-[node name="Estrogen6" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen6" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -2)
 
-[node name="Estrogen7" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen7" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.4, 0, -1.4)
 
-[node name="Estrogen8" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen8" parent="SpinningPlatform1/EstrogenCircle2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.4, 0, 1.4)
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="SpinningPlatform1"]
@@ -386,7 +347,7 @@ collision_mask = 0
 size = Vector3(1, 0.2, 1)
 material = SubResource("StandardMaterial3D_d3ttj")
 
-[node name="Estrogen" parent="LittlePlatforms/CSGBox3D" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="LittlePlatforms/CSGBox3D" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="LittlePlatforms"]
@@ -396,7 +357,7 @@ collision_mask = 0
 size = Vector3(1, 0.2, 1)
 material = SubResource("StandardMaterial3D_d3ttj")
 
-[node name="Estrogen" parent="LittlePlatforms/CSGBox3D2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="LittlePlatforms/CSGBox3D2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="LittlePlatforms"]
@@ -406,7 +367,7 @@ collision_mask = 0
 size = Vector3(1, 0.2, 1)
 material = SubResource("StandardMaterial3D_d3ttj")
 
-[node name="Estrogen" parent="LittlePlatforms/CSGBox3D3" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="LittlePlatforms/CSGBox3D3" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="LittlePlatforms"]
@@ -416,7 +377,7 @@ collision_mask = 0
 size = Vector3(1, 0.2, 1)
 material = SubResource("StandardMaterial3D_d3ttj")
 
-[node name="Estrogen" parent="LittlePlatforms/CSGBox3D4" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="LittlePlatforms/CSGBox3D4" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
 [node name="SpinningPlatform2" type="AnimatableBody3D" parent="."]
@@ -441,16 +402,16 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 size = Vector3(5, 0.2, 1.5)
 material = SubResource("StandardMaterial3D_d3ttj")
 
-[node name="Estrogen" parent="SpinningPlatform2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="SpinningPlatform2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, -2.84217e-14, 0, 1, 0, 0, 0, 1, -2, 0.5, 0)
 
-[node name="Estrogen2" parent="SpinningPlatform2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen2" parent="SpinningPlatform2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, -2.84217e-14, 0, 1, 0, 0, 0, 1, -1.90735e-06, 0.5, 2)
 
-[node name="Estrogen3" parent="SpinningPlatform2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen3" parent="SpinningPlatform2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2, 0.5, -9.53674e-07)
 
-[node name="Estrogen4" parent="SpinningPlatform2" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen4" parent="SpinningPlatform2" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.5, -2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SpinningPlatform2"]
@@ -481,29 +442,29 @@ ring_sides = 5
 smooth_faces = false
 material = SubResource("StandardMaterial3D_e0pud")
 
-[node name="Estrogen" parent="EndPlanet/CSGSphere3D/CSGTorus3D" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="EndPlanet/CSGSphere3D/CSGTorus3D" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 4, 0, 0, 0, 1, -4, 3, 0)
 
-[node name="Estrogen2" parent="EndPlanet/CSGSphere3D/CSGTorus3D" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen2" parent="EndPlanet/CSGSphere3D/CSGTorus3D" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 4, 0, 0, 0, 1, 2.773, 3, 2.773)
 
-[node name="Estrogen3" parent="EndPlanet/CSGSphere3D/CSGTorus3D" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen3" parent="EndPlanet/CSGSphere3D/CSGTorus3D" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 3, 4)
 
-[node name="Estrogen4" parent="EndPlanet/CSGSphere3D/CSGTorus3D" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen4" parent="EndPlanet/CSGSphere3D/CSGTorus3D" instance=ExtResource("7_6n50e")]
 transform = Transform3D(1, 0, 0, 0, 4, 0, 0, 0, 1, -2.773, 3, 2.773)
 
-[node name="Estrogen" parent="EndPlanet/CSGSphere3D" instance=ExtResource("4_o1ltq")]
+[node name="Estrogen" parent="EndPlanet/CSGSphere3D" instance=ExtResource("7_6n50e")]
 transform = Transform3D(-0.707107, -0.707107, 0, 0.707107, -0.707107, 0, 0, 0, 1, -2.121, -2.121, 0)
 
 [node name="Sign" type="Node3D" parent="EndPlanet/CSGSphere3D"]
 transform = Transform3D(1, 0, 0, 0, 0.999998, 0, 0, 0, 1, 3.8637, -0.535276, -1)
 
-[node name="TutorialText4" type="MeshInstance3D" parent="EndPlanet/CSGSphere3D/Sign"]
+[node name="TutorialText4" parent="EndPlanet/CSGSphere3D/Sign" instance=ExtResource("8_2pxuv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-mesh = SubResource("TextMesh_rb4cq")
-skeleton = NodePath("../../../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_uvqfq")
+text = "Use E or the 'X' Button
+near things you want to
+interact with."
 
 [node name="InteractableIndicator" type="MeshInstance3D" parent="EndPlanet/CSGSphere3D/Sign"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -519,14 +480,14 @@ surface_material_override/0 = SubResource("StandardMaterial3D_4phsm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 collision_layer = 0
 collision_mask = 2
-script = ExtResource("8_1cbdd")
+script = ExtResource("11_x3hyf")
 interactable_indicator = NodePath("../InteractableIndicator")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EndPlanet/CSGSphere3D/Sign/InteractionArea"]
 shape = SubResource("SphereShape3D_gecje")
 
 [node name="DialogueStarter" type="Node" parent="EndPlanet/CSGSphere3D/Sign"]
-script = ExtResource("2_y7eg0")
+script = ExtResource("4_86od0")
 dialogue = SubResource("Resource_atlit")
 
 [node name="SignDeathEffects" type="Node3D" parent="EndPlanet/CSGSphere3D"]
@@ -548,7 +509,8 @@ damping_max = 1.0
 scale_amount_curve = SubResource("Curve_x5uhj")
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="EndPlanet/CSGSphere3D/SignDeathEffects"]
-stream = ExtResource("11_a21pi")
+stream = ExtResource("12_6pipv")
+bus = &"Sound Effects"
 
 [node name="GravityArea" type="Area3D" parent="EndPlanet"]
 collision_layer = 0
@@ -562,14 +524,14 @@ gravity_direction = Vector3(0, 0, 0)
 shape = SubResource("SphereShape3D_jquql")
 
 [node name="EndDialogue" type="Node" parent="."]
-script = ExtResource("2_y7eg0")
+script = ExtResource("4_86od0")
 dialogue = SubResource("Resource_nfd6b")
 
 [node name="EstrogenTracker" type="Node" parent="EndDialogue"]
-script = ExtResource("8_aornh")
+script = ExtResource("13_5p7rv")
 
 [node name="SceneLoader" type="Node" parent="EndDialogue"]
-script = ExtResource("9_ituuc")
+script = ExtResource("14_korwv")
 next_scene = "res://UI/credits.tscn"
 
 [connection signal="interacted" from="EndPlanet/CSGSphere3D/Sign/InteractionArea" to="EndPlanet/CSGSphere3D/Sign/DialogueStarter" method="start_dialogue"]

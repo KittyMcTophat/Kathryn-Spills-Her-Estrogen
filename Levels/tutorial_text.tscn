@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbkt47xuv608d"]
+
+[ext_resource type="Script" path="res://Levels/TutorialText.gd" id="1_kb3sr"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_k65s2"]
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6g3nd"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+billboard_mode = 2
+
+[node name="TutorialText" type="Node3D"]
+script = ExtResource("1_kb3sr")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(500, 500)
+render_target_update_mode = 1
+
+[node name="Label" type="Label" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Text"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MeshInstance" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_k65s2")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_6g3nd")

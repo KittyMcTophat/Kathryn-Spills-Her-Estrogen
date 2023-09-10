@@ -1,0 +1,286 @@
+[gd_scene load_steps=12 format=3 uid="uid://batba6ymaw1ng"]
+
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_h6klo"]
+[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_vbt4n"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="3_ingyj"]
+[ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="4_03e3t"]
+[ext_resource type="Texture2D" uid="uid://c3qehkdujeyy8" path="res://UI/Title Screen/Title Screen Pill Bottle.png" id="4_sn1cg"]
+[ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="5_5tdut"]
+
+[sub_resource type="Animation" id="Animation_pbqob"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7fljg"]
+resource_name = "Spin"
+length = 60.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 60),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4yct7"]
+_data = {
+"RESET": SubResource("Animation_pbqob"),
+"Spin": SubResource("Animation_7fljg")
+}
+
+[sub_resource type="GDScript" id="GDScript_mmb77"]
+script/source = "extends Button
+
+func _ready():
+	if OS.has_feature(\"web\"):
+		queue_free();
+
+func _pressed():
+	get_tree().quit();
+"
+
+[sub_resource type="Curve" id="Curve_b3rtj"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="Title Screen" type="Node"]
+script = ExtResource("1_h6klo")
+show_ui = false
+allow_pause = false
+set_gravity = false
+
+[node name="Environment" parent="." instance=ExtResource("2_vbt4n")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D"]
+autoplay = "Spin"
+libraries = {
+"": SubResource("AnimationLibrary_4yct7")
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 48
+text = "
+Kathryn Spills Her Estrogen
+All Over The Place And Now
+She Has To Pick It Up"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+
+[node name="Start" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start"]
+layout_mode = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = -4
+theme_override_constants/margin_bottom = -4
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer"]
+layout_mode = 2
+
+[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button"]
+script = ExtResource("3_ingyj")
+next_scene = "res://Levels/level_0.tscn"
+
+[node name="DialogueStarter" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button"]
+script = ExtResource("4_03e3t")
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start"]
+layout_mode = 2
+text = "Start"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChangeCostume" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume"]
+layout_mode = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = -4
+theme_override_constants/margin_bottom = -4
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/MarginContainer"]
+layout_mode = 2
+
+[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/MarginContainer/Button"]
+script = ExtResource("3_ingyj")
+next_scene = "res://UI/Costume Select/costume_select.tscn"
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume"]
+layout_mode = 2
+text = "Change Costume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Credits" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits"]
+layout_mode = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = -4
+theme_override_constants/margin_bottom = -4
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits/MarginContainer"]
+layout_mode = 2
+
+[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits/MarginContainer/Button"]
+script = ExtResource("3_ingyj")
+next_scene = "res://UI/credits.tscn"
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits"]
+layout_mode = 2
+text = "Credits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/MarginContainer4"]
+layout_mode = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = -4
+theme_override_constants/margin_bottom = -4
+
+[node name="Button4" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/MarginContainer4/MarginContainer"]
+layout_mode = 2
+script = SubResource("GDScript_mmb77")
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/MarginContainer4"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Exit Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="Node"]
+position = Vector2(512, 384)
+
+[node name="Pill Bottle" type="Sprite2D" parent="Node"]
+editor_description = "Fun Fact: I actually based this on the pill bottle my spiro comes in since my estrogen comes in this really tall bottle and it looks weird."
+position = Vector2(161, 431)
+rotation = 2.35619
+scale = Vector2(4, 4)
+texture = ExtResource("4_sn1cg")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Node/Pill Bottle"]
+show_behind_parent = true
+position = Vector2(0, -42)
+amount = 24
+lifetime = 3.0
+preprocess = 4.0
+randomness = 0.1
+texture = ExtResource("5_5tdut")
+emission_shape = 3
+emission_rect_extents = Vector2(16, 1)
+direction = Vector2(0, -1)
+spread = 15.0
+gravity = Vector2(0, 30)
+initial_velocity_min = 24.0
+initial_velocity_max = 32.0
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_curve = SubResource("Curve_b3rtj")
+
+[node name="Pill Bottle2" type="Sprite2D" parent="Node"]
+editor_description = "Fun Fact: I actually based this on the pill bottle my spiro comes in since my estrogen comes in this really tall bottle and it looks weird."
+position = Vector2(863, 431)
+rotation = -2.35619
+scale = Vector2(4, 4)
+texture = ExtResource("4_sn1cg")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Node/Pill Bottle2"]
+show_behind_parent = true
+position = Vector2(0, -42)
+amount = 24
+lifetime = 3.0
+preprocess = 4.0
+randomness = 0.1
+texture = ExtResource("5_5tdut")
+emission_shape = 3
+emission_rect_extents = Vector2(16, 1)
+direction = Vector2(0, -1)
+spread = 15.0
+gravity = Vector2(0, 30)
+initial_velocity_min = 24.0
+initial_velocity_max = 32.0
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_curve = SubResource("Curve_b3rtj")
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button/SceneLoader" method="change_scene"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button/DialogueStarter" method="reset_shown_dialogue"]
+[connection signal="ready" from="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button" method="grab_focus"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/MarginContainer/Button/SceneLoader" method="change_scene"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Credits/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/Credits/MarginContainer/Button/SceneLoader" method="change_scene"]

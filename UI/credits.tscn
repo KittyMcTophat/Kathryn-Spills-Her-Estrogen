@@ -64,7 +64,7 @@ text = "Back to Title Screen"
 
 [node name="SceneLoader" type="Node" parent="VBoxContainer/Button"]
 script = ExtResource("2_ip3ji")
-next_scene = "res://UI/title_screen.tscn"
+next_scene = "res://UI/Title Screen/title_screen.tscn"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3qehkdujeyy8"
-path="res://.godot/imported/Title Screen Pill Bottle.png-fda69768ac522320748319eda33d6172.ctex"
+uid="uid://ddkt4vpij7yvp"
+path="res://.godot/imported/evilest kathryn.png-08a511666b21559cae7159f5b20f2601.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Objects/Misc/Title Screen Pill Bottle.png"
-dest_files=["res://.godot/imported/Title Screen Pill Bottle.png-fda69768ac522320748319eda33d6172.ctex"]
+source_file="res://Characters/Kathryn/Costumes/evilest kathryn.png"
+dest_files=["res://.godot/imported/evilest kathryn.png-08a511666b21559cae7159f5b20f2601.ctex"]
 
 [params]
 
