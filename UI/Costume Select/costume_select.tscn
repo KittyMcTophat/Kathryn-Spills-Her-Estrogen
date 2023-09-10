@@ -15,10 +15,6 @@
 atlas = ExtResource("3_d0jp3")
 region = Rect2(24, 14, 52, 86)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_71pm3"]
-atlas = ExtResource("4_eww4v")
-region = Rect2(24, 14, 52, 86)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_s3ghq"]
 atlas = ExtResource("5_4f8td")
 region = Rect2(24, 14, 52, 86)
@@ -26,6 +22,10 @@ region = Rect2(24, 14, 52, 86)
 [sub_resource type="AtlasTexture" id="AtlasTexture_w1fwf"]
 atlas = ExtResource("6_7h2yt")
 region = Rect2(14, 28, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71pm3"]
+atlas = ExtResource("4_eww4v")
+region = Rect2(24, 14, 52, 86)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6lmll"]
 atlas = ExtResource("7_3cbhi")
@@ -103,46 +103,46 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="CostumeChoice" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
+[node name="NormalKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
 layout_mode = 2
 costume_icon = SubResource("AtlasTexture_xpr7c")
 costume_texture = ExtResource("3_d0jp3")
 costume_name = "Normal Kathryn"
 start_focused = true
 
-[node name="CostumeChoice2" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
-layout_mode = 2
-costume_icon = SubResource("AtlasTexture_71pm3")
-costume_texture = ExtResource("4_eww4v")
-costume_name = "Evil Kathryn"
-
-[node name="CostumeChoice7" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
+[node name="Worker4560897" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
 layout_mode = 2
 costume_icon = SubResource("AtlasTexture_s3ghq")
 costume_texture = ExtResource("5_4f8td")
 costume_name = "Worker
 #4560897"
 
-[node name="CostumeChoice6" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
+[node name="basketball" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
 layout_mode = 2
 costume_icon = SubResource("AtlasTexture_w1fwf")
 costume_texture = ExtResource("6_7h2yt")
 costume_name = "basketball
 (transgender)"
 
-[node name="CostumeChoice3" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
+[node name="EvilKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
+layout_mode = 2
+costume_icon = SubResource("AtlasTexture_71pm3")
+costume_texture = ExtResource("4_eww4v")
+costume_name = "Evil Kathryn"
+
+[node name="EvilerKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
 layout_mode = 2
 costume_icon = SubResource("AtlasTexture_6lmll")
 costume_texture = ExtResource("7_3cbhi")
 costume_name = "Eviler Kathryn"
 
-[node name="CostumeChoice4" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
+[node name="EvilestKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
 layout_mode = 2
 costume_icon = SubResource("AtlasTexture_3ygdv")
 costume_texture = ExtResource("8_ipivl")
 costume_name = "Evilest Kathryn"
 
-[node name="CostumeChoice5" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
+[node name="EvilesterKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
 layout_mode = 2
 costume_icon = SubResource("AtlasTexture_kavfh")
 costume_texture = ExtResource("9_dqnt6")
@@ -168,10 +168,10 @@ autowrap_mode = 3
 script = ExtResource("8_cwhxg")
 next_scene = "res://UI/Title Screen/title_screen.tscn"
 
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/CostumeChoice" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/CostumeChoice2" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/CostumeChoice7" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/CostumeChoice6" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/CostumeChoice3" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/CostumeChoice4" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/CostumeChoice5" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/NormalKathryn" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/Worker4560897" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/basketball" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/EvilKathryn" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/EvilerKathryn" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/EvilestKathryn" to="SceneLoader" method="change_scene"]
+[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/EvilesterKathryn" to="SceneLoader" method="change_scene"]
