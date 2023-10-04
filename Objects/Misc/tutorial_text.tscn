@@ -1,17 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://cbkt47xuv608d"]
 
-[ext_resource type="Script" path="res://Levels/TutorialText.gd" id="1_kb3sr"]
+[ext_resource type="Script" path="res://Objects/Misc/TutorialText.gd" id="1_kb3sr"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_k65s2"]
 orientation = 2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6g3nd"]
-resource_local_to_scene = true
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cflkm"]
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
+texture_filter = 0
 billboard_mode = 2
+distance_fade_mode = 2
+distance_fade_min_distance = 0.33
+distance_fade_max_distance = 1.0
 
 [node name="TutorialText" type="Node3D"]
 script = ExtResource("1_kb3sr")
@@ -19,7 +22,7 @@ script = ExtResource("1_kb3sr")
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
 transparent_bg = true
-size = Vector2i(500, 500)
+size = Vector2i(1200, 1200)
 render_target_update_mode = 1
 
 [node name="Label" type="Label" parent="SubViewport"]
@@ -28,12 +31,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 40
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 96
 text = "Text"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MeshInstance" type="MeshInstance3D" parent="."]
+layers = 2
 mesh = SubResource("PlaneMesh_k65s2")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_6g3nd")
+surface_material_override/0 = SubResource("StandardMaterial3D_cflkm")

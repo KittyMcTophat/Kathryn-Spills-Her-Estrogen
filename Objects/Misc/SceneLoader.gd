@@ -7,4 +7,4 @@ class_name SceneLoader
 @export_file("*.tscn") var next_scene : String = "";
 
 func change_scene():
-	Global.fade_to_scene(load(next_scene), fade_color, fade_time);
+	SceneManager.fade_to_scene(load(next_scene), fade_color, fade_time);

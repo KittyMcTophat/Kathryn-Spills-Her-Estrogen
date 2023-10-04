@@ -1,43 +1,125 @@
-[gd_scene load_steps=18 format=3 uid="uid://bgiob4utycwfl"]
+[gd_scene load_steps=11 format=3 uid="uid://bgiob4utycwfl"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_oi7i4"]
-[ext_resource type="PackedScene" uid="uid://ciqyic0jmmmmy" path="res://UI/Costume Select/costume_button.tscn" id="2_gspdq"]
-[ext_resource type="Texture2D" uid="uid://c0x46ixypn3cx" path="res://Characters/Kathryn/Costumes/normal kathryn.png" id="3_d0jp3"]
-[ext_resource type="Texture2D" uid="uid://dtgsifoi3vm56" path="res://Characters/Kathryn/Costumes/evil kathryn.png" id="4_eww4v"]
-[ext_resource type="Texture2D" uid="uid://cl080vqi1fxcb" path="res://Characters/Kathryn/Costumes/worker4560897.png" id="5_4f8td"]
-[ext_resource type="Texture2D" uid="uid://d13xo82k0pyj3" path="res://Characters/Kathryn/Costumes/basketball.png" id="6_7h2yt"]
-[ext_resource type="Texture2D" uid="uid://dc1v6vdtw2m2l" path="res://Characters/Kathryn/Costumes/eviler kathryn.png" id="7_3cbhi"]
+[ext_resource type="Resource" uid="uid://5sfo75i6d5rm" path="res://Characters/Kathryn/Costumes/normal kathryn.tres" id="2_hleup"]
+[ext_resource type="Resource" uid="uid://c4hpxbdp5o66" path="res://Characters/Kathryn/Costumes/worker4560897.tres" id="3_hfuie"]
+[ext_resource type="Resource" uid="uid://ybxy2o0kap83" path="res://Characters/Kathryn/Costumes/basketball.tres" id="4_q6oax"]
+[ext_resource type="Resource" uid="uid://canpnqj8e5yj" path="res://Characters/Kathryn/Costumes/evil kathryn.tres" id="5_bpke6"]
+[ext_resource type="Resource" uid="uid://cyyj4qqpvxg1c" path="res://Characters/Kathryn/Costumes/eviler kathryn.tres" id="6_rmkov"]
+[ext_resource type="Resource" uid="uid://l0y60ay0fmb0" path="res://Characters/Kathryn/Costumes/evilest kathryn.tres" id="7_dcb6u"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="8_cwhxg"]
-[ext_resource type="Texture2D" uid="uid://ddkt4vpij7yvp" path="res://Characters/Kathryn/Costumes/evilest kathryn.png" id="8_ipivl"]
-[ext_resource type="Texture2D" uid="uid://dbfki0253bboi" path="res://Characters/Kathryn/Costumes/evilester kathryn.png" id="9_dqnt6"]
+[ext_resource type="Resource" uid="uid://cch1yj2pm5u66" path="res://Characters/Kathryn/Costumes/evilester kathryn.tres" id="8_pns8f"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xpr7c"]
-atlas = ExtResource("3_d0jp3")
-region = Rect2(24, 14, 52, 86)
+[sub_resource type="GDScript" id="GDScript_pfy8l"]
+script/source = "@tool
+extends HFlowContainer
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_s3ghq"]
-atlas = ExtResource("5_4f8td")
-region = Rect2(24, 14, 52, 86)
+signal costume_selected();
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_w1fwf"]
-atlas = ExtResource("6_7h2yt")
-region = Rect2(14, 28, 72, 72)
+@export var costumes_array : Array[Costume] = []:
+	set(value):
+		costumes_array = value;
+		update_children();
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_71pm3"]
-atlas = ExtResource("4_eww4v")
-region = Rect2(24, 14, 52, 86)
+func update_children():
+	for child in get_children():
+		child.queue_free();
+	
+	for costume in costumes_array:
+		add_costume(costume);
+	
+	load_custom_costumes();
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6lmll"]
-atlas = ExtResource("7_3cbhi")
-region = Rect2(24, 14, 52, 86)
+func load_custom_costumes():
+	var custom_costumes_dir_path : String = OS.get_executable_path().get_base_dir() + \"/Custom/Costumes\";
+	print(\"Attempting to load custom costumes from: \", custom_costumes_dir_path)
+	if !DirAccess.dir_exists_absolute(custom_costumes_dir_path):
+		print(\"Directory does not exist, costumes not loaded\");
+		return;
+	print(\"Directory Found\");
+	var custom_costumes_dir : DirAccess = DirAccess.open(custom_costumes_dir_path);
+	print(\"Contents: \", custom_costumes_dir.get_files());
+	for file in custom_costumes_dir.get_files():
+		# Only loading the jsons right now
+		if file.get_extension() != \"json\":
+			continue;
+		print(\"\\nLoading json: \", file);
+		
+		var file_acess : FileAccess = FileAccess.open(custom_costumes_dir_path + \"/\" + file, FileAccess.READ);
+		if file_acess == null:
+			print(\"Open file failed: \", file_acess.get_error());
+			continue;
+		print(file_acess.get_as_text());
+		
+		var json_data = JSON.parse_string(file_acess.get_as_text());
+		if json_data == null:
+			print(\"Malformed JSON\");
+			continue;
+		
+		if json_data is Array:
+			for item in json_data:
+				if item is Dictionary:
+					load_costume_from_dictionary(item, custom_costumes_dir_path);
+		else:
+			if json_data is Dictionary:
+				load_costume_from_dictionary(json_data, custom_costumes_dir_path);
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3ygdv"]
-atlas = ExtResource("8_ipivl")
-region = Rect2(24, 14, 52, 86)
+func load_costume_from_dictionary(dict : Dictionary, image_find_base_dir : String):
+	print(\"Loading costume data: \", dict);
+	var new_costume : Costume = Costume.new();
+	
+	if !dict.has(\"name\"):
+		print(\"\\\"name\\\" key not found, load failed\");
+		return;
+	if !dict.name is String:
+		print(\"\\\"name\\\" key corresponding value is not a string, load failed\");
+		return;
+	new_costume.name = dict.name;
+	
+	if !dict.has(\"texture\"):
+		print(\"\\\"texture\\\" key not found, load failed\");
+		return;
+	if !dict.texture is String:
+		print(\"\\\"texture\\\" key corresponding value is not a string, load failed\");
+		return;
+	var file_path : String = image_find_base_dir + \"/\" + dict.texture;
+	if FileAccess.file_exists(file_path):
+		var image : Image = Image.load_from_file(file_path);
+		var texture : ImageTexture = ImageTexture.create_from_image(image);
+		new_costume.texture = texture;
+	else:
+		print(file_path, \" does not exist\");
+	
+	if !dict.has(\"icon_crop_rect\"):
+		print(\"\\\"icon_crop_rect\\\" key not found, load failed\");
+		return;
+	if !dict.icon_crop_rect is Array:
+		print(\"\\\"icon_crop_rect\\\" key corresponding value is not an array, load failed\");
+		return;
+	if dict.icon_crop_rect.size() != 4:
+		print(\"\\\"icon_crop_rect\\\" array wrong size. Should be 4 elements. Load failed\")
+		return;
+	for i in range(4):
+		if dict.icon_crop_rect[i] < 0:
+			print(\"\\\"icon_crop_rect\\\" array contains negative elements. Load failed\");
+			return;
+	var arr : Array = dict.icon_crop_rect;
+	var crop_rect : Rect2i = Rect2i(arr[0], arr[1], arr[2], arr[3]);
+	new_costume.crop_rect = crop_rect;
+	
+	add_costume(new_costume);
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kavfh"]
-atlas = ExtResource("9_dqnt6")
-region = Rect2(24, 14, 52, 86)
+func add_costume(costume : Costume):
+	var costume_button : CostumeButton = preload(\"res://UI/Costume Select/costume_button.tscn\").instantiate();
+	add_child(costume_button);
+	costume_button.costume = costume;
+	costume_button.costume_picked.connect(self.emit_signal.bind(\"costume_selected\"));
+
+func _ready():
+	if Engine.is_editor_hint():
+		return;
+	find_next_valid_focus().grab_focus();
+"
 
 [node name="Catgirl Mode Select" type="Control"]
 layout_mode = 3
@@ -102,51 +184,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
-
-[node name="NormalKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
-layout_mode = 2
-costume_icon = SubResource("AtlasTexture_xpr7c")
-costume_texture = ExtResource("3_d0jp3")
-costume_name = "Normal Kathryn"
-start_focused = true
-
-[node name="Worker4560897" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
-layout_mode = 2
-costume_icon = SubResource("AtlasTexture_s3ghq")
-costume_texture = ExtResource("5_4f8td")
-costume_name = "Worker
-#4560897"
-
-[node name="basketball" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
-layout_mode = 2
-costume_icon = SubResource("AtlasTexture_w1fwf")
-costume_texture = ExtResource("6_7h2yt")
-costume_name = "basketball
-(transgender)"
-
-[node name="EvilKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
-layout_mode = 2
-costume_icon = SubResource("AtlasTexture_71pm3")
-costume_texture = ExtResource("4_eww4v")
-costume_name = "Evil Kathryn"
-
-[node name="EvilerKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
-layout_mode = 2
-costume_icon = SubResource("AtlasTexture_6lmll")
-costume_texture = ExtResource("7_3cbhi")
-costume_name = "Eviler Kathryn"
-
-[node name="EvilestKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
-layout_mode = 2
-costume_icon = SubResource("AtlasTexture_3ygdv")
-costume_texture = ExtResource("8_ipivl")
-costume_name = "Evilest Kathryn"
-
-[node name="EvilesterKathryn" parent="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("2_gspdq")]
-layout_mode = 2
-costume_icon = SubResource("AtlasTexture_kavfh")
-costume_texture = ExtResource("9_dqnt6")
-costume_name = "Evilester Kathryn"
+script = SubResource("GDScript_pfy8l")
+costumes_array = Array[Resource("res://Characters/Kathryn/Costumes/Costume.gd")]([ExtResource("2_hleup"), ExtResource("3_hfuie"), ExtResource("4_q6oax"), ExtResource("5_bpke6"), ExtResource("6_rmkov"), ExtResource("7_dcb6u"), ExtResource("8_pns8f")])
 
 [node name="Spacer2" type="Control" parent="ColorRect/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -168,10 +207,4 @@ autowrap_mode = 3
 script = ExtResource("8_cwhxg")
 next_scene = "res://UI/Title Screen/title_screen.tscn"
 
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/NormalKathryn" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/Worker4560897" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/basketball" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/EvilKathryn" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/EvilerKathryn" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/EvilestKathryn" to="SceneLoader" method="change_scene"]
-[connection signal="costume_picked" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer/EvilesterKathryn" to="SceneLoader" method="change_scene"]
+[connection signal="costume_selected" from="ColorRect/VBoxContainer/HBoxContainer/ScrollContainer/HFlowContainer" to="SceneLoader" method="change_scene"]

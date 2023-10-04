@@ -32,9 +32,14 @@ func unpause(instant : bool = false):
 		$AnimationPlayer.seek($AnimationPlayer.get_animation("Hide").length, true);
 
 func _on_restart_button_pressed():
+	SceneManager.fade_and_reload_scene();
+	
+	await SceneManager.fade_in_finished;
+	
 	unpause(true);
 	
-	Global.fade_and_reload_scene();
+	# Repause everything since unpause() will, as the name implies, unpause
+	SceneManager.pause_stuff()
 
 func set_volume(value : float):
 	var master_volume : int = AudioServer.get_bus_index("Master");

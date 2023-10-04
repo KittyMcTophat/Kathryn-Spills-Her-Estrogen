@@ -1,6 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 
+# Custom content isn't part of the game
+Custom/
+
 # The license says I can't rehost it,
 # So it can't go to GitHub unfortunately
 Fonts/Hey Comic.ttf

@@ -52,7 +52,7 @@ autowrap_mode = 3
 
 [node name="SceneLoader" type="Node" parent="."]
 script = ExtResource("2_ahmg3")
-next_scene = "res://UI/Costume Select/costume_select.tscn"
+next_scene = "res://UI/Title Screen/title_screen.tscn"
 
 [node name="InputSignaler" type="Node" parent="."]
 script = ExtResource("2_r3agk")

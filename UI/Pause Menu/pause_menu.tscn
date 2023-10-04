@@ -12,21 +12,20 @@ shader_parameter/blur = 0.0
 shader_parameter/brightness = 1.0
 
 [sub_resource type="GDScript" id="GDScript_8vvmr"]
-script/source = "extends CheckBox
+script/source = "extends Button
 
 func _ready():
 	button_pressed = (DisplayServer.window_get_vsync_mode() == DisplayServer.VSYNC_ENABLED);
 
-func _pressed():
-	var mode : int = DisplayServer.window_get_vsync_mode();
-	if mode == DisplayServer.VSYNC_DISABLED:
+func _toggled(value : bool):
+	if value:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED);
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED);
 "
 
 [sub_resource type="GDScript" id="GDScript_atrg2"]
-script/source = "extends CheckBox
+script/source = "extends Button
 
 func _ready():
 	if !OS.has_feature(\"pc\"):
@@ -384,19 +383,19 @@ text = "- Display Settings -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="V-Sync" type="CheckBox" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
+[node name="V-Sync" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+toggle_mode = true
 button_pressed = true
 text = "V-Sync"
-alignment = 1
 script = SubResource("GDScript_8vvmr")
 
-[node name="FullscreenButton" type="CheckBox" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
+[node name="FullscreenButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+toggle_mode = true
 text = "Fullscreen"
-alignment = 1
 script = SubResource("GDScript_atrg2")
 
 [node name="Quit" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]

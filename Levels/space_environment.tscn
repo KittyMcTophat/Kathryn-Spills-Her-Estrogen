@@ -86,12 +86,27 @@ transform = Transform3D(0.965926, -0.0990458, 0.239118, 0, 0.923879, 0.382684, -
 light_energy = 0.5
 sky_mode = 1
 
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="DirectionalLights"]
-transform = Transform3D(0.258819, 0.369644, -0.892399, 0, 0.92388, 0.382683, 0.965926, -0.0990458, 0.239118, 0, 0, 0)
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="DirectionalLights/DirectionalLight3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 light_energy = 0.1
 sky_mode = 1
 
-[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="DirectionalLights"]
-transform = Transform3D(-0.965926, 0.0990458, -0.239118, 0, 0.92388, 0.382683, 0.258819, 0.369644, -0.892399, 0, 0, 0)
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="DirectionalLights/DirectionalLight3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+light_energy = 0.1
+sky_mode = 1
+
+[node name="DirectionalLight3D4" type="DirectionalLight3D" parent="DirectionalLights/DirectionalLight3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 light_energy = 0.05
+sky_mode = 1
+
+[node name="DirectionalLight3D5" type="DirectionalLight3D" parent="DirectionalLights/DirectionalLight3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+light_energy = 0.05
+sky_mode = 1
+
+[node name="DirectionalLight3D6" type="DirectionalLight3D" parent="DirectionalLights/DirectionalLight3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+light_energy = 0.025
 sky_mode = 1

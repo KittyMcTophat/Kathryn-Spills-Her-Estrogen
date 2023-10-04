@@ -1,52 +1,49 @@
-extends CharacterBody3D
+extends GravityObject
 class_name Actor
 
-@export var enable_movement : bool = true;
+@export var initial_state : String = "";
+var state : ActorState = null;
 
-@export var orient_with_gravity : bool = true;
-@export var reorientation_lerp_multiplier : float = 10.0;
-@export var friction : float = 0.5;
+var states : Dictionary = {};
 
-# If in a zero gravity area, uses the last non-zero gravity
-@export var keep_last_gravity : bool = true;
+func _ready():
+	var nodes_to_check : Array[Node] = get_children();
+	while !nodes_to_check.is_empty():
+		for child in nodes_to_check[0].get_children():
+			nodes_to_check.push_back(child);
+			if child is ActorState:
+				states[child.name.to_lower()] = child;
+		nodes_to_check.pop_front();
+	print("Actor: ", self, ": States loaded: ", states);
+	
+	await get_tree().process_frame;
+	
+	set_state(initial_state);
 
-var gravity_scale : float = 1.0;
-var gravity : Vector3 = Vector3.ZERO;
+func set_state(new_state : String) -> void:
+	if actor_state_is_valid():
+		if new_state.to_lower() == state.name.to_lower():
+			return;
+		else:
+			state.exit_state(self);
+			state.state_exited.emit();
+	if (!states.has(new_state.to_lower())):
+		var message : String = "Invalid State: " + new_state + "On actor: " + name + " " + str(self);
+		print(message);
+		OS.crash(message);
+	state = states[new_state.to_lower()];
+	state.enter_state(self);
+	state.state_entered.emit();
 
-var _cached_velocity : Vector3 = Vector3.ZERO;
-var local_velocity : Vector3 = Vector3.ZERO:
-	set(value):
-		velocity = global_transform.basis * value;
-		_cached_velocity = velocity;
-		local_velocity = value;
-	get:
-		if _cached_velocity != velocity:
-			_cached_velocity = velocity;
-			local_velocity = global_transform.basis.transposed() * velocity;
-		return local_velocity;
+func _process(delta : float):
+	if actor_state_is_valid():
+		state.state_process(delta, self);
 
 func _physics_process(delta : float):
-	if !enable_movement:
-		return;
+	super._physics_process(delta);
 	
-	var state : PhysicsDirectBodyState3D = PhysicsServer3D.body_get_direct_state(get_rid());
-	if (!state.get_total_gravity().is_zero_approx() || !keep_last_gravity):
-		gravity = state.get_total_gravity();
-	
-	velocity += gravity * gravity_scale * delta;
-	if (!gravity.is_zero_approx()):
-		set_up_direction(-gravity);
-	move_and_slide();
-	
-	if (is_on_floor()):
-		velocity = velocity.lerp(Vector3.ZERO, friction * delta);
-	
-	if (orient_with_gravity):
-		var new_basis : Basis = align_with_gravity(global_transform.basis, gravity);
-		if (!is_zero_approx(new_basis.determinant())):
-			global_transform.basis = global_transform.basis.slerp(new_basis, delta * reorientation_lerp_multiplier);
+	if actor_state_is_valid():
+		state.state_physics_process(delta, self);
 
-func align_with_gravity(xform : Basis, grav : Vector3):
-	xform.y = -grav;
-	xform.x = -xform.z.cross(-grav);
-	return xform.orthonormalized();
+func actor_state_is_valid() -> bool:
+	return (state != null) && (is_instance_valid(state));

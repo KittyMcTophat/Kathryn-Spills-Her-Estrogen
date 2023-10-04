@@ -19,11 +19,16 @@ config/icon="res://Icon.png"
 [autoload]
 
 Global="*res://Autoloads/Global.gd"
+Gravity="*res://Autoloads/Gravity.gd"
+SceneManager="*res://Autoloads/SceneManager.gd"
+Costumes="*res://Autoloads/Costumes.gd"
 
 [display]
 
 window/size/viewport_width=1024
 window/size/viewport_height=768
+window/size/window_width_override=512
+window/size/window_height_override=384
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -195,7 +200,8 @@ toggle_fullscreen={
 
 [layer_names]
 
-3d_render/layer_1="Recieve Drop Shadow"
+3d_render/layer_1="Recieve Shadows"
+3d_render/layer_2="Don't Recieve Shadows"
 3d_physics/layer_1="Ground"
 3d_physics/layer_2="Player"
 

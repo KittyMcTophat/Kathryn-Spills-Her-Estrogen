@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Costume" load_steps=3 format=3 uid="uid://5sfo75i6d5rm"]
+
+[ext_resource type="Script" path="res://Characters/Kathryn/Costumes/Costume.gd" id="1_3qaos"]
+[ext_resource type="Texture2D" uid="uid://c0x46ixypn3cx" path="res://Characters/Kathryn/Costumes/normal kathryn.png" id="2_p6jfq"]
+
+[resource]
+script = ExtResource("1_3qaos")
+name = "Normal Kathryn"
+texture = ExtResource("2_p6jfq")
+crop_rect = Rect2i(24, 14, 52, 86)

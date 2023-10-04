@@ -5,5 +5,5 @@ func _ready():
 	body_entered.connect(_body_entered);
 
 func _body_entered(body) -> void:
-	if body is Kathryn:
+	if body is Kathryn && !(body.state is DeathState):
 		body.die();

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Costume" load_steps=3 format=3 uid="uid://ybxy2o0kap83"]
+
+[ext_resource type="Script" path="res://Characters/Kathryn/Costumes/Costume.gd" id="1_i134x"]
+[ext_resource type="Texture2D" uid="uid://d13xo82k0pyj3" path="res://Characters/Kathryn/Costumes/basketball.png" id="2_26k8i"]
+
+[resource]
+script = ExtResource("1_i134x")
+name = "basketball
+(transgender)"
+texture = ExtResource("2_26k8i")
+crop_rect = Rect2i(14, 28, 72, 72)
