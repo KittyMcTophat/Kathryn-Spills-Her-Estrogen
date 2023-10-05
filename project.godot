@@ -18,10 +18,11 @@ config/icon="res://Icon.png"
 
 [autoload]
 
+Costumes="*res://Autoloads/Costumes.gd"
 Global="*res://Autoloads/Global.gd"
 Gravity="*res://Autoloads/Gravity.gd"
+MusicManager="*res://Autoloads/MusicManager.gd"
 SceneManager="*res://Autoloads/SceneManager.gd"
-Costumes="*res://Autoloads/Costumes.gd"
 
 [display]
 

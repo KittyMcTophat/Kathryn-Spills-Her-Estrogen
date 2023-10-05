@@ -5,6 +5,8 @@ class_name LevelController
 @export var allow_pause : bool = true;
 @export var set_gravity : bool = true;
 @export var global_gravity : Vector3 = Vector3.DOWN * 9.8;
+@export var music : AudioStream = null;
+@export var use_previous_music : bool = false;
 
 func _ready():
 	Global.ui_control.visible = show_ui;
@@ -12,3 +14,6 @@ func _ready():
 	
 	if set_gravity:
 		Gravity.set_gravity(global_gravity);
+	
+	if !use_previous_music:
+		MusicManager.set_bgm(music);

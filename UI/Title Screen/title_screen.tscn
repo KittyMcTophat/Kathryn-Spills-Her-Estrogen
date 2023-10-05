@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://batba6ymaw1ng"]
+[gd_scene load_steps=13 format=3 uid="uid://batba6ymaw1ng"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_h6klo"]
+[ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_sdh8x"]
 [ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_vbt4n"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="3_ingyj"]
 [ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="4_03e3t"]
@@ -65,6 +66,7 @@ script = ExtResource("1_h6klo")
 show_ui = false
 allow_pause = false
 set_gravity = false
+music = ExtResource("2_sdh8x")
 
 [node name="Environment" parent="." instance=ExtResource("2_vbt4n")]
 

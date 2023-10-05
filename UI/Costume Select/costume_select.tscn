@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bgiob4utycwfl"]
+[gd_scene load_steps=12 format=3 uid="uid://bgiob4utycwfl"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_oi7i4"]
+[ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_1808p"]
 [ext_resource type="Resource" uid="uid://5sfo75i6d5rm" path="res://Characters/Kathryn/Costumes/normal kathryn.tres" id="2_hleup"]
 [ext_resource type="Resource" uid="uid://c4hpxbdp5o66" path="res://Characters/Kathryn/Costumes/worker4560897.tres" id="3_hfuie"]
 [ext_resource type="Resource" uid="uid://ybxy2o0kap83" path="res://Characters/Kathryn/Costumes/basketball.tres" id="4_q6oax"]
@@ -132,6 +133,7 @@ script = ExtResource("1_oi7i4")
 show_ui = false
 allow_pause = false
 set_gravity = false
+music = ExtResource("2_1808p")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7841yf1yqi4y"]
+[gd_scene load_steps=5 format=3 uid="uid://c7841yf1yqi4y"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_2o3ul"]
+[ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_g16fv"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="2_ip3ji"]
 
 [sub_resource type="GDScript" id="GDScript_t3orx"]
@@ -21,6 +22,7 @@ script = ExtResource("1_2o3ul")
 show_ui = false
 allow_pause = false
 set_gravity = false
+music = ExtResource("2_g16fv")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

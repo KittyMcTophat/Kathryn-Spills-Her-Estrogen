@@ -1,6 +1,7 @@
-[gd_scene load_steps=47 format=3 uid="uid://dbl631ri3d5bb"]
+[gd_scene load_steps=48 format=3 uid="uid://dbl631ri3d5bb"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_q3p88"]
+[ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_c2xbo"]
 [ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_xjp8r"]
 [ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/Kathryn.tscn" id="3_iux17"]
 [ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="4_86od0"]
@@ -243,6 +244,7 @@ I guess I'll go look in another nearby part of space...", "THIS IS THE ONLY LEVE
 [node name="Level0" type="Node3D"]
 script = ExtResource("1_q3p88")
 global_gravity = Vector3(0, 0, 0)
+music = ExtResource("2_c2xbo")
 
 [node name="Environment" parent="." instance=ExtResource("2_xjp8r")]
 

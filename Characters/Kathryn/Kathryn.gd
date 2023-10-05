@@ -73,6 +73,7 @@ func squash(amount : Vector3, time : float) -> void:
 	squash_tween.tween_property($MeshPivot, "scale", Vector3.ONE, time);
 
 func die():
+	MusicManager.set_bgm(null);
 	set_state("DeathState");
 	await get_tree().create_timer(death_reset_time, false).timeout;
 	SceneManager.fade_and_reload_scene();
