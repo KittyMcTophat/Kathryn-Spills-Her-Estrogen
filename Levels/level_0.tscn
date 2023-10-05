@@ -166,7 +166,7 @@ albedo_color = Color(1, 1, 0.4, 1)
 albedo_color = Color(1, 1, 0.619608, 1)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_h31kl"]
-height = 8.0
+height = 16.0
 radius = 4.5
 
 [sub_resource type="QuadMesh" id="QuadMesh_mbb60"]
@@ -232,7 +232,7 @@ _data = [Vector2(0, 1), 0.0, 0.0361469, 0, 0, Vector2(1, 0), -2.42667, 0.0, 0, 0
 point_count = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jquql"]
-radius = 3.0
+radius = 3.2
 
 [sub_resource type="Resource" id="Resource_nfd6b"]
 script = ExtResource("5_6nl1x")
@@ -525,7 +525,7 @@ amount = 5
 spread_degrees = 180.0
 
 [node name="Top GravityArea" type="Area3D" parent="EndPlanet/CSGSphere3D/CSGTorus3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
@@ -536,7 +536,7 @@ gravity_space_override = 3
 shape = SubResource("CylinderShape3D_h31kl")
 
 [node name="Bottom GravityArea" type="Area3D" parent="EndPlanet/CSGSphere3D/CSGTorus3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
