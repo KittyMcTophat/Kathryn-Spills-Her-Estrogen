@@ -15,7 +15,7 @@ class LaunchSettings:
 var ls : LaunchSettings = null;
 
 # Calculated when launched
-var deceleration_start_distance : float = 0.0;
+var deceleration_distance : float = 0.0;
 
 var deceleration_time : float = 0.0;
 var total_launch_time : float = 0.0;
@@ -25,29 +25,39 @@ var decel_timer : Timer = null;
 
 func launch(_ls : LaunchSettings):
 	self.ls = _ls;
-	calculate_deceleration_start_distance();
+	calculate_deceleration_distance();
 	calculate_time();
 	launched.emit();
 	
-	launch_timer = Timer.new();
-	add_child(launch_timer);
-	launch_timer.process_callback = Timer.TIMER_PROCESS_PHYSICS;
+	setup_launch_timer();
+	setup_decel_timer();
+
+func calculate_deceleration_distance():
+	var v_f_squared : float = ls.end_velocity * ls.end_velocity;
+	var v_i_squared : float = ls.initial_velocity * ls.initial_velocity;
+	
+	var numerator : float = v_f_squared - v_i_squared;
+	var denominator : float = 2 * (-ls.deceleration);
+	
+	if denominator != 0:
+		deceleration_distance = numerator / denominator;
+	else:
+		deceleration_distance = 0.0;
+
+func calculate_time():
+	if ls.deceleration == 0:
+		deceleration_time = 0;
+	else:
+		deceleration_time = (ls.end_velocity - ls.initial_velocity) / (-ls.deceleration);
+	
+	total_launch_time = (ls.total_distance - deceleration_distance) / ls.initial_velocity;
+	total_launch_time += deceleration_time;
+
+func setup_launch_timer():
+	launch_timer = setup_timer();
+	
 	launch_timer.wait_time = total_launch_time;
-	launch_timer.one_shot = true;
 	launch_timer.start();
-	
-	decel_timer = Timer.new();
-	add_child(decel_timer);
-	decel_timer.process_callback = Timer.TIMER_PROCESS_PHYSICS;
-	decel_timer.wait_time = total_launch_time - deceleration_time;
-	launch_timer.one_shot = true;
-	decel_timer.start();
-	
-	await decel_timer.timeout;
-	
-	decel_timer.queue_free();
-	decel_timer = null;
-	deceleration_started.emit();
 	
 	await launch_timer.timeout;
 	
@@ -56,29 +66,24 @@ func launch(_ls : LaunchSettings):
 	launch_timer = null;
 	launch_finished.emit();
 
-func calculate_deceleration_start_distance():
-	var v_f_squared : float = ls.end_velocity * ls.end_velocity;
-	var v_i_squared : float = ls.initial_velocity * ls.initial_velocity;
+func setup_decel_timer():
+	decel_timer = setup_timer();
 	
-	var numerator : float = v_f_squared - v_i_squared;
-	var denominator : float = 2 * (-ls.deceleration);
+	decel_timer.wait_time = total_launch_time - deceleration_time;
+	decel_timer.start();
 	
-	var deceleration_distance : float;
-	if denominator != 0:
-		deceleration_distance = numerator / denominator;
-	else:
-		deceleration_distance = 0.0;
+	await decel_timer.timeout;
 	
-	deceleration_start_distance = ls.total_distance - deceleration_distance;
+	decel_timer.queue_free();
+	decel_timer = null;
+	deceleration_started.emit();
 
-func calculate_time():
-	if ls.deceleration == 0:
-		deceleration_time = 0;
-	else:
-		deceleration_time = (ls.end_velocity - ls.initial_velocity) / (-ls.deceleration);
-	
-	total_launch_time = deceleration_start_distance / ls.initial_velocity;
-	total_launch_time += deceleration_time;
+func setup_timer() -> Timer:
+	var ret_timer = Timer.new();
+	add_child(ret_timer);
+	ret_timer.process_callback = Timer.TIMER_PROCESS_PHYSICS;
+	ret_timer.one_shot = true;
+	return ret_timer;
 
 func _physics_process(delta):
 	if launch_timer == null:

@@ -50,6 +50,8 @@ func point_mesh_to_curve():
 func get_path_follow() -> LunchStarPathFolow3D:
 	var path_follow : LunchStarPathFolow3D = LunchStarPathFolow3D.new();
 	add_child(path_follow);
+	# In the first bake_interval units of the curve, there's some wierdness
+	# So we just skip over them
 	path_follow.progress = curve.bake_interval;
 	path_follow.loop = false;
 	path_follow.use_model_front = true;
@@ -61,5 +63,7 @@ func launch_path_follow(path_follow : LunchStarPathFolow3D):
 	ls.initial_velocity = launch_speed;
 	ls.deceleration = deceleration;
 	ls.end_velocity = end_velocity;
-	ls.total_distance = curve.get_baked_length();
+	# Since we skip the initial bake_interval units of the curve,
+	# we have to subtract them from the distance
+	ls.total_distance = curve.get_baked_length() - curve.bake_interval;
 	path_follow.launch(ls);
