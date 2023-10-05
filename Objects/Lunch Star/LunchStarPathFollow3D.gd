@@ -90,7 +90,7 @@ func calculate_progress() -> float:
 	if elapsed_time() < (total_launch_time - deceleration_time):
 		return ls.initial_velocity * elapsed_time();
 	elif deceleration_time != 0:
-		var prog : float = ls.initial_velocity * (total_launch_time - deceleration_time)
+		var prog : float = ls.initial_velocity * (total_launch_time - deceleration_time);
 
 		var decelerate_time_passed : float = (elapsed_time() - (total_launch_time - deceleration_time));
 		var cur_velocity : float = (ls.initial_velocity - (ls.deceleration * decelerate_time_passed));
