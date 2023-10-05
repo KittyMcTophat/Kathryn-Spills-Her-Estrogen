@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxy0llsxcuc6m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_irhnl"]
+albedo_color = Color(0.760784, 0, 0, 1)
+
+[node name="Outer Ring" type="CSGTorus3D"]
+inner_radius = 0.75
+smooth_faces = false
+material = SubResource("StandardMaterial3D_irhnl")

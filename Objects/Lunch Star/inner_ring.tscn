@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://3tl2el1a4mhi"]
+
+[node name="inner_ring" type="CSGTorus3D"]
+inner_radius = 0.375
+outer_radius = 0.625
+smooth_faces = false
