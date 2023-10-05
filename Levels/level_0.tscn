@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://Objects/Misc/KillPlane.gd" id="6_wa5t0"]
 [ext_resource type="PackedScene" uid="uid://4cnl51ssv2ru" path="res://Objects/Estrogen/Estrogen.tscn" id="7_6n50e"]
 [ext_resource type="Script" path="res://Objects/Estrogen/EstrogenSpawnerArc.gd" id="7_hq6yb"]
-[ext_resource type="PackedScene" uid="uid://cbkt47xuv608d" path="res://Objects/Misc/tutorial_text.tscn" id="8_2pxuv"]
+[ext_resource type="FontFile" uid="uid://cy3qd3g1repxw" path="res://Fonts/Hey Comic.ttf" id="9_fywcv"]
 [ext_resource type="Texture2D" uid="uid://btsavxgwpf24j" path="res://Objects/Interactable/Exclamation Mark.png" id="9_o1wx5"]
 [ext_resource type="Texture2D" uid="uid://de5vf4in3bgcj" path="res://Objects/Misc/Sign.png" id="10_mdkch"]
 [ext_resource type="Script" path="res://Objects/Interactable/InteractionArea.gd" id="11_x3hyf"]
@@ -313,29 +313,53 @@ libraries = {
 "": SubResource("AnimationLibrary_qu47b")
 }
 
-[node name="TutorialText" parent="StartingCircle" instance=ExtResource("8_2pxuv")]
+[node name="TutorialText" type="Label3D" parent="StartingCircle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
 text = "Use the Right Stick
 or Arrow Keys
 to rotate the camera"
+font = ExtResource("9_fywcv")
+font_size = 96
 
-[node name="TutorialText2" parent="StartingCircle" instance=ExtResource("8_2pxuv")]
+[node name="TutorialText2" type="Label3D" parent="StartingCircle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 0)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
 text = "Use the Left Stick
 or WASD Keys
 to move"
+font = ExtResource("9_fywcv")
+font_size = 96
 
-[node name="TutorialText2 - Copy" parent="StartingCircle" instance=ExtResource("8_2pxuv")]
+[node name="TutorialText2 - Copy" type="Label3D" parent="StartingCircle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 0)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
 text = "Use the Left Stick
 or WASD Keys
 to move"
+font = ExtResource("9_fywcv")
+font_size = 96
 
-[node name="TutorialText3" parent="StartingCircle" instance=ExtResource("8_2pxuv")]
+[node name="TutorialText3" type="Label3D" parent="StartingCircle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
 text = "Use Space or
 the 'A' Button
 To jump"
+font = ExtResource("9_fywcv")
+font_size = 96
 
 [node name="InitialGravityArea" type="Area3D" parent="StartingCircle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
@@ -525,11 +549,17 @@ shape = SubResource("CylinderShape3D_h31kl")
 [node name="Sign" type="Node3D" parent="EndPlanet/CSGSphere3D"]
 transform = Transform3D(1, 0, 0, 0, 0.999998, 0, 0, 0, 1, 3.8637, -0.535276, -1)
 
-[node name="TutorialText4" parent="EndPlanet/CSGSphere3D/Sign" instance=ExtResource("8_2pxuv")]
+[node name="TutorialText4" type="Label3D" parent="EndPlanet/CSGSphere3D/Sign"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
 text = "Use E or the 'X' Button
 near things you want to
 interact with."
+font = ExtResource("9_fywcv")
+font_size = 96
 
 [node name="InteractableIndicator" type="MeshInstance3D" parent="EndPlanet/CSGSphere3D/Sign"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
