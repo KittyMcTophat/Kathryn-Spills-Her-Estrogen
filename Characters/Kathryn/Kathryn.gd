@@ -22,7 +22,8 @@ var jump_buffer : float = 0.0;
 func _physics_process(delta : float) -> void:
 	super._physics_process(delta);
 	
-	process_flip();
+	if enable_movement:
+		process_flip();
 	
 	process_landing();
 
