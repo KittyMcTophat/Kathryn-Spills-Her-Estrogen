@@ -35,6 +35,7 @@ func process_flip() -> void:
 		if turn_tween != null:
 			turn_tween.kill();
 		turn_tween = $MeshPivot.create_tween();
+		turn_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS);
 		
 		var target_rotation : Vector3 = Vector3.ZERO;
 		if input_vector.x < 0.0:
