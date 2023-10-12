@@ -2,12 +2,12 @@ extends PathFollow3D
 class_name LunchStarPathFolow3D
 
 signal launched();
-signal deceleration_started();
+signal acceleration_started();
 signal launch_finished();
 
 class LaunchSettings:
 	var initial_velocity : float;
-	var deceleration : float;
+	var acceleration : float;
 	var end_velocity : float;
 	var total_distance : float;
 
@@ -15,43 +15,46 @@ class LaunchSettings:
 var ls : LaunchSettings = null;
 
 # Calculated when launched
-var deceleration_distance : float = 0.0;
+var acceleration_distance : float = 0.0;
 
-var deceleration_time : float = 0.0;
+var acceleration_time : float = 0.0;
 var total_launch_time : float = 0.0;
+var initial_progress : float = 0.0;
 
 var launch_timer : Timer = null;
-var decel_timer : Timer = null;
+var accel_timer : Timer = null;
 
 func launch(_ls : LaunchSettings):
 	self.ls = _ls;
-	calculate_deceleration_distance();
+	calculate_acceleration_distance();
 	calculate_time();
-	launched.emit();
+	initial_progress = progress;
 	
 	setup_launch_timer();
-	setup_decel_timer();
+	setup_accel_timer();
+	
+	launched.emit();
 
-func calculate_deceleration_distance():
+func calculate_acceleration_distance():
 	var v_f_squared : float = ls.end_velocity * ls.end_velocity;
 	var v_i_squared : float = ls.initial_velocity * ls.initial_velocity;
 	
 	var numerator : float = v_f_squared - v_i_squared;
-	var denominator : float = 2 * (-ls.deceleration);
+	var denominator : float = 2 * ls.acceleration;
 	
 	if denominator != 0:
-		deceleration_distance = numerator / denominator;
+		acceleration_distance = absf(numerator / denominator);
 	else:
-		deceleration_distance = 0.0;
+		acceleration_distance = 0.0;
 
 func calculate_time():
-	if ls.deceleration == 0:
-		deceleration_time = 0;
+	if ls.acceleration == 0:
+		acceleration_time = 0;
 	else:
-		deceleration_time = (ls.end_velocity - ls.initial_velocity) / (-ls.deceleration);
+		acceleration_time = absf((ls.end_velocity - ls.initial_velocity) / (ls.acceleration));
 	
-	total_launch_time = (ls.total_distance - deceleration_distance) / ls.initial_velocity;
-	total_launch_time += deceleration_time;
+	total_launch_time = (ls.total_distance - acceleration_distance) / ls.initial_velocity;
+	total_launch_time += acceleration_time;
 
 func setup_launch_timer():
 	launch_timer = setup_timer();
@@ -61,22 +64,17 @@ func setup_launch_timer():
 	
 	await launch_timer.timeout;
 	
-	progress = ls.total_distance;
-	launch_timer.queue_free();
-	launch_timer = null;
 	launch_finished.emit();
 
-func setup_decel_timer():
-	decel_timer = setup_timer();
+func setup_accel_timer():
+	accel_timer = setup_timer();
 	
-	decel_timer.wait_time = total_launch_time - deceleration_time;
-	decel_timer.start();
+	accel_timer.wait_time = total_launch_time - acceleration_time;
+	accel_timer.start();
 	
-	await decel_timer.timeout;
+	await accel_timer.timeout;
 	
-	decel_timer.queue_free();
-	decel_timer = null;
-	deceleration_started.emit();
+	acceleration_started.emit();
 
 func setup_timer() -> Timer:
 	var ret_timer = Timer.new();
@@ -85,23 +83,24 @@ func setup_timer() -> Timer:
 	ret_timer.one_shot = true;
 	return ret_timer;
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if launch_timer == null:
 		return;
 	
-	progress = calculate_progress();
+	progress = calculate_progress() + initial_progress;
 
 func calculate_progress() -> float:
-	if elapsed_time() < (total_launch_time - deceleration_time):
+	if elapsed_time() < (total_launch_time - acceleration_time):
 		return ls.initial_velocity * elapsed_time();
-	elif deceleration_time != 0:
-		var prog : float = ls.initial_velocity * (total_launch_time - deceleration_time);
+	elif elapsed_time() < total_launch_time && ls.acceleration != 0.0:
+		var prog : float = ls.initial_velocity * (total_launch_time - acceleration_time);
 
-		var decelerate_time_passed : float = (elapsed_time() - (total_launch_time - deceleration_time));
-		var cur_velocity : float = (ls.initial_velocity - (ls.deceleration * decelerate_time_passed));
+		var accelerate_time_passed : float = (elapsed_time() - (total_launch_time - acceleration_time));
+		var cur_velocity : float = move_toward(ls.initial_velocity, ls.end_velocity,
+		absf(ls.acceleration) * accelerate_time_passed);
 		var numerator : float = ((cur_velocity * cur_velocity) - (ls.initial_velocity * ls.initial_velocity));
-		var denominator : float = (2 * -ls.deceleration);
-		prog += (numerator / denominator);
+		var denominator : float = (2.0 * ls.acceleration);
+		prog += absf(numerator / denominator);
 		
 		return prog;
 	else:

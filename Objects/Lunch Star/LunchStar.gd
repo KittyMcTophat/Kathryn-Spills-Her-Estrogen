@@ -8,7 +8,7 @@ class_name LunchStar
 		reload_meshes();
 
 @export var launch_speed : float = 7.0;
-@export var deceleration : float = 1.0;
+@export var acceleration : float = 1.0;
 @export var end_velocity : float = 3.0;
 
 func _ready():
@@ -61,9 +61,9 @@ func launch_path_follow(path_follow : LunchStarPathFolow3D):
 	# Play some animation
 	var ls : LunchStarPathFolow3D.LaunchSettings = LunchStarPathFolow3D.LaunchSettings.new();
 	ls.initial_velocity = launch_speed;
-	ls.deceleration = deceleration;
+	ls.acceleration = acceleration;
 	ls.end_velocity = end_velocity;
-	# Since we skip the initial bake_interval units of the curve,
+	# Since we skip the initial bake_interval units of each end of the curve,
 	# we have to subtract them from the distance
-	ls.total_distance = curve.get_baked_length() - curve.bake_interval;
+	ls.total_distance = curve.get_baked_length() - (2.0 * curve.bake_interval);
 	path_follow.launch(ls);
