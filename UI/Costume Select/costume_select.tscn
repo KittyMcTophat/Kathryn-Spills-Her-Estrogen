@@ -1,15 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bgiob4utycwfl"]
+[gd_scene load_steps=5 format=3 uid="uid://bgiob4utycwfl"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_oi7i4"]
 [ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_1808p"]
-[ext_resource type="Resource" uid="uid://5sfo75i6d5rm" path="res://Characters/Kathryn/Costumes/normal kathryn.tres" id="2_hleup"]
-[ext_resource type="Resource" uid="uid://c4hpxbdp5o66" path="res://Characters/Kathryn/Costumes/worker4560897.tres" id="3_hfuie"]
-[ext_resource type="Resource" uid="uid://ybxy2o0kap83" path="res://Characters/Kathryn/Costumes/basketball.tres" id="4_q6oax"]
-[ext_resource type="Resource" uid="uid://canpnqj8e5yj" path="res://Characters/Kathryn/Costumes/evil kathryn.tres" id="5_bpke6"]
-[ext_resource type="Resource" uid="uid://cyyj4qqpvxg1c" path="res://Characters/Kathryn/Costumes/eviler kathryn.tres" id="6_rmkov"]
-[ext_resource type="Resource" uid="uid://l0y60ay0fmb0" path="res://Characters/Kathryn/Costumes/evilest kathryn.tres" id="7_dcb6u"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="8_cwhxg"]
-[ext_resource type="Resource" uid="uid://cch1yj2pm5u66" path="res://Characters/Kathryn/Costumes/evilester kathryn.tres" id="8_pns8f"]
 
 [sub_resource type="GDScript" id="GDScript_pfy8l"]
 script/source = "@tool
@@ -17,98 +10,27 @@ extends HFlowContainer
 
 signal costume_selected();
 
-@export var costumes_array : Array[Costume] = []:
-	set(value):
-		costumes_array = value;
-		update_children();
-
 func update_children():
 	for child in get_children():
 		child.queue_free();
 	
-	for costume in costumes_array:
+	##TODO: Switch to using load_costumes() again after issue #87274 is fixed
+	for costume in Costumes.default_costumes:
+		add_costume(load(costume));
+	
+	for costume in Costumes.custom_costumes:
 		add_costume(costume);
-	
-	load_custom_costumes();
 
-func load_custom_costumes():
-	var custom_costumes_dir_path : String = OS.get_executable_path().get_base_dir() + \"/Custom/Costumes\";
-	print(\"Attempting to load custom costumes from: \", custom_costumes_dir_path)
-	if !DirAccess.dir_exists_absolute(custom_costumes_dir_path):
-		print(\"Directory does not exist, costumes not loaded\");
-		return;
-	print(\"Directory Found\");
-	var custom_costumes_dir : DirAccess = DirAccess.open(custom_costumes_dir_path);
-	print(\"Contents: \", custom_costumes_dir.get_files());
-	for file in custom_costumes_dir.get_files():
-		# Only loading the jsons right now
-		if file.get_extension() != \"json\":
-			continue;
-		print(\"\\nLoading json: \", file);
-		
-		var file_acess : FileAccess = FileAccess.open(custom_costumes_dir_path + \"/\" + file, FileAccess.READ);
-		if file_acess == null:
-			print(\"Open file failed: \", file_acess.get_error());
-			continue;
-		print(file_acess.get_as_text());
-		
-		var json_data = JSON.parse_string(file_acess.get_as_text());
-		if json_data == null:
-			print(\"Malformed JSON\");
-			continue;
-		
-		if json_data is Array:
-			for item in json_data:
-				if item is Dictionary:
-					load_costume_from_dictionary(item, custom_costumes_dir_path);
-		else:
-			if json_data is Dictionary:
-				load_costume_from_dictionary(json_data, custom_costumes_dir_path);
-
-func load_costume_from_dictionary(dict : Dictionary, image_find_base_dir : String):
-	print(\"Loading costume data: \", dict);
-	var new_costume : Costume = Costume.new();
+func load_costumes() -> Array[Costume]:
+	var costumes : Array[Costume] = [];
 	
-	if !dict.has(\"name\"):
-		print(\"\\\"name\\\" key not found, load failed\");
-		return;
-	if !dict.name is String:
-		print(\"\\\"name\\\" key corresponding value is not a string, load failed\");
-		return;
-	new_costume.name = dict.name;
+	var costumes_directory : String = \"res://Characters/Kathryn/Costumes\";
+	var costumes_directory_access : DirAccess = DirAccess.open(costumes_directory);
+	for file in costumes_directory_access.get_files():
+		if file.get_extension().to_lower() == \"tres\":
+			costumes.append(ResourceLoader.load(costumes_directory + \"/\" + file));
 	
-	if !dict.has(\"texture\"):
-		print(\"\\\"texture\\\" key not found, load failed\");
-		return;
-	if !dict.texture is String:
-		print(\"\\\"texture\\\" key corresponding value is not a string, load failed\");
-		return;
-	var file_path : String = image_find_base_dir + \"/\" + dict.texture;
-	if FileAccess.file_exists(file_path):
-		var image : Image = Image.load_from_file(file_path);
-		var texture : ImageTexture = ImageTexture.create_from_image(image);
-		new_costume.texture = texture;
-	else:
-		print(file_path, \" does not exist\");
-	
-	if !dict.has(\"icon_crop_rect\"):
-		print(\"\\\"icon_crop_rect\\\" key not found, load failed\");
-		return;
-	if !dict.icon_crop_rect is Array:
-		print(\"\\\"icon_crop_rect\\\" key corresponding value is not an array, load failed\");
-		return;
-	if dict.icon_crop_rect.size() != 4:
-		print(\"\\\"icon_crop_rect\\\" array wrong size. Should be 4 elements. Load failed\")
-		return;
-	for i in range(4):
-		if dict.icon_crop_rect[i] < 0:
-			print(\"\\\"icon_crop_rect\\\" array contains negative elements. Load failed\");
-			return;
-	var arr : Array = dict.icon_crop_rect;
-	var crop_rect : Rect2i = Rect2i(arr[0], arr[1], arr[2], arr[3]);
-	new_costume.crop_rect = crop_rect;
-	
-	add_costume(new_costume);
+	return costumes;
 
 func add_costume(costume : Costume):
 	var costume_button : CostumeButton = preload(\"res://UI/Costume Select/costume_button.tscn\").instantiate();
@@ -117,12 +39,13 @@ func add_costume(costume : Costume):
 	costume_button.costume_picked.connect(self.emit_signal.bind(\"costume_selected\"));
 
 func _ready():
+	update_children();
 	if Engine.is_editor_hint():
 		return;
 	find_next_valid_focus().grab_focus();
 "
 
-[node name="Catgirl Mode Select" type="Control"]
+[node name="Costume Select" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -161,7 +84,6 @@ theme_override_font_sizes/font_size = 32
 text = "Select a costume"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
@@ -187,7 +109,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 script = SubResource("GDScript_pfy8l")
-costumes_array = Array[Resource("res://Characters/Kathryn/Costumes/Costume.gd")]([ExtResource("2_hleup"), ExtResource("3_hfuie"), ExtResource("4_q6oax"), ExtResource("5_bpke6"), ExtResource("6_rmkov"), ExtResource("7_dcb6u"), ExtResource("8_pns8f")])
 
 [node name="Spacer2" type="Control" parent="ColorRect/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -203,7 +124,6 @@ text = "Change Selection - WASD / Arrow Keys / Left Stick / D-Pad
 Confirm - Space / Enter / 'A' Button"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 3
 
 [node name="SceneLoader" type="Node" parent="."]
 script = ExtResource("8_cwhxg")
