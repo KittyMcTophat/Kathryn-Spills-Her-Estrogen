@@ -248,8 +248,6 @@ music = ExtResource("2_c2xbo")
 
 [node name="Environment" parent="." instance=ExtResource("2_xjp8r")]
 
-[node name="Kathryn" parent="." instance=ExtResource("3_iux17")]
-
 [node name="StartingDialogue" type="Node" parent="."]
 script = ExtResource("4_86od0")
 on_ready = true
@@ -274,6 +272,8 @@ script = ExtResource("6_wa5t0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Top KillPlane"]
 shape = SubResource("WorldBoundaryShape3D_a22qd")
+
+[node name="Kathryn" parent="." instance=ExtResource("3_iux17")]
 
 [node name="StartingCircle" type="Node3D" parent="."]
 
