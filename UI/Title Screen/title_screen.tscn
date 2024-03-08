@@ -73,10 +73,10 @@ music = ExtResource("2_sdh8x")
 [node name="Camera3D" type="Camera3D" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D"]
-autoplay = "Spin"
 libraries = {
 "": SubResource("AnimationLibrary_4yct7")
 }
+autoplay = "Spin"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

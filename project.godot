@@ -11,8 +11,9 @@ config_version=5
 [application]
 
 config/name="Kathryn Spills Her Estrogen All Over The Place And Now She Has To Pick It Up"
+config/tags=PackedStringArray("game")
 run/main_scene="res://UI/disclaimer.tscn"
-config/features=PackedStringArray("4.1", "GL Compatibility")
+config/features=PackedStringArray("4.2", "GL Compatibility")
 boot_splash/bg_color=Color(1, 0.807843, 1, 1)
 config/icon="res://Icon.png"
 
@@ -21,6 +22,8 @@ config/icon="res://Icon.png"
 Costumes="*res://Autoloads/Costumes.gd"
 Global="*res://Autoloads/Global.gd"
 Gravity="*res://Autoloads/Gravity.gd"
+Levels="*res://Autoloads/Levels.gd"
+ModLoader="*res://Autoloads/ModLoader.gd"
 MusicManager="*res://Autoloads/MusicManager.gd"
 SceneManager="*res://Autoloads/SceneManager.gd"
 

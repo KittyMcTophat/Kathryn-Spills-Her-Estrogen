@@ -440,10 +440,10 @@ size_flags_vertical = 0
 text = "E / R1"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "RESET"
 libraries = {
 "": SubResource("AnimationLibrary_33ysv")
 }
+autoplay = "RESET"
 
 [connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/ResumeButton" to="." method="unpause"]
 [connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
