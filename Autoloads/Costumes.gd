@@ -1,3 +1,5 @@
+# tool so that the costume select menu tool script can access it
+@tool
 extends Node
 
 var current_costume : Costume = preload("res://Characters/Kathryn/Costumes/normal kathryn.tres");
