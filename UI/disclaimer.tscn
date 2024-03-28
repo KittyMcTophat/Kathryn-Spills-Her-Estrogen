@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_pu2qf"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="2_ahmg3"]
-[ext_resource type="Script" path="res://Objects/Misc/InputSignaler.gd" id="2_r3agk"]
+[ext_resource type="PackedScene" uid="uid://dqjfo640lknpe" path="res://UI/better_button.tscn" id="2_cbq7a"]
 
 [node name="Disclaimer" type="Control"]
 layout_mode = 3
@@ -25,37 +25,42 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0.807843, 1, 1)
 
-[node name="Label" type="Label" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.05
 anchor_top = 0.05
 anchor_right = 0.95
 anchor_bottom = 0.95
-grow_horizontal = 2
-grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "This is an autobiographical game based on a true story.
 (The true story is that one time I dropped an estrogen pill and I had to pick it up)
 
 I was originally going to make this game for the 2023 Trans Representation Jam, but I lost track of time and didn't finish it. So, I decided to work on it for a year, then finish it for the 2024 jam.
 
-I don't even take estrogen pills anymore. I switched to injections.
+I don't even take estrogen pills anymore. I switched to injections. Also, I have short hair now.
 
 The game contains a fair amount of profanity, so if you don't like swearing, maybe skip it.
 
-Also the camera might make you a bit motion sick if you're sensitive to that kind of thing, so be warned.
-
-[Press Space/Enter/'A' Button to continue]"
+Also the camera might make you a bit motion sick if you're sensitive to that kind of thing, so be warned."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="SceneLoader" type="Node" parent="."]
+[node name="BetterButton" parent="VBoxContainer" instance=ExtResource("2_cbq7a")]
+custom_minimum_size = Vector2(300, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Continue"
+auto_focus = true
+
+[node name="SceneLoader" type="Node" parent="VBoxContainer/BetterButton"]
 script = ExtResource("2_ahmg3")
 next_scene = "res://UI/Title Screen/title_screen.tscn"
 
-[node name="InputSignaler" type="Node" parent="."]
-script = ExtResource("2_r3agk")
-input = "ui_accept"
-
-[connection signal="input_pressed" from="InputSignaler" to="SceneLoader" method="change_scene"]
+[connection signal="pressed" from="VBoxContainer/BetterButton" to="VBoxContainer/BetterButton/SceneLoader" method="change_scene"]

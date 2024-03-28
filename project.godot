@@ -19,13 +19,14 @@ config/icon="res://Icon.png"
 
 [autoload]
 
+Log="*res://Autoloads/Log.gd"
 Costumes="*res://Autoloads/Costumes.gd"
 Global="*res://Autoloads/Global.gd"
 Gravity="*res://Autoloads/Gravity.gd"
 Levels="*res://Autoloads/Levels.gd"
-ModLoader="*res://Autoloads/ModLoader.gd"
 MusicManager="*res://Autoloads/MusicManager.gd"
 SceneManager="*res://Autoloads/SceneManager.gd"
+ModLoader="*res://Autoloads/ModLoader.gd"
 
 [display]
 

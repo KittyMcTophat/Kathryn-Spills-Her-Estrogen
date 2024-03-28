@@ -4,61 +4,67 @@
 [ext_resource type="Shader" path="res://UI/Pause Menu/Blur.gdshader" id="2_n4q82"]
 [ext_resource type="PackedScene" uid="uid://k2xvlhbhvj0d" path="res://UI/Pause Menu/volume_slider.tscn" id="3_axh5f"]
 [ext_resource type="Script" path="res://UI/Pause Menu/TabContainer.gd" id="3_pit10"]
+[ext_resource type="PackedScene" uid="uid://dqjfo640lknpe" path="res://UI/better_button.tscn" id="5_6oips"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="5_w5307"]
+[ext_resource type="Script" path="res://UI/QuitButton.gd" id="7_816t8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nbbnv"]
 shader = ExtResource("2_n4q82")
 shader_parameter/blur = 0.0
 shader_parameter/brightness = 1.0
 
-[sub_resource type="GDScript" id="GDScript_8vvmr"]
-script/source = "extends Button
+[sub_resource type="GDScript" id="GDScript_n6gep"]
+script/source = "@tool
+extends BetterButton
+
+var enabled : bool = true;
 
 func _ready():
-	button_pressed = (DisplayServer.window_get_vsync_mode() == DisplayServer.VSYNC_ENABLED);
+	super._ready();
+	enabled = (DisplayServer.window_get_vsync_mode() == DisplayServer.VSYNC_ENABLED);
+	update_text();
 
-func _toggled(value : bool):
-	if value:
+func _pressed():
+	enabled = !enabled;
+	if enabled:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED);
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED);
+	update_text();
+
+func update_text():
+	text = \"V-Sync: \" + (\"Enabled\" if enabled else \"Disabled\");
+	Log.print_info(text);
 "
 
-[sub_resource type="GDScript" id="GDScript_atrg2"]
-script/source = "extends Button
+[sub_resource type="GDScript" id="GDScript_tjihy"]
+script/source = "@tool
+extends BetterButton
 
 func _ready():
+	super._ready();
+	
 	if !OS.has_feature(\"pc\"):
 		queue_free();
-	Global.window_mode_changed.connect(window_mode_changed);
+	Global.window_mode_changed.connect(window_mode_changed.unbind(1));
+	
+	update_text();
 
-func window_mode_changed(mode : int):
-	button_pressed = (mode == DisplayServer.WINDOW_MODE_FULLSCREEN);
+func window_mode_changed():
+	update_text();
 
-func _toggled(value : bool):
-	if value:
+func _pressed():
+	if !is_fullscreen():
 		Global.set_window_mode(DisplayServer.WINDOW_MODE_FULLSCREEN);
 	else:
 		Global.set_window_mode(DisplayServer.WINDOW_MODE_WINDOWED);
-"
 
-[sub_resource type="GDScript" id="GDScript_1yx4h"]
-script/source = "extends Button
+func update_text():
+	text = \"Fullscreen: \" + (\"Enabled\" if is_fullscreen() else \"Disabled\");
+	Log.print_info(text);
 
-func _pressed():
-	Global.pause_menu.unpause(true);
-	$SceneLoader.change_scene();
-"
-
-[sub_resource type="GDScript" id="GDScript_j5ihs"]
-script/source = "extends Button
-
-func _ready():
-	if !OS.has_feature(\"pc\"):
-		queue_free();
-
-func _pressed():
-	get_tree().quit();
+func is_fullscreen() -> bool:
+	return (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN);
 "
 
 [sub_resource type="Animation" id="Animation_rvxb1"]
@@ -302,12 +308,12 @@ text = "- Paused -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ResumeButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer"]
+[node name="Resume" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer" instance=ExtResource("5_6oips")]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Resume"
 
-[node name="RestartButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer"]
+[node name="Restart" parent="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer" instance=ExtResource("5_6oips")]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Restart"
@@ -374,7 +380,7 @@ theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/TabContainer/Display"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
 layout_mode = 2
@@ -383,20 +389,17 @@ text = "- Display Settings -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="V-Sync" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
+[node name="VSyncToggle" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer" instance=ExtResource("5_6oips")]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-toggle_mode = true
-button_pressed = true
-text = "V-Sync"
-script = SubResource("GDScript_8vvmr")
+script = SubResource("GDScript_n6gep")
+text = "V-Sync: Enabled"
 
-[node name="FullscreenButton" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer"]
+[node name="FullscreenToggle" parent="CenterContainer/HBoxContainer/TabContainer/Display/VBoxContainer" instance=ExtResource("5_6oips")]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-toggle_mode = true
-text = "Fullscreen"
-script = SubResource("GDScript_atrg2")
+script = SubResource("GDScript_tjihy")
+text = "Fullscreen: ???"
 
 [node name="Quit" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
 visible = false
@@ -418,21 +421,20 @@ text = "- Quit -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuitToTitleScreen" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
+[node name="TitleScreen" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer" instance=ExtResource("5_6oips")]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Quit to Title Screen"
-script = SubResource("GDScript_1yx4h")
 
-[node name="SceneLoader" type="Node" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/QuitToTitleScreen"]
+[node name="SceneLoader" type="Node" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/TitleScreen"]
 script = ExtResource("5_w5307")
 next_scene = "res://UI/Title Screen/title_screen.tscn"
 
-[node name="QuitToDesktop" type="Button" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer"]
+[node name="Desktop" parent="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer" instance=ExtResource("5_6oips")]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+script = ExtResource("7_816t8")
 text = "Quit to Desktop"
-script = SubResource("GDScript_j5ihs")
 
 [node name="RightTabLabel" type="Label" parent="CenterContainer/HBoxContainer"]
 layout_mode = 2
@@ -445,5 +447,7 @@ libraries = {
 }
 autoplay = "RESET"
 
-[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/ResumeButton" to="." method="unpause"]
-[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/Resume" to="." method="unpause"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Pause/VBoxContainer/Restart" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/TitleScreen" to="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/TitleScreen/SceneLoader" method="change_scene"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/TabContainer/Quit/VBoxContainer/TitleScreen" to="." method="unpause" binds= [true]]

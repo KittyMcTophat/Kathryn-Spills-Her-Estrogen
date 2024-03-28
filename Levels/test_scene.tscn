@@ -1,0 +1,675 @@
+[gd_scene load_steps=48 format=3 uid="uid://i0nja2fou22d"]
+
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_aqhtn"]
+[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_ce40o"]
+[ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="3_2cl0a"]
+[ext_resource type="Script" path="res://UI/Textbox/Dialogue.gd" id="4_wln6u"]
+[ext_resource type="Script" path="res://Objects/Misc/KillPlane.gd" id="5_o1c3s"]
+[ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/Kathryn.tscn" id="6_llicy"]
+[ext_resource type="Script" path="res://Objects/Estrogen/EstrogenSpawnerArc.gd" id="7_wvd8s"]
+[ext_resource type="FontFile" uid="uid://cy3qd3g1repxw" path="res://Fonts/Hey Comic.ttf" id="8_l6xbw"]
+[ext_resource type="PackedScene" uid="uid://c3wll74w0l5yy" path="res://Objects/Lunch Star/lunch_star.tscn" id="9_f0mhf"]
+[ext_resource type="PackedScene" uid="uid://4cnl51ssv2ru" path="res://Objects/Estrogen/Estrogen.tscn" id="10_3pg7k"]
+[ext_resource type="Texture2D" uid="uid://btsavxgwpf24j" path="res://Objects/Interactable/Exclamation Mark.png" id="11_7gs2j"]
+[ext_resource type="Texture2D" uid="uid://de5vf4in3bgcj" path="res://Objects/Misc/Sign.png" id="12_2wpuo"]
+[ext_resource type="Script" path="res://Objects/Interactable/InteractionArea.gd" id="13_e0hly"]
+[ext_resource type="Gradient" uid="uid://du6epc8gtgegy" path="res://Objects/Misc/shadow_gradient.tres" id="14_no4us"]
+[ext_resource type="AudioStream" uid="uid://dbvk450jdn6g6" path="res://Objects/Misc/Sign Explode.wav" id="15_kgn7g"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ftp8k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r2wbk"]
+albedo_color = Color(0.239216, 0.239216, 0.239216, 1)
+
+[sub_resource type="Animation" id="Animation_jxcks"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-3.14159, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_s4qts"]
+resource_name = "spinny"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-3.14159, 0, 0), Vector3(-3.14159, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qu47b"]
+_data = {
+"RESET": SubResource("Animation_jxcks"),
+"spinny": SubResource("Animation_s4qts")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o7tqd"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="Curve3D" id="Curve3D_tsg00"]
+_data = {
+"points": PackedVector3Array(0.4, 2.2, 0.5, 0, 0, 0, 0, 0, 0, 0.3, 4.3, -1.4, -0.3, -4.3, 1.4, 0.400001, -19.7, -3.8, -7.1, -10.4, 3.3, 7.1, 10.4, -3.3, -2.4, -7.9, 21.8, 4, -5.5, 1.5, -4, 5.5, -1.5, 0, 13.4, 10, 0, 0, 0, 0, 0, 0, 0, 0, 3.1),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="BoxMesh" id="BoxMesh_3da7l"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_er2sv"]
+resource_local_to_scene = true
+
+[sub_resource type="GDScript" id="GDScript_1nokp"]
+script/source = "extends MeshInstance3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	await get_tree().physics_frame;
+	
+	var lunch_star : LunchStar = get_parent();
+	var lunch_star_path_follow : LunchStarPathFolow3D = lunch_star.get_path_follow();
+	
+	get_parent().remove_child(self);
+	lunch_star_path_follow.add_child(self);
+	
+	lunch_star.launch_path_follow(lunch_star_path_follow);
+	
+	await lunch_star_path_follow.acceleration_started;
+	
+	var tween : Tween = create_tween();
+	tween.tween_property(self.get_surface_override_material(0), \"albedo_color\",\\
+	Color.REBECCA_PURPLE, lunch_star_path_follow.acceleration_time);
+	tween.play();
+	
+	await tween.finished;
+	
+	get_surface_override_material(0).albedo_color = Color.RED;
+	
+	var old_global_trans : Transform3D = global_transform;
+	get_parent().remove_child(self);
+	lunch_star.get_parent().add_child(self);
+	lunch_star_path_follow.queue_free();
+	global_transform = old_global_trans;
+"
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cj6l3"]
+height = 0.2
+radius = 3.0
+
+[sub_resource type="Animation" id="Animation_jd8qg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_c3myq"]
+resource_name = "Spin"
+length = 7.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 7.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tunwk"]
+_data = {
+"RESET": SubResource("Animation_jd8qg"),
+"Spin": SubResource("Animation_c3myq")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_klwuh"]
+size = Vector3(5, 0.2, 2)
+
+[sub_resource type="Animation" id="Animation_3lkpj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_enb24"]
+resource_name = "Spin"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oywin"]
+_data = {
+"RESET": SubResource("Animation_3lkpj"),
+"Spin": SubResource("Animation_enb24")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ib0d"]
+albedo_color = Color(1, 1, 0.4, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_to2xc"]
+albedo_color = Color(1, 1, 0.619608, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_k8jly"]
+height = 16.0
+radius = 4.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_60sm2"]
+size = Vector2(0.32, 0.32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8uj10"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("11_7gs2j")
+texture_filter = 0
+billboard_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_l6ggg"]
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sodl0"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("12_2wpuo")
+texture_filter = 0
+billboard_mode = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4dpyo"]
+radius = 0.75
+
+[sub_resource type="Resource" id="Resource_a1rgq"]
+script = ExtResource("4_wln6u")
+text_sequence = Array[String](["Sign:
+WARNING!", "Sign:
+Due to inflation, only this planet and its ring can afford gravity.", "Sign:
+All other gravity in the local area is based around them, so [color=light_coral]depending on where you jump off, gravity may flip[/color].", "Kathryn:
+That's...", "Kathryn:
+That's not how gravity works...", "Kathryn:
+Also what does that have to do with inflation?", "Sign:
+This sign will now self destruct.", "Kathryn:
+Why?", "Sign:
+...", "Sign:
+Fuck you."])
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jddne"]
+gradient = ExtResource("14_no4us")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2rrd"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6jxy2"]
+material = SubResource("StandardMaterial3D_u2rrd")
+radius = 0.1
+height = 0.2
+radial_segments = 8
+rings = 8
+
+[sub_resource type="Curve" id="Curve_nosfj"]
+_data = [Vector2(0, 1), 0.0, 0.0361469, 0, 0, Vector2(1, 0), -2.42667, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_et8x2"]
+radius = 3.2
+
+[node name="TestScene" type="Node3D"]
+script = ExtResource("1_aqhtn")
+global_gravity = Vector3(0, 0, 0)
+use_previous_music = true
+
+[node name="Environment" parent="." instance=ExtResource("2_ce40o")]
+
+[node name="KillPlanes" type="Node" parent="."]
+
+[node name="Bottom KillPlane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_o1c3s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Bottom KillPlane"]
+shape = SubResource("WorldBoundaryShape3D_ftp8k")
+
+[node name="Top KillPlane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 5, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_o1c3s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Top KillPlane"]
+shape = SubResource("WorldBoundaryShape3D_ftp8k")
+
+[node name="Kathryn" parent="." instance=ExtResource("6_llicy")]
+
+[node name="StartingCircle" type="Node3D" parent="."]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="StartingCircle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.375, 0)
+use_collision = true
+collision_mask = 0
+radius = 3.0
+height = 0.75
+sides = 16
+smooth_faces = false
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="StartingCircle/CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+operation = 2
+radius = 2.5
+height = 0.5
+sides = 16
+smooth_faces = false
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="StartingCircle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("7_wvd8s")
+amount = 6
+
+[node name="EstrogenSpawnerArc2" type="Node3D" parent="StartingCircle"]
+transform = Transform3D(1, 0, 0, 0, -1, 2.53518e-06, 0, -2.53518e-06, -1, 0, -0.75, 0)
+script = ExtResource("7_wvd8s")
+radius = 1.5
+amount = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="StartingCircle"]
+root_node = NodePath("../EstrogenSpawnerArc2")
+callback_mode_process = 0
+libraries = {
+"": SubResource("AnimationLibrary_qu47b")
+}
+autoplay = "spinny"
+
+[node name="TutorialText" type="Label3D" parent="StartingCircle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
+text = "Use the Right Stick
+or Arrow Keys
+to rotate the camera"
+font = ExtResource("8_l6xbw")
+font_size = 96
+
+[node name="TutorialText2" type="Label3D" parent="StartingCircle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 0)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
+text = "Use the Left Stick
+or WASD Keys
+to move"
+font = ExtResource("8_l6xbw")
+font_size = 96
+
+[node name="TutorialText2 - Copy" type="Label3D" parent="StartingCircle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 0)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
+text = "Use the Left Stick
+or WASD Keys
+to move"
+font = ExtResource("8_l6xbw")
+font_size = 96
+
+[node name="TutorialText3" type="Label3D" parent="StartingCircle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
+text = "Use Space or
+the 'A' Button
+To jump"
+font = ExtResource("8_l6xbw")
+font_size = 96
+
+[node name="InitialGravityArea" type="Area3D" parent="StartingCircle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+gravity_space_override = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartingCircle/InitialGravityArea"]
+shape = SubResource("BoxShape3D_o7tqd")
+
+[node name="LunchStar" parent="StartingCircle" instance=ExtResource("9_f0mhf")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 1, -3.1)
+curve = SubResource("Curve3D_tsg00")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StartingCircle/LunchStar"]
+mesh = SubResource("BoxMesh_3da7l")
+surface_material_override/0 = SubResource("StandardMaterial3D_er2sv")
+script = SubResource("GDScript_1nokp")
+
+[node name="Camera3D" type="Camera3D" parent="StartingCircle/LunchStar/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0)
+
+[node name="Bridge" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5)
+
+[node name="Estrogen" parent="Bridge" instance=ExtResource("10_3pg7k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Bridge"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.2, -1.325)
+use_collision = true
+collision_mask = 0
+size = Vector3(1.5, 0.2, 2.8)
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Bridge"]
+transform = Transform3D(-1, 2.26267e-08, -8.44439e-08, 0, 0.965926, 0.258819, 8.74228e-08, 0.258819, -0.965926, 0, 0.2, 1.325)
+use_collision = true
+collision_mask = 0
+size = Vector3(1.5, 0.2, 2.8)
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="SpinningPlatform1" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.5)
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpinningPlatform1"]
+shape = SubResource("CylinderShape3D_cj6l3")
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="SpinningPlatform1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("7_wvd8s")
+amount = 4
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="SpinningPlatform1"]
+radius = 3.0
+height = 0.2
+sides = 16
+smooth_faces = false
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpinningPlatform1"]
+callback_mode_process = 0
+libraries = {
+"": SubResource("AnimationLibrary_tunwk")
+}
+autoplay = "Spin"
+
+[node name="Estrogen" parent="SpinningPlatform1" instance=ExtResource("10_3pg7k")]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, -0.5, 0)
+
+[node name="LittlePlatforms" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="LittlePlatforms"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, -3.8, 0, 11.5)
+use_collision = true
+collision_mask = 0
+size = Vector3(1.5, 0.2, 1.4)
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="LittlePlatforms"]
+transform = Transform3D(0.965926, 0.25, -0.0669873, -0.258819, 0.933013, -0.25, 0, 0.258819, 0.965926, -5.3, 0.6, 13)
+use_collision = true
+collision_mask = 0
+size = Vector3(1.4, 0.2, 1.3)
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="Estrogen" parent="LittlePlatforms/CSGBox3D2" instance=ExtResource("10_3pg7k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="LittlePlatforms"]
+transform = Transform3D(0.965926, 0.25, -0.0669873, -0.224144, 0.937422, 0.266457, 0.129409, -0.242362, 0.961516, -7.3, 0.2, 11.8)
+use_collision = true
+collision_mask = 0
+size = Vector3(1.5, 0.2, 1.3)
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="LittlePlatforms"]
+transform = Transform3D(0.948588, -0.252205, -0.191241, 0.288849, 0.936831, 0.197265, 0.129409, -0.242362, 0.961516, -8.7, 0, 9.9)
+use_collision = true
+collision_mask = 0
+size = Vector3(1.4, 0.2, 1.3)
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="Estrogen" parent="LittlePlatforms/CSGBox3D4" instance=ExtResource("10_3pg7k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="SpinningPlatform2" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.8, 0, 7.8)
+rotation_order = 5
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpinningPlatform2"]
+shape = SubResource("BoxShape3D_klwuh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="SpinningPlatform2"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_klwuh")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SpinningPlatform2"]
+transform = Transform3D(1, 0, -1.42109e-14, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+size = Vector3(5, 0.2, 2)
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="SpinningPlatform2"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+size = Vector3(5, 0.2, 2)
+material = SubResource("StandardMaterial3D_r2wbk")
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="SpinningPlatform2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("7_wvd8s")
+radius = 1.75
+amount = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpinningPlatform2"]
+callback_mode_process = 0
+libraries = {
+"": SubResource("AnimationLibrary_oywin")
+}
+autoplay = "Spin"
+
+[node name="Estrogen5" parent="SpinningPlatform2" instance=ExtResource("10_3pg7k")]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, -0.5, 0)
+
+[node name="EndPlanet" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.5, 0, 4)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="EndPlanet"]
+use_collision = true
+collision_mask = 0
+radius = 2.5
+radial_segments = 16
+rings = 16
+smooth_faces = false
+material = SubResource("StandardMaterial3D_6ib0d")
+
+[node name="CSGTorus3D" type="CSGTorus3D" parent="EndPlanet/CSGSphere3D"]
+transform = Transform3D(0.965926, 0.0647048, 0, -0.258819, 0.241481, 0, 0, 0, 1, 0, 0.5, 0)
+inner_radius = 3.4
+outer_radius = 5.5
+sides = 16
+ring_sides = 5
+smooth_faces = false
+material = SubResource("StandardMaterial3D_to2xc")
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="EndPlanet/CSGSphere3D/CSGTorus3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 4, 0, 8.74228e-08, 0, -1, 0, 3, 0)
+script = ExtResource("7_wvd8s")
+radius = 4.5
+amount = 5
+spread_degrees = 180.0
+
+[node name="Top GravityArea" type="Area3D" parent="EndPlanet/CSGSphere3D/CSGTorus3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+priority = -1
+gravity_space_override = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EndPlanet/CSGSphere3D/CSGTorus3D/Top GravityArea"]
+shape = SubResource("CylinderShape3D_k8jly")
+
+[node name="Bottom GravityArea" type="Area3D" parent="EndPlanet/CSGSphere3D/CSGTorus3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+priority = -1
+gravity_space_override = 3
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EndPlanet/CSGSphere3D/CSGTorus3D/Bottom GravityArea"]
+shape = SubResource("CylinderShape3D_k8jly")
+
+[node name="Sign" type="Node3D" parent="EndPlanet/CSGSphere3D"]
+transform = Transform3D(1, 0, 0, 0, 0.999998, 0, 0, 0, 1, 3.8637, -0.535276, -1)
+
+[node name="TutorialText4" type="Label3D" parent="EndPlanet/CSGSphere3D/Sign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+pixel_size = 0.0017
+billboard = 2
+texture_filter = 0
+outline_modulate = Color(0.6, 0.215686, 0.6, 1)
+text = "Use E or the 'X' Button
+near things you want to
+interact with."
+font = ExtResource("8_l6xbw")
+font_size = 96
+
+[node name="InteractableIndicator" type="MeshInstance3D" parent="EndPlanet/CSGSphere3D/Sign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("QuadMesh_60sm2")
+surface_material_override/0 = SubResource("StandardMaterial3D_8uj10")
+
+[node name="Sign" type="MeshInstance3D" parent="EndPlanet/CSGSphere3D/Sign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41, 0)
+layers = 2
+mesh = SubResource("QuadMesh_l6ggg")
+surface_material_override/0 = SubResource("StandardMaterial3D_sodl0")
+
+[node name="InteractionArea" type="Area3D" parent="EndPlanet/CSGSphere3D/Sign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("13_e0hly")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EndPlanet/CSGSphere3D/Sign/InteractionArea"]
+shape = SubResource("SphereShape3D_4dpyo")
+
+[node name="DialogueStarter" type="Node" parent="EndPlanet/CSGSphere3D/Sign"]
+script = ExtResource("3_2cl0a")
+dialogue = SubResource("Resource_a1rgq")
+
+[node name="Shadow" type="Decal" parent="EndPlanet/CSGSphere3D/Sign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41, 0)
+size = Vector3(0.32, 2, 0.32)
+texture_albedo = SubResource("GradientTexture2D_jddne")
+albedo_mix = 0.66
+normal_fade = 0.1
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="EndPlanet/CSGSphere3D"]
+transform = Transform3D(-0.707107, 3.09086e-08, 0.707106, 0.707106, 3.09086e-08, 0.707107, -3.31367e-15, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("7_wvd8s")
+radius = 3.0
+amount = 4
+point_towards_center = true
+spread_degrees = 135.0
+
+[node name="SignDeathEffects" type="Node3D" parent="EndPlanet/CSGSphere3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.864, -0.25, -1)
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="EndPlanet/CSGSphere3D/SignDeathEffects"]
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.25
+mesh = SubResource("SphereMesh_6jxy2")
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 2.5
+damping_min = 1.0
+damping_max = 1.0
+scale_amount_curve = SubResource("Curve_nosfj")
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="EndPlanet/CSGSphere3D/SignDeathEffects"]
+stream = ExtResource("15_kgn7g")
+bus = &"Sound Effects"
+
+[node name="GravityArea" type="Area3D" parent="EndPlanet"]
+collision_layer = 0
+collision_mask = 2
+gravity_space_override = 3
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EndPlanet/GravityArea"]
+shape = SubResource("SphereShape3D_et8x2")
+
+[connection signal="body_exited" from="StartingCircle/InitialGravityArea" to="StartingCircle/InitialGravityArea" method="queue_free" unbinds=1]
+[connection signal="interacted" from="EndPlanet/CSGSphere3D/Sign/InteractionArea" to="EndPlanet/CSGSphere3D/Sign/DialogueStarter" method="start_dialogue"]
+[connection signal="dialogue_finished" from="EndPlanet/CSGSphere3D/Sign/DialogueStarter" to="EndPlanet/CSGSphere3D/Sign" method="queue_free"]
+[connection signal="dialogue_finished" from="EndPlanet/CSGSphere3D/Sign/DialogueStarter" to="EndPlanet/CSGSphere3D/SignDeathEffects/CPUParticles3D" method="set_emitting" binds= [true]]
+[connection signal="dialogue_finished" from="EndPlanet/CSGSphere3D/Sign/DialogueStarter" to="EndPlanet/CSGSphere3D/SignDeathEffects/DeathSound" method="play" binds= [0.0]]

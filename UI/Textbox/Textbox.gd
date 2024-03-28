@@ -25,6 +25,8 @@ var visible_ratio_tween : Tween = null;
 var displayed_string_length : int = -1;
 
 func show_string(string : String):
+	Log.print_info("Textbox: printing string \"" + string + "\"");
+	
 	if visible_ratio_tween != null:
 		visible_ratio_tween.kill();
 	visible_ratio_tween = create_tween();

@@ -23,19 +23,19 @@ func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS;
 
 func fade_and_reload_scene(fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
-	print("Reloading scene: ", get_tree().current_scene.scene_file_path);
+	Log.print_info("Reloading scene: " + get_tree().current_scene.scene_file_path);
 	function_call_with_fade(get_tree().reload_current_scene, fade_color, time, pause, reset_estrogen);
-	print("Reloaded scene!");
+	Log.print_info("Reloaded scene!");
 
 func fade_to_scene_path(scene : String, fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
-	print("Loading scene: ", scene);
+	Log.print_info("Loading scene from file: " + scene);
 	function_call_with_fade(get_tree().change_scene_to_file.bind(scene), fade_color, time, pause, reset_estrogen);
-	print("Loaded scene!");
+	Log.print_info("Loaded scene!");
 
 func fade_to_scene(scene : PackedScene, fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
-	print("Loading scene: ", scene);
+	Log.print_info("Loading scene from PackedScene: " + scene.resource_path + ", " + str(scene));
 	function_call_with_fade(get_tree().change_scene_to_packed.bind(scene), fade_color, time, pause, reset_estrogen);
-	print("Loaded scene!");
+	Log.print_info("Loaded scene!");
 
 func function_call_with_fade(function : Callable, fade_color : Color = Color("#ffceff"), time : float = 0.75, pause : bool = true, reset_estrogen : bool = true) -> void:
 	if pause:

@@ -14,7 +14,7 @@ func _ready():
 			if child is ActorState:
 				states[child.name.to_lower()] = child;
 		nodes_to_check.pop_front();
-	print("Actor: ", self, ": States loaded: ", states);
+	Log.print_info("Actor: " + str(self) + ": States loaded: " + str(states));
 	
 	await get_tree().process_frame;
 	
@@ -29,7 +29,7 @@ func set_state(new_state : String) -> void:
 			state.state_exited.emit();
 	if (!states.has(new_state.to_lower())):
 		var message : String = "Invalid State: " + new_state + "On actor: " + name + " " + str(self);
-		print(message);
+		Log.print_error(message);
 		OS.crash(message);
 	state = states[new_state.to_lower()];
 	state.enter_state(self);

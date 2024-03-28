@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cc868qqaqlf4w"]
+[gd_scene load_steps=33 format=3 uid="uid://cc868qqaqlf4w"]
 
 [ext_resource type="Script" path="res://Characters/Kathryn/Kathryn.gd" id="1_hnchh"]
 [ext_resource type="Script" path="res://Characters/Kathryn/MovementParams.gd" id="2_oyy2i"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Characters/Kathryn/PlayerMovementState.gd" id="4_8dhre"]
 [ext_resource type="Texture2D" uid="uid://c0x46ixypn3cx" path="res://Characters/Kathryn/Costumes/normal kathryn.png" id="4_ix4dr"]
 [ext_resource type="Script" path="res://Characters/DeathState.gd" id="4_ne7d1"]
+[ext_resource type="Script" path="res://Characters/Kathryn/FollowLunchStarState.gd" id="5_c3oap"]
 [ext_resource type="Gradient" uid="uid://du6epc8gtgegy" path="res://Objects/Misc/shadow_gradient.tres" id="5_lewa5"]
 [ext_resource type="Script" path="res://Characters/Kathryn/PlayerCamera.gd" id="5_qgynk"]
 [ext_resource type="AudioStream" uid="uid://dw5rjwtb7bfsq" path="res://Characters/Kathryn/Jump.wav" id="6_bogqc"]
@@ -265,6 +266,9 @@ movement_params = SubResource("Resource_e8i7d")
 script = ExtResource("4_8dhre")
 movement_params = SubResource("Resource_ecgls")
 animation_name = "Jump"
+
+[node name="FollowLunchStarState" type="Node" parent="States"]
+script = ExtResource("5_c3oap")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_hsmcx")

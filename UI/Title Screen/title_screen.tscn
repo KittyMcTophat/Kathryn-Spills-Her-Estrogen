@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://batba6ymaw1ng"]
+[gd_scene load_steps=14 format=3 uid="uid://batba6ymaw1ng"]
 
 [ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_h6klo"]
 [ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_sdh8x"]
 [ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_vbt4n"]
 [ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="3_ingyj"]
 [ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="4_03e3t"]
+[ext_resource type="PackedScene" uid="uid://dqjfo640lknpe" path="res://UI/better_button.tscn" id="4_8ha5m"]
 [ext_resource type="Texture2D" uid="uid://c3qehkdujeyy8" path="res://UI/Title Screen/Title Screen Pill Bottle.png" id="4_sn1cg"]
 [ext_resource type="Texture2D" uid="uid://xmin1uy81w4" path="res://Objects/Estrogen/Estrogen.png" id="5_5tdut"]
 
@@ -46,12 +47,8 @@ _data = {
 "Spin": SubResource("Animation_7fljg")
 }
 
-[sub_resource type="GDScript" id="GDScript_mmb77"]
-script/source = "extends Button
-
-func _ready():
-	if OS.has_feature(\"web\"):
-		queue_free();
+[sub_resource type="GDScript" id="GDScript_13d15"]
+script/source = "extends BetterButton
 
 func _pressed():
 	get_tree().quit();
@@ -107,118 +104,46 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 2
 
-[node name="Start" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+[node name="Start" parent="CanvasLayer/VBoxContainer/VBoxContainer" instance=ExtResource("4_8ha5m")]
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+text = "Start"
+auto_focus = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start"]
-layout_mode = 2
-theme_override_constants/margin_left = -4
-theme_override_constants/margin_top = -4
-theme_override_constants/margin_right = -4
-theme_override_constants/margin_bottom = -4
+[node name="DialogueStarter" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start"]
+script = ExtResource("4_03e3t")
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer"]
-layout_mode = 2
-
-[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button"]
+[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start"]
 script = ExtResource("3_ingyj")
 next_scene = "res://Levels/level_0.tscn"
 
-[node name="DialogueStarter" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button"]
-script = ExtResource("4_03e3t")
-
-[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/Start"]
+[node name="ChangeCostume" parent="CanvasLayer/VBoxContainer/VBoxContainer" instance=ExtResource("4_8ha5m")]
 layout_mode = 2
-text = "Start"
-horizontal_alignment = 1
-vertical_alignment = 1
+text = "Change Costume"
 
-[node name="ChangeCostume" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume"]
-layout_mode = 2
-theme_override_constants/margin_left = -4
-theme_override_constants/margin_top = -4
-theme_override_constants/margin_right = -4
-theme_override_constants/margin_bottom = -4
-
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/MarginContainer"]
-layout_mode = 2
-
-[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/MarginContainer/Button"]
+[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume"]
 script = ExtResource("3_ingyj")
 next_scene = "res://UI/Costume Select/costume_select.tscn"
 
-[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume"]
+[node name="LevelSelect" parent="CanvasLayer/VBoxContainer/VBoxContainer" instance=ExtResource("4_8ha5m")]
 layout_mode = 2
-text = "Change Costume"
-horizontal_alignment = 1
-vertical_alignment = 1
+text = "Level Select"
 
-[node name="Credits" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/LevelSelect"]
+script = ExtResource("3_ingyj")
+next_scene = "res://UI/Level Select/level_select.tscn"
+
+[node name="Credits" parent="CanvasLayer/VBoxContainer/VBoxContainer" instance=ExtResource("4_8ha5m")]
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+text = "Credits"
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits"]
-layout_mode = 2
-theme_override_constants/margin_left = -4
-theme_override_constants/margin_top = -4
-theme_override_constants/margin_right = -4
-theme_override_constants/margin_bottom = -4
-
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits/MarginContainer"]
-layout_mode = 2
-
-[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits/MarginContainer/Button"]
+[node name="SceneLoader" type="Node" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits"]
 script = ExtResource("3_ingyj")
 next_scene = "res://UI/credits.tscn"
 
-[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/Credits"]
+[node name="ExitGame" parent="CanvasLayer/VBoxContainer/VBoxContainer" instance=ExtResource("4_8ha5m")]
 layout_mode = 2
-text = "Credits"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/VBoxContainer/MarginContainer4"]
-layout_mode = 2
-theme_override_constants/margin_left = -4
-theme_override_constants/margin_top = -4
-theme_override_constants/margin_right = -4
-theme_override_constants/margin_bottom = -4
-
-[node name="Button4" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer/MarginContainer4/MarginContainer"]
-layout_mode = 2
-script = SubResource("GDScript_mmb77")
-
-[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/VBoxContainer/MarginContainer4"]
-layout_mode = 2
-size_flags_vertical = 1
+script = SubResource("GDScript_13d15")
 text = "Exit Game"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Node" type="Node" parent="."]
 
@@ -281,8 +206,8 @@ angle_min = -180.0
 angle_max = 180.0
 scale_amount_curve = SubResource("Curve_b3rtj")
 
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button/SceneLoader" method="change_scene"]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button/DialogueStarter" method="reset_shown_dialogue"]
-[connection signal="ready" from="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/Start/MarginContainer/Button" method="grab_focus"]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/MarginContainer/Button/SceneLoader" method="change_scene"]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Credits/MarginContainer/Button" to="CanvasLayer/VBoxContainer/VBoxContainer/Credits/MarginContainer/Button/SceneLoader" method="change_scene"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Start" to="CanvasLayer/VBoxContainer/VBoxContainer/Start/DialogueStarter" method="reset_shown_dialogue"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Start" to="CanvasLayer/VBoxContainer/VBoxContainer/Start/SceneLoader" method="change_scene"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume" to="CanvasLayer/VBoxContainer/VBoxContainer/ChangeCostume/SceneLoader" method="change_scene"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/LevelSelect" to="CanvasLayer/VBoxContainer/VBoxContainer/LevelSelect/SceneLoader" method="change_scene"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/VBoxContainer/Credits" to="CanvasLayer/VBoxContainer/VBoxContainer/Credits/SceneLoader" method="change_scene"]

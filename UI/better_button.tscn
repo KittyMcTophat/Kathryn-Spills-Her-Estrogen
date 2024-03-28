@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqjfo640lknpe"]
+
+[ext_resource type="Script" path="res://UI/BetterButton.gd" id="1_6laj0"]
+
+[node name="BetterButton" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+script = ExtResource("1_6laj0")
+text = "Better Button"
+
+[node name="InnerMarginContainer" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = -4
+theme_override_constants/margin_bottom = -4
+
+[node name="Button" type="Button" parent="InnerMarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Better Button"
+horizontal_alignment = 1
+vertical_alignment = 1

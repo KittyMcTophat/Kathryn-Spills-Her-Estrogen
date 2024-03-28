@@ -14,6 +14,6 @@ func _process(_delta):
 
 func focus_first_in_current_tab():
 	await get_tree().process_frame;
-	var focusable_child : Control = find_next_valid_focus();
+	var focusable_child : Control = get_current_tab_control().find_next_valid_focus();
 	if focusable_child != null:
 		focusable_child.grab_focus();

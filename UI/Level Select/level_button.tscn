@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0ogg2rtc2brp"]
+
+[ext_resource type="Script" path="res://UI/Level Select/LevelButton.gd" id="1_4x4dy"]
+[ext_resource type="PackedScene" uid="uid://dqjfo640lknpe" path="res://UI/better_button.tscn" id="1_sbhck"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="2_w7uyo"]
+
+[node name="LevelButton" instance=ExtResource("1_sbhck")]
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+script = ExtResource("1_4x4dy")
+level_path = ""
+
+[node name="InnerMarginContainer" parent="." index="0"]
+theme_override_constants/margin_left = -16
+theme_override_constants/margin_top = -8
+theme_override_constants/margin_right = -16
+theme_override_constants/margin_bottom = -8
+
+[node name="Label" parent="." index="1"]
+horizontal_alignment = 0
+
+[node name="SceneLoader" type="Node" parent="." index="2"]
+unique_name_in_owner = true
+script = ExtResource("2_w7uyo")
+
+[connection signal="pressed" from="InnerMarginContainer/Button" to="SceneLoader" method="change_scene"]

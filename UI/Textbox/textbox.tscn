@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dr8d1d76xmq5n"]
+[gd_scene load_steps=7 format=3 uid="uid://dr8d1d76xmq5n"]
 
 [ext_resource type="Script" path="res://UI/Textbox/Textbox.gd" id="1_02s53"]
+[ext_resource type="PackedScene" uid="uid://dqjfo640lknpe" path="res://UI/better_button.tscn" id="2_2r8gi"]
 
 [sub_resource type="Animation" id="Animation_lryhe"]
 resource_name = "Hide"
@@ -28,6 +29,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelContainer/MarginContainer/RichTextLabel/AdvanceButton")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"unfocus_button"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_qtpq6"]
@@ -95,7 +110,7 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"grab_focus"
+"method": &"focus_button"
 }]
 }
 
@@ -143,15 +158,14 @@ This is a test for text wrapping. Pooooooooooooooooooooooooooooooooooooooooooop"
 scroll_active = false
 visible_characters_behavior = 2
 
-[node name="AdvanceButton" type="Button" parent="PanelContainer/MarginContainer/RichTextLabel"]
+[node name="AdvanceButton" parent="PanelContainer/MarginContainer/RichTextLabel" instance=ExtResource("2_2r8gi")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
+offset_left = -32.0
 offset_top = -40.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -159,7 +173,7 @@ text = ">>"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 process_mode = 3
-autoplay = "RESET"
 libraries = {
 "": SubResource("AnimationLibrary_a2s3r")
 }
+autoplay = "RESET"

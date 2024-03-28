@@ -15,10 +15,10 @@ func _ready():
 
 func set_indicator_visibility(value : bool) -> void:
 	if interactable_indicator == null:
-		print("Visibility unchanged, no indicator was given.");
+		Log.print_warn(str(self) + ": Visibility unchanged, no indicator was given.");
 		return;
 	if !is_instance_valid(interactable_indicator):
-		print("Visibility unchanged, indicator was invalid.");
+		Log.print_warn(str(self) + ": Visibility unchanged, indicator was invalid.");
 		return;
 	interactable_indicator.visible = value;
 

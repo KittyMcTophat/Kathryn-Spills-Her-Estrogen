@@ -4,7 +4,6 @@ extends Node
 
 var current_costume : Costume = preload("res://Characters/Kathryn/Costumes/normal kathryn.tres");
 
-##TODO: remove after #87274 is fixed
 var default_costumes : Array[String] = [
 	"res://Characters/Kathryn/Costumes/normal kathryn.tres",
 	"res://Characters/Kathryn/Costumes/evil kathryn.tres",

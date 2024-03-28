@@ -14,35 +14,25 @@ func update_children():
 	for child in get_children():
 		child.queue_free();
 	
-	##TODO: Switch to using load_costumes() again after issue #87274 is fixed
 	for costume in Costumes.default_costumes:
 		add_costume(load(costume));
 	
 	for costume in Costumes.custom_costumes:
 		add_costume(costume);
 
-func load_costumes() -> Array[Costume]:
-	var costumes : Array[Costume] = [];
-	
-	var costumes_directory : String = \"res://Characters/Kathryn/Costumes\";
-	var costumes_directory_access : DirAccess = DirAccess.open(costumes_directory);
-	for file in costumes_directory_access.get_files():
-		if file.get_extension().to_lower() == \"tres\":
-			costumes.append(ResourceLoader.load(costumes_directory + \"/\" + file));
-	
-	return costumes;
-
 func add_costume(costume : Costume):
 	var costume_button : CostumeButton = preload(\"res://UI/Costume Select/costume_button.tscn\").instantiate();
 	add_child(costume_button);
 	costume_button.costume = costume;
-	costume_button.costume_picked.connect(self.emit_signal.bind(\"costume_selected\"));
+	costume_button.costume_picked.connect(func():
+		Log.print_info(\"Costume picked: \" + costume.name + \", \" + costume.resource_path + \", \" + str(costume));
+		costume_selected.emit());
 
 func _ready():
 	update_children();
 	if Engine.is_editor_hint():
 		return;
-	find_next_valid_focus().grab_focus();
+	(get_child(0) as CostumeButton).focus_button();
 "
 
 [node name="Costume Select" type="Control"]
@@ -52,6 +42,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_oi7i4")
 show_ui = false
 allow_pause = false
@@ -65,6 +56,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(1, 0.807843, 1, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
