@@ -1,3 +1,4 @@
+@tool
 extends Node
 
 # Clean the string so that it doesn't look weird and waste space in the console
