@@ -50,8 +50,8 @@ alignment = 1
 layout_mode = 2
 bbcode_enabled = true
 text = "[center]- CREDITS -
-[url=https://kittymctophat.github.io/][color=lightblue]Kathryn \"Kitty\" McTophat[/color][/url] ([img]res://UI/Common/Trans Flag.png[/img]) - Level Design, Art, Programming, Writing
-[url=https://procymbopteryx.itch.io/][color=lightblue]Procymbopteryx[/color][/url] - Music
+[url=https://kitty-mctophat.itch.io/][color=lightblue]Kathryn \"Kitty\" McTophat[/color][/url] ([img]res://UI/Common/Trans Flag.png[/img]) - Level Design, Art, Programming, Writing
+[url=https://procymbopteryx.itch.io/][color=lightblue]Procymbopteryx[/color][/url] ([img]res://UI/Common/Trans Flag.png[/img]) - Music
 
 Using the Godot Game Engine ([url=https://godotengine.org/license/][color=lightblue]License[/color][/url])
 Using the Font \"Hey Comic\" by Khurasan"
