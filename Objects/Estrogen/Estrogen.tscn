@@ -221,10 +221,10 @@ collision_mask = 2
 shape = SubResource("SphereShape3D_2yt5x")
 
 [node name="SpinAnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Spin"
 libraries = {
 "": SubResource("AnimationLibrary_pvt4j")
 }
+autoplay = "Spin"
 
 [node name="CollectAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

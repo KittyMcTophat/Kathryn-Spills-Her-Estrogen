@@ -25,10 +25,9 @@ Oh shit!", "Kathryn:
 I spilled my estrogen all over the place!", "Kathryn:
 Now I have to pick it up!", "Kathryn:
 Also I ended up in [wave][rainbow]space[/rainbow][/wave] somehow?!", "Kathryn:
-There's a lot more garbage in space than I thought.", "Kathryn:
+There's a lot more garbage in [wave][rainbow]space[/rainbow][/wave] than I thought.", "Kathryn:
 ...", "Kathryn:
-I'm gonna have to figure out how to get home.", "Kathryn:
-And pick up my estrogen along the way..."])
+I'm gonna have to pick up all this estrogen..."])
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_a22qd"]
 
@@ -239,7 +238,7 @@ script = ExtResource("5_6nl1x")
 text_sequence = Array[String](["Kathryn:
 That looks like all the estrogen here...", "Kathryn:
 But I definitely had more than 30 pills with me.", "Kathryn:
-I guess I'll go look in another nearby part of space...", "THIS IS THE ONLY LEVEL SO FAR, HOPE I ADD MORE LATER"])
+I guess I'll go look in another nearby part of [wave][rainbow]space[/rainbow][/wave]..."])
 
 [node name="Level0" type="Node3D"]
 script = ExtResource("1_q3p88")
@@ -645,7 +644,7 @@ script = ExtResource("13_5p7rv")
 
 [node name="SceneLoader" type="Node" parent="EndDialogue"]
 script = ExtResource("14_korwv")
-next_scene = "res://UI/credits.tscn"
+next_scene = "res://Levels/level_1.tscn"
 
 [connection signal="body_exited" from="StartingCircle/InitialGravityArea" to="StartingCircle/InitialGravityArea" method="queue_free" unbinds=1]
 [connection signal="interacted" from="EndPlanet/CSGSphere3D/Sign/InteractionArea" to="EndPlanet/CSGSphere3D/Sign/DialogueStarter" method="start_dialogue"]

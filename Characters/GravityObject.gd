@@ -25,6 +25,18 @@ var local_velocity : Vector3 = Vector3.ZERO:
 			local_velocity = global_transform.basis.transposed() * velocity;
 		return local_velocity;
 
+var horizontal_velocity : Vector3 = Vector3.ZERO:
+	set(value):
+		var new_local_velocity : Vector3 = Vector3.ZERO;
+		new_local_velocity.y = local_velocity.y;
+		new_local_velocity.x = value.x;
+		new_local_velocity.z = value.z;
+		local_velocity = new_local_velocity;
+	get:
+		horizontal_velocity = local_velocity;
+		horizontal_velocity.y = 0.0;
+		return horizontal_velocity;
+
 func _physics_process(_delta : float):
 	if !enable_movement:
 		return;
@@ -51,7 +63,7 @@ func apply_gravity_to_velocity() -> void:
 
 func apply_friction() -> void:
 	if (is_on_floor()):
-		velocity = velocity.lerp(Vector3.ZERO, friction * get_physics_process_delta_time());
+		horizontal_velocity = horizontal_velocity.lerp(Vector3.ZERO, friction * get_physics_process_delta_time());
 
 func orient_actor_with_gravity() -> void:
 	var new_basis : Basis = align_basis_with_gravity(global_transform.basis, gravity);

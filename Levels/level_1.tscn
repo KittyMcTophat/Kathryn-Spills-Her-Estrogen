@@ -1,0 +1,329 @@
+[gd_scene load_steps=22 format=3 uid="uid://co36uxydp8mdt"]
+
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_8sjbl"]
+[ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_58eml"]
+[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="3_y8lf1"]
+[ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/Kathryn.tscn" id="4_7mqte"]
+[ext_resource type="Script" path="res://Objects/Misc/KillPlane.gd" id="4_j3bdv"]
+[ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="4_r4a88"]
+[ext_resource type="Script" path="res://UI/Textbox/Dialogue.gd" id="5_lgmq6"]
+[ext_resource type="PackedScene" uid="uid://cdy1tcjp2ib63" path="res://Objects/GravityBeam/gravity_beam.tscn" id="5_snaf7"]
+[ext_resource type="Script" path="res://Objects/Estrogen/EstrogenSpawnerArc.gd" id="7_ke566"]
+[ext_resource type="PackedScene" uid="uid://4cnl51ssv2ru" path="res://Objects/Estrogen/Estrogen.tscn" id="7_pl66s"]
+[ext_resource type="Script" path="res://Objects/Estrogen/EstrogenTracker.gd" id="11_iyvwq"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="12_mcnlb"]
+
+[sub_resource type="Resource" id="Resource_ae2vg"]
+script = ExtResource("5_lgmq6")
+text_sequence = Array[String](["Kathryn:
+Oh, god.", "Kathryn:
+This is way too many [color=light_coral]gravity beams[/color]!", "Kathryn:
+With all this [color=light_coral]changing gravity[/color], they're a shoe-in for the \"Most Motion-Sickness Inducing Section of [wave][rainbow]Space[/rainbow][/wave]\" award."])
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_3jlk0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dfoal"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6vhhu"]
+albedo_color = Color(0.239216, 0.239216, 0.239216, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3uxjv"]
+albedo_color = Color(0.553321, 0.757528, 1, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_i2yu7"]
+radius = 8.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b843m"]
+albedo_color = Color(0.9, 0.9, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_re86p"]
+albedo_color = Color(1, 0.65, 0.836667, 1)
+
+[sub_resource type="Resource" id="Resource_wed72"]
+script = ExtResource("5_lgmq6")
+text_sequence = Array[String](["Kathryn:
+Alright, that's another 30 down!", "Kathryn:
+That's almost all of it, I think.", "Kathryn:
+Well, nothing left to do but search somewhere else in [wave][rainbow]space[/rainbow][/wave]."])
+
+[node name="Level1" type="Node3D"]
+script = ExtResource("1_8sjbl")
+global_gravity = Vector3(0, 0, 0)
+music = ExtResource("2_58eml")
+
+[node name="Environment" parent="." instance=ExtResource("3_y8lf1")]
+
+[node name="StartingDialogue" type="Node" parent="."]
+script = ExtResource("4_r4a88")
+on_ready = true
+dialogue = SubResource("Resource_ae2vg")
+
+[node name="KillPlanes" type="Node" parent="."]
+
+[node name="Negative Y Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("4_j3bdv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Negative Y Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_3jlk0")
+
+[node name="Positive Y Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 34.1, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("4_j3bdv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Positive Y Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_3jlk0")
+
+[node name="Positive Z Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1, -1.74846e-07, 2.29282e-14, 0, 1.31134e-07, 1, -1.74846e-07, -1, 1.31134e-07, 0, 0, 30)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("4_j3bdv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Positive Z Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_3jlk0")
+
+[node name="Negative Z Kill Plane2" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(-1, -8.74228e-08, 1.14641e-14, 0, 1.31134e-07, 1, -8.74228e-08, 1, -1.31134e-07, 0, 0, -30)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("4_j3bdv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Negative Z Kill Plane2"]
+shape = SubResource("WorldBoundaryShape3D_3jlk0")
+
+[node name="Negative X Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1.31134e-07, 1, -1.31134e-07, 0, 1.31134e-07, 1, 1, -1.31134e-07, 1.71962e-14, -30, 0, -1.31134e-06)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("4_j3bdv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Negative X Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_3jlk0")
+
+[node name="Positive X Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(-4.37114e-08, -1, 1.31134e-07, 0, 1.31134e-07, 1, -1, 4.37114e-08, -5.73206e-15, 30, 0, 1.31134e-06)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("4_j3bdv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Positive X Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_3jlk0")
+
+[node name="Kathryn" parent="." instance=ExtResource("4_7mqte")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.735, 0)
+
+[node name="InitialGravity" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+gravity_space_override = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InitialGravity"]
+shape = SubResource("BoxShape3D_dfoal")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+use_collision = true
+radius = 5.0
+height = 0.75
+sides = 16
+smooth_faces = false
+material = SubResource("StandardMaterial3D_6vhhu")
+
+[node name="Planet1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.4, -3.5)
+
+[node name="GravityBeamIn" parent="Planet1" instance=ExtResource("5_snaf7")]
+transform = Transform3D(-1, 0, 0, 0, -1, 0, 0, 0, 1, 0, -5.9, 0)
+pushing = false
+
+[node name="GravityBeamOut" parent="Planet1" instance=ExtResource("5_snaf7")]
+transform = Transform3D(1, 0, 0, 0, -0.258819, -0.965926, 0, 0.965926, -0.258819, 0, -1.7, 5.6)
+
+[node name="Estrogen" parent="Planet1/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="Estrogen2" parent="Planet1/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+
+[node name="Estrogen3" parent="Planet1/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="Estrogen4" parent="Planet1/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+
+[node name="Estrogen5" parent="Planet1/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Planet1"]
+use_collision = true
+collision_mask = 0
+radius = 6.0
+radial_segments = 16
+rings = 10
+smooth_faces = false
+material = SubResource("StandardMaterial3D_3uxjv")
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="Planet1/CSGSphere3D"]
+transform = Transform3D(-1.91069e-15, -1, 0, -0.965926, 1.84558e-15, -0.258819, 0.258819, -4.94522e-16, -0.965926, 0, 0, 0)
+script = ExtResource("7_ke566")
+radius = 6.5
+amount = 5
+point_towards_center = true
+spread_degrees = 50.0
+
+[node name="GravityArea" type="Area3D" parent="Planet1/CSGSphere3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+gravity_space_override = 3
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet1/CSGSphere3D/GravityArea"]
+shape = SubResource("SphereShape3D_i2yu7")
+
+[node name="Planet2" type="Node3D" parent="."]
+transform = Transform3D(-0.166138, 0.685278, -0.709078, 0.140401, 0.728184, 0.670848, 0.976056, 0.0118984, -0.217194, 0, 11.8, 17.4)
+
+[node name="GravityBeamOut" parent="Planet2" instance=ExtResource("5_snaf7")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 5.9)
+
+[node name="Estrogen" parent="Planet2/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="Estrogen2" parent="Planet2/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+
+[node name="Estrogen3" parent="Planet2/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="Estrogen4" parent="Planet2/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+
+[node name="Estrogen5" parent="Planet2/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Planet2"]
+transform = Transform3D(1, 4.47035e-08, -4.84288e-08, 2.98023e-08, 1, -2.79397e-09, -1.86265e-08, 8.3819e-09, 1, 0, 0, 0)
+use_collision = true
+collision_mask = 0
+radius = 6.0
+radial_segments = 16
+rings = 10
+smooth_faces = false
+material = SubResource("StandardMaterial3D_b843m")
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="Planet2/CSGSphere3D"]
+transform = Transform3D(-0.857201, 0.109043, -0.503303, 0.0708021, 0.992997, 0.0945526, 0.51009, 0.0454164, -0.858921, 0, 0, 0)
+script = ExtResource("7_ke566")
+radius = 6.5
+amount = 5
+point_towards_center = true
+spread_degrees = 55.0
+
+[node name="GravityArea" type="Area3D" parent="Planet2/CSGSphere3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+gravity_space_override = 3
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet2/CSGSphere3D/GravityArea"]
+transform = Transform3D(1, 0, 0, -1.99638e-09, 1, -7.45058e-09, 0, 0, 1, 0, 0, 0)
+shape = SubResource("SphereShape3D_i2yu7")
+
+[node name="Planet3" type="Node3D" parent="."]
+transform = Transform3D(-0.185217, 0.980675, 0.0630139, 0.981541, 0.187729, -0.0365369, -0.04766, 0.0550837, -0.997344, -14.4, 24.9, 13)
+
+[node name="GravityBeamOut" parent="Planet3" instance=ExtResource("5_snaf7")]
+transform = Transform3D(1, -7.45058e-09, -7.45058e-09, 7.45058e-09, -5.96046e-08, -1, 2.23517e-08, 1, 0, 0, 0, 5.9)
+
+[node name="Estrogen" parent="Planet3/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="Estrogen2" parent="Planet3/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+
+[node name="Estrogen3" parent="Planet3/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="Estrogen4" parent="Planet3/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+
+[node name="Estrogen5" parent="Planet3/GravityBeamOut" instance=ExtResource("7_pl66s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+
+[node name="GravityBeam" parent="Planet3/GravityBeamOut" instance=ExtResource("5_snaf7")]
+transform = Transform3D(1, -2.25846e-08, -3.72529e-09, 0, -4.84288e-08, 1, -6.98492e-09, -1, -4.09782e-08, 0, 11, 1.1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Planet3/GravityBeamOut/GravityBeam"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 1.25)
+use_collision = true
+collision_mask = 0
+size = Vector3(2, 0.5, 2)
+material = SubResource("StandardMaterial3D_6vhhu")
+
+[node name="GravityBeam2" parent="Planet3/GravityBeamOut/GravityBeam" instance=ExtResource("5_snaf7")]
+transform = Transform3D(-4.37114e-08, -1, 0, -4.37114e-08, 1.91069e-15, 1, -1, 4.37114e-08, -4.37114e-08, 1.1, 11, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Planet3/GravityBeamOut/GravityBeam/GravityBeam2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 1.25)
+use_collision = true
+collision_mask = 0
+size = Vector3(2, 0.5, 2)
+material = SubResource("StandardMaterial3D_6vhhu")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Planet3"]
+use_collision = true
+collision_mask = 0
+radius = 6.0
+radial_segments = 16
+rings = 10
+smooth_faces = false
+material = SubResource("StandardMaterial3D_re86p")
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="Planet3/CSGSphere3D"]
+transform = Transform3D(-0.282525, -0.650227, 0.705259, 0.411246, -0.746321, -0.523343, 0.86664, 0.142177, 0.478256, 0, 0, 0)
+script = ExtResource("7_ke566")
+radius = 6.5
+amount = 5
+point_towards_center = true
+spread_degrees = 55.0
+
+[node name="GravityArea" type="Area3D" parent="Planet3/CSGSphere3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+gravity_space_override = 3
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planet3/CSGSphere3D/GravityArea"]
+transform = Transform3D(1, 0, 0, -1.99638e-09, 1, -7.45058e-09, 0, 0, 1, 0, 0, 0)
+shape = SubResource("SphereShape3D_i2yu7")
+
+[node name="EndDialogue" type="Node" parent="."]
+script = ExtResource("4_r4a88")
+dialogue = SubResource("Resource_wed72")
+
+[node name="EstrogenTracker" type="Node" parent="EndDialogue"]
+script = ExtResource("11_iyvwq")
+
+[node name="SceneLoader" type="Node" parent="EndDialogue"]
+script = ExtResource("12_mcnlb")
+next_scene = "res://Levels/level_2.tscn"
+
+[connection signal="body_exited" from="InitialGravity" to="InitialGravity" method="queue_free" unbinds=1]
+[connection signal="dialogue_finished" from="EndDialogue" to="EndDialogue/SceneLoader" method="change_scene"]
+[connection signal="max_estrogen_collected" from="EndDialogue/EstrogenTracker" to="EndDialogue" method="start_dialogue"]

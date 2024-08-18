@@ -1,0 +1,117 @@
+[gd_scene load_steps=11 format=3 uid="uid://cdy1tcjp2ib63"]
+
+[ext_resource type="Script" path="res://Objects/GravityBeam/GravityBeam.gd" id="1_1i1e3"]
+[ext_resource type="Script" path="res://Objects/GravityBeam/PauseGravityObjects.gd" id="2_ama6k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oa25o"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5x1ko"]
+albedo_color = Color(0.75, 0.1875, 0.1875, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ualge"]
+resource_local_to_scene = true
+size = Vector3(1.8, 10, 1.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sp8b7"]
+transparency = 4
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.74902, 0.188235, 0.188235, 0.12549)
+
+[sub_resource type="SphereMesh" id="SphereMesh_m4cb7"]
+radius = 0.025
+height = 0.05
+radial_segments = 4
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wkeoe"]
+albedo_color = Color(0.1875, 0.328125, 0.75, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sj4hc"]
+transparency = 4
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.1875, 0.328125, 0.75, 0.501961)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n7cen"]
+size = Vector3(1.8, 10, 1.8)
+
+[node name="GravityBeam" type="Node3D"]
+process_physics_priority = 128
+script = ExtResource("1_1i1e3")
+pushing = true
+
+[node name="Base" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+use_collision = true
+collision_mask = 0
+size = Vector3(2, 0.4, 2)
+material = SubResource("StandardMaterial3D_oa25o")
+
+[node name="PushNodes" type="Node3D" parent="Base"]
+unique_name_in_owner = true
+
+[node name="PushColorPanel" type="CSGBox3D" parent="Base/PushNodes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+use_collision = true
+collision_mask = 0
+size = Vector3(1.9, 0.1, 1.9)
+material = SubResource("StandardMaterial3D_5x1ko")
+
+[node name="Beam" type="MeshInstance3D" parent="Base/PushNodes/PushColorPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+mesh = SubResource("BoxMesh_ualge")
+surface_material_override/0 = SubResource("StandardMaterial3D_sp8b7")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Base/PushNodes/PushColorPanel/Beam"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+amount = 15
+lifetime = 1.4
+preprocess = 1.4
+local_coords = true
+mesh = SubResource("SphereMesh_m4cb7")
+emission_shape = 3
+emission_box_extents = Vector3(0.9, 0, 0.9)
+gravity = Vector3(0, 9.8, 0)
+
+[node name="PullNodes" type="Node3D" parent="Base"]
+unique_name_in_owner = true
+visible = false
+
+[node name="PullColorPanel" type="CSGBox3D" parent="Base/PullNodes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+use_collision = true
+collision_mask = 0
+size = Vector3(1.9, 0.1, 1.9)
+material = SubResource("StandardMaterial3D_wkeoe")
+
+[node name="Beam" type="MeshInstance3D" parent="Base/PullNodes/PullColorPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+mesh = SubResource("BoxMesh_ualge")
+surface_material_override/0 = SubResource("StandardMaterial3D_sj4hc")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Base/PullNodes/PullColorPanel/Beam"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+amount = 15
+lifetime = 1.4
+preprocess = 1.4
+local_coords = true
+mesh = SubResource("SphereMesh_m4cb7")
+emission_shape = 3
+emission_box_extents = Vector3(0.9, 0, 0.9)
+
+[node name="GravityArea" type="Area3D" parent="Base"]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+priority = 128
+gravity_space_override = 3
+script = ExtResource("2_ama6k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Base/GravityArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0)
+shape = SubResource("BoxShape3D_n7cen")
+
+[connection signal="body_entered" from="Base/GravityArea" to="Base/GravityArea" method="_body_entered"]

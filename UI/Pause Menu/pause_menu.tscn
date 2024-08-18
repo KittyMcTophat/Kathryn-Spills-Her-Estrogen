@@ -14,8 +14,7 @@ shader_parameter/blur = 0.0
 shader_parameter/brightness = 1.0
 
 [sub_resource type="GDScript" id="GDScript_n6gep"]
-script/source = "@tool
-extends BetterButton
+script/source = "extends BetterButton
 
 var enabled : bool = true;
 
@@ -38,8 +37,7 @@ func update_text():
 "
 
 [sub_resource type="GDScript" id="GDScript_tjihy"]
-script/source = "@tool
-extends BetterButton
+script/source = "extends BetterButton
 
 func _ready():
 	super._ready();
@@ -399,7 +397,7 @@ text = "V-Sync: Enabled"
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 script = SubResource("GDScript_tjihy")
-text = "Fullscreen: ???"
+text = "Fullscreen: Disabled"
 
 [node name="Quit" type="MarginContainer" parent="CenterContainer/HBoxContainer/TabContainer"]
 visible = false

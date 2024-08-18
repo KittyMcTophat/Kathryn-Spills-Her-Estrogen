@@ -1,0 +1,131 @@
+[gd_scene load_steps=17 format=3 uid="uid://benjfdilwoh0e"]
+
+[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="1_fki5h"]
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_ru1ht"]
+[ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_iw21t"]
+[ext_resource type="Texture2D" uid="uid://jaks6tbok2py" path="res://Characters/NotBlahaj/NotBlahaj.png" id="4_wskae"]
+[ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/Kathryn.tscn" id="5_jrfmq"]
+[ext_resource type="Gradient" uid="uid://du6epc8gtgegy" path="res://Objects/Misc/shadow_gradient.tres" id="5_jrnnc"]
+[ext_resource type="Texture2D" uid="uid://c0x46ixypn3cx" path="res://Characters/Kathryn/Costumes/normal kathryn.png" id="6_d2w5k"]
+[ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="6_gt1xm"]
+[ext_resource type="Script" path="res://UI/Textbox/Dialogue.gd" id="7_yybsn"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="8_g5c8y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xse4"]
+albedo_color = Color(0.125911, 0.125911, 0.125911, 1)
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_6rlds"]
+size = Vector2(1.05, 0.55)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8wa3y"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("4_wskae")
+texture_filter = 0
+billboard_mode = 2
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6aq0l"]
+gradient = ExtResource("5_jrnnc")
+width = 70
+height = 70
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.05)
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qt6e4"]
+resource_local_to_scene = true
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("6_d2w5k")
+uv1_scale = Vector3(1, 0.25, 1)
+texture_filter = 0
+billboard_mode = 2
+
+[sub_resource type="Resource" id="Resource_rvwm1"]
+script = ExtResource("7_yybsn")
+text_sequence = Array[String](["Kathryn:
+Woah, it's Blahaj!", "Not Blahaj:
+I have no idea who that is.", "Kathryn:
+The shark from that one Swedish furniture store!", "Not Blahaj:
+Are you even hearing yourself right now?", "Not Blahaj:
+A shark from [shake]a furniture store[/shake]?", "Not Blahaj:
+Furniture from [shake level=10]Sweden[/shake]!?", "Not Blahaj:
+This is all ridiculous.", "Kathryn:
+What do you mean?", "Not Blahaj:
+We're literally in [wave][rainbow]space[/rainbow][/wave] right now.", "Not Blahaj:
+And you are speaking to a talking shark with a unicorn horn.", "Kathryn:
+I don't see what you're saying...", "Not Blahaj:
+You're clearly having a dream.", "Kathryn:
+Ah, yeah, that makes sense.", "Kathryn:
+That would explain how I've been magically teleporting around [wave][rainbow]space[/rainbow][/wave].", "Kathryn:
+And why so many laws of physics are being violated.", "Not Blahaj:
+Exactly.", "Kathryn:
+Isn't that kind of a terrible ending though?", "Kathryn:
+\"It was all a dream\" isn't typically something people like to hear.", "Kathryn:
+It usually just means the writer is bad at writing endings.", "Not Blahaj:
+Well, you're the one that wrote it so don't blame me.", "Kathryn:
+True, I suppose.", "Kathryn:
+Guess there's nothing to do now but wake up."])
+
+[node name="Level3" type="Node3D"]
+script = ExtResource("1_ru1ht")
+show_ui = false
+music = ExtResource("2_iw21t")
+
+[node name="Environment" parent="." instance=ExtResource("1_fki5h")]
+
+[node name="CSGBox3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+use_collision = true
+collision_mask = 0
+radius = 2.0
+height = 0.5
+sides = 16
+smooth_faces = false
+material = SubResource("StandardMaterial3D_3xse4")
+
+[node name="NotBlahaj" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.275, -0.4)
+layers = 2
+mesh = SubResource("QuadMesh_6rlds")
+surface_material_override/0 = SubResource("StandardMaterial3D_8wa3y")
+
+[node name="Drop Shadow" type="Decal" parent="NotBlahaj"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.64, 0)
+size = Vector3(0.7, 2, 0.7)
+texture_albedo = SubResource("GradientTexture2D_6aq0l")
+albedo_mix = 0.75
+normal_fade = 0.1
+upper_fade = 1e-05
+cull_mask = 1
+
+[node name="Kathryn" parent="." instance=ExtResource("5_jrfmq")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.4, 0.36, 0.8)
+
+[node name="MeshInstance3D" parent="Kathryn/MeshPivot" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_qt6e4")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(0.707107, -0.122788, 0.696364, 0, 0.984808, 0.173648, -0.707107, -0.122788, 0.696364, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, -2.98023e-08, 0, 0, 1, 0, 1.49012e-07, 1.75)
+current = true
+
+[node name="DialogueStarter" type="Node" parent="."]
+script = ExtResource("6_gt1xm")
+on_ready = true
+only_on_first_load = false
+dialogue = SubResource("Resource_rvwm1")
+
+[node name="SceneLoader" type="Node" parent="DialogueStarter"]
+script = ExtResource("8_g5c8y")
+next_scene = "res://UI/credits.tscn"
+
+[connection signal="dialogue_finished" from="DialogueStarter" to="DialogueStarter/SceneLoader" method="change_scene"]
+
+[editable path="Kathryn"]

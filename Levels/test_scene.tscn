@@ -607,11 +607,12 @@ layers = 2
 mesh = SubResource("QuadMesh_l6ggg")
 surface_material_override/0 = SubResource("StandardMaterial3D_sodl0")
 
-[node name="InteractionArea" type="Area3D" parent="EndPlanet/CSGSphere3D/Sign"]
+[node name="InteractionArea" type="Area3D" parent="EndPlanet/CSGSphere3D/Sign" node_paths=PackedStringArray("interactable_indicator")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("13_e0hly")
+interactable_indicator = NodePath("../InteractableIndicator")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EndPlanet/CSGSphere3D/Sign/InteractionArea"]
 shape = SubResource("SphereShape3D_4dpyo")

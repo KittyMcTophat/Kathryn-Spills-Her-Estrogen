@@ -7,6 +7,7 @@ var allow_pause : bool = true;
 var estrogen_counter : EstrogenCounter = null;
 var pause_menu : PauseMenu = null;
 var textbox : Textbox = null;
+var textbox_canvas_layer : CanvasLayer = null;
 var ui_canvas_layer : CanvasLayer = null;
 var ui_control : Control = null;
 
@@ -29,8 +30,12 @@ func _ready() -> void:
 	pause_menu = preload("res://UI/Pause Menu/pause_menu.tscn").instantiate();
 	ui_control.add_child(pause_menu);
 	
+	textbox_canvas_layer = CanvasLayer.new();
+	textbox_canvas_layer.name = "TextboxCanvasLayer";
+	add_child(textbox_canvas_layer);
+	textbox_canvas_layer.layer = 20;
 	textbox = preload("res://UI/Textbox/textbox.tscn").instantiate();
-	ui_control.add_child(textbox);
+	textbox_canvas_layer.add_child(textbox);
 	
 	randomize();
 

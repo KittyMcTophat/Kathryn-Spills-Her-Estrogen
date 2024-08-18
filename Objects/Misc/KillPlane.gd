@@ -6,4 +6,5 @@ func _ready():
 
 func _body_entered(body) -> void:
 	if body is Kathryn && !(body.state is DeathState):
+		Log.print_info(str(self) + " killing player " + str(body));
 		body.die();

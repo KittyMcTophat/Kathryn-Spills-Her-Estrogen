@@ -1,0 +1,210 @@
+[gd_scene load_steps=20 format=3 uid="uid://b55myh02dpk6u"]
+
+[ext_resource type="Script" path="res://Levels/LevelController.gd" id="1_j1c6l"]
+[ext_resource type="AudioStream" uid="uid://bnp5qb6e3u3eh" path="res://Music/Space Estrogen.WAV" id="2_g7ybw"]
+[ext_resource type="PackedScene" uid="uid://bxwiib7l0goke" path="res://Levels/space_environment.tscn" id="2_s3wtg"]
+[ext_resource type="Script" path="res://Objects/Misc/KillPlane.gd" id="3_81beq"]
+[ext_resource type="Script" path="res://Objects/Misc/DialogueStarter.gd" id="3_vqcla"]
+[ext_resource type="Script" path="res://UI/Textbox/Dialogue.gd" id="4_mg1gp"]
+[ext_resource type="PackedScene" uid="uid://cdy1tcjp2ib63" path="res://Objects/GravityBeam/gravity_beam.tscn" id="5_x34t6"]
+[ext_resource type="PackedScene" uid="uid://cc868qqaqlf4w" path="res://Characters/Kathryn/Kathryn.tscn" id="6_w6xen"]
+[ext_resource type="Script" path="res://Objects/Estrogen/EstrogenSpawnerArc.gd" id="8_kfaeb"]
+[ext_resource type="Script" path="res://Objects/Estrogen/EstrogenTracker.gd" id="10_g4158"]
+[ext_resource type="Script" path="res://Objects/Misc/SceneLoader.gd" id="11_4tcot"]
+
+[sub_resource type="Resource" id="Resource_dq814"]
+script = ExtResource("4_mg1gp")
+text_sequence = Array[String](["Kathryn:
+Okay, I think this is the last spot with estrogen", "Kathryn:
+I just gotta pick it all up, and then I can go home", "Kathryn:
+This planet feels... different, though", "Kathryn:
+Almost as if [color=light_coral]the planet itself hates me[/color].", "Kathryn:
+I better [color=light_coral]stay inside this gravity beam[/color] so I don't get thrown into space!"])
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ngqa1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2kf3m"]
+albedo_color = Color(1, 0.243137, 0.356863, 1)
+texture_filter = 4
+
+[sub_resource type="Animation" id="Animation_sdu87"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GravityBeamPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qc7b1"]
+resource_name = "Speen"
+length = 100.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GravityBeamPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 40, 50, 90, 100),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(6.28319, 0, 0), Vector3(0, 0, 0), Vector3(-1.5708, 0, 0), Vector3(-1.5708, 6.28319, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wdq78"]
+_data = {
+"RESET": SubResource("Animation_sdu87"),
+"Speen": SubResource("Animation_qc7b1")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_25twk"]
+radius = 15.0
+
+[sub_resource type="Resource" id="Resource_yvbcb"]
+script = ExtResource("4_mg1gp")
+text_sequence = Array[String](["Kathryn:
+Okay, that's all my estrogen!", "Kathryn:
+Now I just need to find a way home...", "Kathryn:
+If I just keep exploring [wave][rainbow]space[/rainbow][/wave], I'm sure I'll find something."])
+
+[node name="Level2" type="Node3D"]
+script = ExtResource("1_j1c6l")
+global_gravity = Vector3(0, 0, 0)
+music = ExtResource("2_g7ybw")
+
+[node name="Environment" parent="." instance=ExtResource("2_s3wtg")]
+
+[node name="StartingDialogue" type="Node" parent="."]
+script = ExtResource("3_vqcla")
+on_ready = true
+dialogue = SubResource("Resource_dq814")
+
+[node name="KillPlanes" type="Node" parent="."]
+
+[node name="Negative Y Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_81beq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Negative Y Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_ngqa1")
+
+[node name="Positive Y Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 15, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_81beq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Positive Y Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_ngqa1")
+
+[node name="Positive Z Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1, -1.74846e-07, 2.29282e-14, 0, 1.31134e-07, 1, -1.74846e-07, -1, 1.31134e-07, 0, 0, 15)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_81beq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Positive Z Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_ngqa1")
+
+[node name="Negative Z Kill Plane2" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(-1, -8.74228e-08, 1.14641e-14, 0, 1.31134e-07, 1, -8.74228e-08, 1, -1.31134e-07, 0, 0, -15)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_81beq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Negative Z Kill Plane2"]
+shape = SubResource("WorldBoundaryShape3D_ngqa1")
+
+[node name="Negative X Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(1.31134e-07, 1, -1.31134e-07, 0, 1.31134e-07, 1, 1, -1.31134e-07, 1.71962e-14, -15, 0, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_81beq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Negative X Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_ngqa1")
+
+[node name="Positive X Kill Plane" type="Area3D" parent="KillPlanes"]
+transform = Transform3D(-4.37114e-08, -1, 1.31134e-07, 0, 1.31134e-07, 1, -1, 4.37114e-08, -5.73206e-15, 15, 0, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_81beq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillPlanes/Positive X Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_ngqa1")
+
+[node name="Kathryn" parent="." instance=ExtResource("6_w6xen")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.36, 0)
+
+[node name="FinalPlanet" type="CSGSphere3D" parent="."]
+use_collision = true
+collision_mask = 0
+radius = 10.0
+radial_segments = 16
+rings = 8
+smooth_faces = false
+material = SubResource("StandardMaterial3D_2kf3m")
+
+[node name="GravityBeamPivot" type="Node3D" parent="FinalPlanet"]
+
+[node name="GravityBeam" parent="FinalPlanet/GravityBeamPivot" instance=ExtResource("5_x34t6")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+pushing = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FinalPlanet/GravityBeamPivot"]
+root_node = NodePath("../..")
+callback_mode_process = 0
+libraries = {
+"": SubResource("AnimationLibrary_wdq78")
+}
+autoplay = "Speen"
+
+[node name="Area3D" type="Area3D" parent="FinalPlanet"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+gravity_space_override = 3
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+gravity = -9.8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinalPlanet/Area3D"]
+shape = SubResource("SphereShape3D_25twk")
+
+[node name="EstrogenSpawnerArc" type="Node3D" parent="FinalPlanet"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("8_kfaeb")
+radius = 10.5
+amount = 15
+point_towards_center = true
+
+[node name="EstrogenSpawnerArc2" type="Node3D" parent="FinalPlanet"]
+script = ExtResource("8_kfaeb")
+radius = 10.5
+amount = 15
+point_towards_center = true
+
+[node name="EstrogenTracker" type="Node" parent="."]
+script = ExtResource("10_g4158")
+
+[node name="DialogueStarter" type="Node" parent="EstrogenTracker"]
+script = ExtResource("3_vqcla")
+dialogue = SubResource("Resource_yvbcb")
+
+[node name="SceneLoader" type="Node" parent="EstrogenTracker"]
+script = ExtResource("11_4tcot")
+next_scene = "res://Levels/level_3.tscn"
+
+[connection signal="max_estrogen_collected" from="EstrogenTracker" to="EstrogenTracker/DialogueStarter" method="start_dialogue"]
+[connection signal="dialogue_finished" from="EstrogenTracker/DialogueStarter" to="EstrogenTracker/SceneLoader" method="change_scene"]
