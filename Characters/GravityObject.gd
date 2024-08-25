@@ -63,7 +63,7 @@ func apply_gravity_to_velocity() -> void:
 
 func apply_friction() -> void:
 	if (is_on_floor()):
-		horizontal_velocity = horizontal_velocity.lerp(Vector3.ZERO, friction * get_physics_process_delta_time());
+		local_velocity = local_velocity.lerp(Vector3.ZERO, friction * get_physics_process_delta_time());
 
 func orient_actor_with_gravity() -> void:
 	var new_basis : Basis = align_basis_with_gravity(global_transform.basis, gravity);
